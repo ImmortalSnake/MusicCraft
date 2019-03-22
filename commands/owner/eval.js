@@ -1,5 +1,6 @@
 const commando = require('discord.js-commando');
 const discord = require('discord.js');
+const request = require("request");
 // require all yer stuff here
 
 module.exports = class PingCommand extends commando.Command {

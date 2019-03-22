@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const getArtistTitle = require('get-artist-title');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const settings = require('../../config.json')
+const settings = process.env
 const baseURL = `https://api.genius.com/search?access_token=${settings.GENIUS}`;
 
 module.exports = class PauseCommand extends commando.Command {

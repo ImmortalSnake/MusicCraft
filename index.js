@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const config = require('./config.json');
+const config = process.env
 const Commando = require('discord.js-commando')
 const fs = require('fs');
 const bot = new Commando.Client({

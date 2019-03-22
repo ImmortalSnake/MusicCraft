@@ -24,7 +24,7 @@ if (!message.member.voiceChannel) return message.reply('You are not in a voice c
       if (!vol) return message.channel.send(`:loud_sound: The current volume is: **${guildq.volume}**`);
       if(vol < 0 || vol > 100) return message.channel.send(`:mute: Cannot set the volume below 0 or above 100`);
 			guildq.dispatcher.setVolumeLogarithmic(vol / 5);
-      guildq.volume = vol
+      guildq.volume = vol;
 			return message.channel.send(`:loud_sound: I set the volume to: **${vol}**`);
     }
 }

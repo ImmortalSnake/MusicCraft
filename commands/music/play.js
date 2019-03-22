@@ -1,6 +1,6 @@
 const commando = require('discord.js-commando');
 const discord = require('discord.js');
-const config = require('../../config.json');
+const config = process.env
 const yt_api_key = config.yt_api_key;
 const ytdl = require('ytdl-core');
 const request = require("request");
@@ -59,7 +59,7 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
         }
         else {
             getID(args, function(id) {
-                message.client.functions.playMusic(id, message);
+             message.client.functions.playMusic(id, message, 0);
                 fetchVideoInfo(id, function(err, videoInfo) {
                     if (err) throw new Error(err);
                     const embed = new discord.RichEmbed()
