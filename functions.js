@@ -11,11 +11,11 @@ try{
     guildq.voiceChannel = message.member.voiceChannel;
     guildq.voiceChannel.join().then(async function(connection) {
       let stream;
-      if(!soundcloud) stream = await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly' });
+      if(!soundcloud) stream = await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly'});
       else stream = await request("http://api.soundcloud.com/tracks/" + id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf");
         guildq.skippers = [];
 
-        guildq.dispatcher = await connection.playStream(stream, {volume: guildq.volume, seek: seek});
+        guildq.dispatcher = await connection.playStream(stream, {volume: guildq.volume});
         guildq.dispatcher.on('end', function() {
             guildq.skippers = [];
             if(guildq.looping) {

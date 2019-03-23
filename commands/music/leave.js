@@ -13,7 +13,7 @@ class LeaveChannelCommand extends commando.Command {
 
     async run(message, args) {
    if(message.guild.voiceConnection) {
-            global.guilds[message.guild.id] = message.client.utils.defaultQueue
+            global.guilds[message.guild.id].queue = [];
             message.guild.voiceConnection.disconnect();
             message.channel.send('Left the voice channel');
         }
