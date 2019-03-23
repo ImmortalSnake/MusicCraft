@@ -1,7 +1,7 @@
 const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
-const config = require('../../config.json');
+const config = process.env
 const yt_api_key = config.yt_api_key;
 const youtube = new YouTube(yt_api_key);
 
@@ -18,26 +18,14 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
     }
 
     async run(message, args) {
+  try{
    let queue = global.guilds[message.guild.id];
-        if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = message.client.utils.defaultQueue;
+      if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = message.client.utils.defaultQueue;
       queue = global.guilds[message.guild.id];
            const voiceChannel = message.member.voiceChannel;
 	         const url = args ? args.replace(/<(.+)>/g, '$1') : ''
 
             if (!voiceChannel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
-            if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-                const playlist = await youtube.getPlaylist(url);
-                const videos = await playlist.getVideos();
-                for (const video of Object.values(videos)) {
-                    const video2 = await youtube.getVideoByID(video.id);
-                    await handleVideo(video2, message, voiceChannel, true);
-                }
-                    guilds[message.guild.id].queue.push(playlist.url);
-                    guilds[message.guild.id].url.push(playlist.url);
-                    guilds[message.guild.id].queueNames.push(playlist.title);
-                return message.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue!`);
-            }
-        else {
                 try {
                     let video = await youtube.getVideo(url);
                 }
@@ -65,8 +53,8 @@ Please provide a value to select one of the 🔎 results ranging from 1-10.
                     }
                 }
           if(!queue.queue[0]) {
-             await message.channel.send('✅ Now playing: **' + video.title + '**');
-              message.client.utils.playMusic(video.id, message);
+            await message.channel.send('✅ Now playing: **' + video.title + '**');
+            message.client.functions.playMusic(video.id, message);
           }
           else {
            message.reply('✅Added to queue: **' + video.title + '**');
@@ -79,8 +67,11 @@ Please provide a value to select one of the 🔎 results ranging from 1-10.
             requestor: message.author.id,
             seek: 0
           }
-          guilds[message.guild.id].queue.push(cqueue);
-          guilds[message.guild.id].isPlaying = true;
-        }
+          global.guilds[message.guild.id].queue.push(cqueue);
+          global.guilds[message.guild.id].isPlaying = true;
       }
-    }
+  catch(e) {
+    console.log(e)
+  }
+ }
+}

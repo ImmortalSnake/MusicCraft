@@ -22,11 +22,13 @@ module.exports = class ShuffleCommand extends commando.Command {
     }
 }
 
-function shuffle(arr) {
+function shuffle(brr) {
+let cp = brr[0]
+let arr = brr.slice(1)
      for (let i = arr.length; i; i--) {
-       if(i == 1) continue;
          const j = Math.floor(Math.random() * i);
          [arr[i - 1], arr[j]] = [arr[j], arr[i - 1]];
      }
-     return arr;
+  arr.unshift(cp);
+return arr
  }

@@ -22,6 +22,6 @@ if (!message.member.voiceChannel) return message.reply('You are not in a voice c
       sq.seek = args;
       global.guilds[message.guild.id].queue.splice(1, 0, sq);
       global.guilds[message.guild.id].dispatcher.end();
-			return message.channel.send('▶ Resumed the music for you!');
+			return message.channel.send(':fast_forward: Setting position to ' + args);
     }
 };

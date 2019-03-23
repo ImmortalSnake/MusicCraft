@@ -1,0 +1,2 @@
+const yt = require('simple-youtube-api')
+const youtube = new yt(process.env.yt_api_key);

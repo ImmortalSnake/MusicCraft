@@ -17,7 +17,7 @@ class VolumeCommand extends commando.Command {
   if (!message.member.voiceChannel) return message.reply('You are not in a voice channel!');
     let guildq = global.guilds[message.guild.id];
     if (!guildq) guildq = message.client.utils.defaultQueue;
-		if (!guildq.isPlaying) return message.reply('There is nothing playing.');
+		if (!guildq.queue[0]) return message.reply('There is nothing playing.');
       let old = guildq.queue.length
       global.guilds[message.guild.id].queue = rd(guildq.queue);
       let nq = global.guilds[message.guild.id].queue.length
