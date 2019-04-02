@@ -1,46 +1,46 @@
-const commando = require('discord.js-commando');
-const discord = require('discord.js');
+exports.run = (client, message, args, level) => {
+  // If no specific command is called, show all filtered commands.
+  if (!args[0]) {
+    // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
+    const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
 
-class SuggestCommand extends commando.Command {
-  constructor(client) {
-    super(client, {
-      name: 'help',
-      group: 'general',
-      memberName: 'help',
-      examples: ['help', 'help prefix'],
-      format: 'help [command]',
-      description: 'Shows you a list of commands or detailed information about a command',
+    // Here we have to get the command names only, and we use that array to get the longest name.
+    // This make the help commands "aligned" in the output.
+    const commandNames = myCommands.keyArray();
+    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
+
+    let currentCategory = "";
+    let output = `= Command List =\n\n[Use ${message.guild.prefix}help <commandname> for details]\n`;
+    const sorted = myCommands.array().sort((p, c) => p.help.group > c.help.group ? 1 :  p.help.name > c.help.name && p.help.group === c.help.group ? 1 : -1 );
+    sorted.forEach( c => {
+      const cat = c.help.group.toProperCase();
+      if (currentCategory !== cat) {
+        output += `\u200b\n== ${cat} ==\n`;
+        currentCategory = cat;
+      }
+      output += `${message.guild.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
     });
+    message.channel.send(output, {code: "asciidoc", split: { char: "\u200b" }});
+  } else {
+    // Show individual command's help.
+    let command = args[0];
+    if (client.commands.has(command)) {
+      command = client.commands.get(command);
+      message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
+    }
   }
-
-  async run(message, args) {
-const bot = message.client
-if(!args) {
-  let embed = new discord.RichEmbed()
-  .setTitle(`Commands List (${bot.registry.commands.size})`)
-  .setColor('GREEN')
-  .setAuthor(message.author.username, message.author.displayAvatarURL)
-  .setDescription(`The prefix for ${message.guild.name} is \`?\`.
-\nA list of SnakeBot's Commands can be found here \n[Commands list](https://snakebot-disc.glitch.me/commands)
-\nJoin the support server for more info\n[Support Server](https://discord.gg/b8S3HAw).
-\nUse \`${message.guild.commandPrefix}help [command]\` to view detailed information about a specific command.`)
-  message.channel.send(embed);
-}
-else if(bot.registry.commands.some(c=> c.name == args.toLowerCase() || c.aliases.includes(args.toLowerCase()))) {
-  let cmd = bot.registry.commands.find(c=> c.name == args.toLowerCase() || c.aliases.includes(args.toLowerCase()))
-  let embed = new discord.RichEmbed()
-  .setTitle(`**${cmd.name}**`)
-  .setColor('GREEN')
-  .setAuthor(message.author.username, message.author.displayAvatarURL)
-  .setDescription(`
-\n**Description:**\n\`${cmd.description}\`
-\n**Group:** ${cmd.group.name} ${(cmd.guildOnly) ? `**\`[Server Only]\`**` : ''}
-\n**Usage:**\n ${cmd.usage(cmd.format, message.guild.commandPrefix)}
-\n${((cmd.aliases && cmd.aliases[0]) ? `**Aliases:**\n \`${cmd.aliases.join(', ')}\`` : '')}
-\n${((cmd.details) ? `**Details:**\n \`${cmd.details}\`` : '')}
-\n${((cmd.examples) ? `**Examples:**\n \`${cmd.examples.join('\n')}\`` : '')}`);
-  message.channel.send(embed);
-}
-}
 };
-module.exports = SuggestCommand;
+
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: ["h", "halp"],
+  permLevel: "User"
+};
+
+exports.help = {
+  name: "help",
+  group: "general",
+  description: "Displays all the available commands for your permission level.",
+  usage: "help [command]"
+};

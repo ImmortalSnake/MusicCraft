@@ -1,19 +1,6 @@
-const commando = require('discord.js-commando');
 const discord = require('discord.js');
-
-class LoopCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'loop',
-            group: 'music',
-            memberName: 'loop',
-            description: 'loops the music queue for ya',
-            guildOnly: true,
-        });
-    }
-
-    async run(message, args) {
-    if (!message.member.voiceChannel) return message.reply('You are not in a voice channel!');
+module.exports.run = async (client, message, args) => {
+    if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
     let guildq = global.guilds[message.guild.id];
     if (!guildq) guildq = message.client.utils.defaultQueue;
 		if(guildq.voiceChannel !== message.member.voiceChannel) return message.channel.send('Not in the the same voice channel');
@@ -27,6 +14,17 @@ class LoopCommand extends commando.Command {
 	  		message.channel.send(':repeat: Looping `OFF`');
 	  	}
     }
-}
 
-module.exports = LoopCommand;
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: true
+};
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'loop',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'loop [command]'
+}

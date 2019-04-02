@@ -1,24 +1,11 @@
-const commando = require('discord.js-commando');
 const discord = require('discord.js');
 const fetchVideoInfo = require('youtube-info');
 const ms = require('ms')
 const request = require("request");
 
-module.exports = class NowPlayingCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'nowplaying',
-            group: 'music',
-            aliases: ['np'],
-            memberName: 'nowplaying',
-            description: 'shows current playing music!',
-            guildOnly: true,
-        });
-    }
+module.exports.run = async (client, message, args) => {
 
-    async run(message, args) {
-let bot = message.client
-if (!message.member.voiceChannel) return message.reply('You are not in a voice channel!');
+let bot = client;
    let guildq = global.guilds[message.guild.id];
     if (!guildq) guildq = message.client.utils.defaultQueue;
     if(!guildq.queue[0]) return message.reply('There is no music playing right now');
@@ -27,7 +14,7 @@ if (!message.member.voiceChannel) return message.reply('You are not in a voice c
     await request("http://api.soundcloud.com/resolve.json?url=" + guildq.queue[0].url + "&client_id=71dfa98f05fa01cb3ded3265b9672aaf", async function (error, response, body) {
     if(error) throw new Error(error)
     body = JSON.parse( body );
-     const mess = new discord.RichEmbed()
+     const mess = new discord.MessageEmbed()
         .setThumbnail(body.artwork_url)
         .setColor('BLUE')
         .setTitle('**' + guildq.queue[0].title + '**')
@@ -41,7 +28,7 @@ if (!message.member.voiceChannel) return message.reply('You are not in a voice c
         return message.channel.send(mess);
     })
       } else {
-        const mess = new discord.RichEmbed()
+        const mess = new discord.MessageEmbed()
         .setThumbnail(videoInfo.thumbnailUrl)
         .setColor('BLUE')
         .setTitle('**' + guildq.queue[0].title + '**')
@@ -56,4 +43,17 @@ if (!message.member.voiceChannel) return message.reply('You are not in a voice c
         }
      });
     }
+
+exports.conf = {
+  aliases: ['np'],
+  enabled: true,
+  guildOnly: true
 };
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'nowplaying',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'np [command]'
+}

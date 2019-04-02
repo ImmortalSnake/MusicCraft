@@ -1,24 +1,12 @@
-const commando = require('discord.js-commando');
 const discord = require('discord.js');
 const ms = require('ms');
 
-class InfoCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'info',
-            group: 'util',
-            memberName: 'info',
-            aliases: ['about'],
-            description: 'some information about this bot!',
-        });
-    }
-
-    async run(message, args) {
+module.exports.run = async (client, message, args) => {
       try{
-        const bot = message.client;
+        const bot = client;
         const uptime = bot.uptime;
         const bimage = bot.user.displayAvatarURL;
-        const myinfo = new discord.RichEmbed()
+        const myinfo = new discord.MessageEmbed()
         .setTitle(bot.user.tag)
         .setURL('https://discordbots.org/bot/447700419855122432')
         .addField('⚙️ Version', ['1.0.0 Stable'], true)
@@ -39,6 +27,18 @@ class InfoCommand extends commando.Command {
       }
       catch(err) {
       message.client.functions.error(message.client, err, message);
-      }
     }
+}
+
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: false
+}
+
+exports.help = {
+  name: 'info',
+  description: 'Shows API / Latency ping.',
+  group: 'general',
+  usage: 'info'
 }

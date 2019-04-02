@@ -1,64 +1,25 @@
-const { oneLine } = require('common-tags');
-const commando = require('discord.js-commando');
+module.exports.run = async (client, message, args, color, prefix) => {
+  if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command')
+  if (!args || args.length < 1) return message.reply("Must provide a command to reload. Derp.");
+  let response = await client.unloadCommand(args[0]);
+  if (response) return message.reply(`Error Unloading: ${response}`);
 
-module.exports = class ReloadCommandCommand extends commando.Command {
-	constructor(client) {
-		super(client, {
-			name: 'reload',
-			aliases: ['reload-command'],
-			group: 'owner',
-			memberName: 'reload',
-			description: 'Reloads a command or command group.',
-			details: oneLine`
-				The argument must be the name/ID (partial or whole) of a command or command group.
-				Providing a command group will reload all of the commands in that group.
-				Only the bot owner(s) may use this command.
-			`,
-			examples: ['reload some-command'],
-			ownerOnly: true,
-			guarded: true,
-			args: [{
-					key: 'cmdOrGrp',
-					label: 'command/group',
-					prompt: 'Which command or group would you like to reload?',
-					type: 'group|command'
-				}]
-		});
+  response = client.loadCommand(args[0]);
+  if (response) return message.reply(`Error Loading: ${response}`);
+
+  message.channel.send(`The command \`${args[0]}\` has been reloaded`);
 	}
 
-	async run(msg, args) {
-		const { cmdOrGrp } = args;
-		const isCmd = Boolean(cmdOrGrp.groupID);
-		cmdOrGrp.reload();
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: true
+};
 
-		if(this.client.shard) {
-			try {
-				await this.client.shard.broadcastEval(`
-					if(this.shard.id !== ${this.client.shard.id}) {
-						this.registry.${isCmd ? 'commands' : 'groups'}.get('${isCmd ? cmdOrGrp.name : cmdOrGrp.id}').reload();
-					}
-				`);
-			} catch(err) {
-				this.client.emit('warn', `Error when broadcasting command reload to other shards`);
-				this.client.emit('error', err);
-				if(isCmd) {
-					await msg.reply(`Reloaded \`${cmdOrGrp.name}\` command, but failed to reload on other shards.`);
-				} else {
-					await msg.reply(
-						`Reloaded all of the commands in the \`${cmdOrGrp.name}\` group, but failed to reload on other shards.`
-					);
-				}
-				return null;
-			}
-		}
-
-		if(isCmd) {
-			await msg.reply(`Reloaded \`${cmdOrGrp.name}\` command${this.client.shard ? ' on all shards' : ''}.`);
-		} else {
-			await msg.reply(
-				`Reloaded all of the commands in the \`${cmdOrGrp.name}\` group${this.client.shard ? ' on all shards' : ''}.`
-			);
-		}
-		return null;
-	}
+// Name is the only necessary one.
+exports.help = {
+  name: 'reload',
+  description: 'Evaluates a JS code.',
+  group: 'owner',
+  usage: 'reload [command]'
 }

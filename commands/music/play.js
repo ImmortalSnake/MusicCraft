@@ -1,4 +1,3 @@
-const commando = require('discord.js-commando');
 const discord = require('discord.js');
 const config = process.env
 const yt_api_key = config.yt_api_key;
@@ -7,29 +6,16 @@ const request = require("request");
 const getYouTubeID = require("get-youtube-id");
 const fetchVideoInfo = require("youtube-info");
 
-module.exports = class PlayMusicCommand extends commando.Command { // important
-    constructor(client) { // important
-        super(client, { // important
-            name: 'play', // no caps no spaces. this is the command name
-            group: 'music', // the group name the command is in
-            memberName: 'play', // should be same as the name
-            description: 'Play\'s a music.', // change this the '\' allows you to put a '
-            aliases: ['p'],
-            guildOnly: true,
-            format: '[music]'
-        });
-    }
-
-    async run(message, args) {
+module.exports.run = async (client, message, args) => {
       try{ // comes with the catch
-    const guilds = global.guilds;
+    args = args.join(' ')
     const { member, content } = message;
     const mess = content.toLowerCase();
     if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
 		if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
-    if (!guilds[message.guild.id]) guilds[message.guild.id] = message.client.utils.defaultQueue;
-    if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voiceChannel) return message.channel.send('Currently playing something in another voice channel');
-    if (member.voiceChannel || guilds[message.guild.id].voiceChannel != null) {
+    if (!guilds[message.guild.id]) guilds[message.guild.id] = client.defaultQueue;
+    if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
+    if (member.voice.channel || guilds[message.guild.id].voiceChannel != null) {
         if (guilds[message.guild.id].queue.length > 0 || guilds[message.guild.id].isPlaying) {
             getID(args, function(id) {
            //     add_to_queue(id, message);
@@ -37,7 +23,7 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
                     if (err) throw new Error(err);
                     const embed = new discord.RichEmbed()
                     .setThumbnail(videoInfo.thumbnailUrl)
-                    .setColor('BLUE')
+                    .setColor('BLUE') 
                     .setTitle('**' + videoInfo.title + '**')
                     .setURL(videoInfo.url)
                     .setAuthor(message.author.username, message.author.displayAvatarURL)
@@ -59,10 +45,10 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
         }
         else {
             getID(args, function(id) {
-             message.client.functions.playMusic(id, message, 0);
+             client.playMusic(id, message, 0);
                 fetchVideoInfo(id, function(err, videoInfo) {
                     if (err) throw new Error(err);
-                    const embed = new discord.RichEmbed()
+                    const embed = new discord.MessageEmbed()
                     .setThumbnail(videoInfo.thumbnailUrl)
                     .setColor('BLUE')
                     .setTitle('**' + videoInfo.title + '**')
@@ -94,8 +80,7 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
         console.log(e);
         message.reply('Uh oh, something went wrong please try again later');
       }
-    }
-};
+}
 
 function getID(str, cb) {
     if (isYoutube(str)) {
@@ -120,4 +105,18 @@ function search_video(query, callback) {
 
 function isYoutube(str) {
     return str.toLowerCase().indexOf('youtube.com') > -1;
+}
+
+exports.conf = {
+  aliases: ['p'],
+  enabled: true,
+  guildOnly: true
+};
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'play',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'play [command]'
 }

@@ -1,0 +1,99 @@
+{
+  "Fish": {
+    "trash": {
+      "price": 0,
+      "name": "trash",
+      "emote": "🗑"
+    },
+    "fish": {
+      "price": 25,
+      "name": "fish",
+      "emote": "🐟"
+    },
+    "crab": {
+      "price": 50,
+      "name": "crab",
+      "emote": "🦀"
+    },
+    "shark": {
+      "price": 100,
+      "name": "shark",
+      "emote": "🦈"
+    }
+  },
+  "Materials": {
+    "Leather": {
+      "emote": "<:leather:561523052031246366>"
+    },
+    "Dirt": {
+      "emote": "<:dirt:560747473258414080>",
+      "price": 1
+    },
+    "Wood": {
+      "emote": "<:wood:560737837083787285>",
+      "price": 3
+    },
+    "Coal": {
+      "emote": "<:coal:560905931387568130>"
+    },
+    "Stone": {
+      "emote": "<:stone:560736050448695296>",
+      "price": 3
+    },
+    "Iron": {
+      "emote": "<:iron:560736100054859802>",
+      "price": 8
+    },
+    "Lapis": {
+      "emote": "<:lapis:560905093344395268>"
+    },
+    "Redstone": {
+      "emote": "<:redstone:560905123539451956>"
+    },
+    "Gold": {
+      "emote": "<:gold:560733707351097354>"
+    },
+    "Emerald": {
+      "emote": "<:emerald:560905906414682124>"
+    },
+    "Diamond": {
+      "emote": "<:diamond:560734378393862146>"
+    }
+  },
+  "food": {
+    "Apple": {
+      "emote": "<:apple:561543611804549151>"
+    },
+    "Carrot": {
+      "emote": "<:carrot:561543767103111168>"
+    },
+    "Potato": {
+      "emote": "<:potato:561544134330941444>"
+    },
+    "Egg": {
+      "emote": "<:egg:561544313478316033>"
+    },
+    "Wheat": {
+      "emote": "<:wheat:561544489194356756>"
+    },
+    "Raw Chicken": {
+      "emote": "<:wheat:561544489194356756>"
+    },
+    "Cooked Chicken": {
+      "emote": "<:wheat:561544489194356756>"
+    },
+    "Mushroom": {
+      "emote": "<:wheat:561544489194356756>"
+    },
+    "Sugar": {
+      "emote": "<:wheat:561544489194356756>"
+    },
+    "Milk": {
+      "emote": "<:milk:561544638800986144>"
+    },
+    "Pumpkin": {},
+    "Cocoa": {},
+    "Bread": {},
+    "Golden Apple": {}
+  }
+}
