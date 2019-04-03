@@ -12,15 +12,17 @@
     "hp": 100,
     "dmg": 10,
     "xp": 5,
+    "drops": ["Common", 0.75],
     "rewards": [50],
-    "emote": "https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png?1554019937815"
+    "emote": ""
   },
   "Skeleton": {
     "hp": 30,
     "dmg": 30,
     "xp": 20,
+    "drops": ["Uncommon", 0.50],
     "rewards": [100],
-    "emote": "https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png?1554019937815"
+    "emote": ""
   },
   "Creeper": {
     "description": "xxx",
@@ -116,7 +118,24 @@
  },
   "Animals": {
     "Cow" : {
-      
+      "drops": {"Raw Beef": [1, 1], "Leather": [0, 2]},
+      "farm": ["Milk"],
+      "emote": "<:cow:562750581211660298>"
+    },
+    "Sheep" : {
+      "drops": {"Raw Mutton": [1, 1]},
+      "farm": ["Wool"],
+      "emote": "<:sheep:562750874720403458>"
+    },
+    "Chicken" : {
+      "drops": {"Raw Chicken": [1, 1]},
+      "farm": ["Egg"],
+      "emote": "<:chicken:562750163710509066>"
+    },
+    "Pig" : {
+      "drops": {"Raw Porkchop": [1, 1]},
+      "farm": [],
+      "emote": "<:pig:562750898116493330>"
     }
   }
 }

@@ -8,6 +8,7 @@ exports.run = async (client, message, args) => {
   let t = args.join(' ').toProperCase()
   let tool = ok(t, client)
   if(!tool) return message.channel.send('That tool is not craftable right now!')
+  await client.checkInventory(message.author)
   if(!check(inventory, tool)) return message.channel.send('You do not have enough materials')
   if(t == 'Chest') {
     inventory.size += client.tools.Tools['Chest'].size
@@ -15,6 +16,22 @@ exports.run = async (client, message, args) => {
     inventory.materials[mat.toProperCase()] -= client.tools.Tools['Chest'].materials[mat]
     }
     console.log(inventory)
+    return
+  }
+  else if(t == 'Furnace') {
+    if (inventory.other['Furnace']) return message.channel.send('You already have a furnace') 
+    inventory.other['Furnace'] = {}
+    for(const mat in client.tools.Tools['Furnace'].materials) {
+    inventory.materials[mat.toProperCase()] -= client.tools.Tools['Furnace'].materials[mat]
+    }
+   await db.set(`inventory_${message.author.id}`, inventory)
+    let embed = new discord.MessageEmbed()
+    .setTitle('Craft')
+    .setColor('#206694')
+    .setFooter(message.author.username, message.author.displayAvatarURL())
+    .setDescription(`Successfully crafted a Furnace ${client.tools.Tools['Furnace'].emote}.
+Use \`s!cook [food]\` to start cooking!`)
+  message.channel.send(embed)
     return
   }
   generate(inventory, tool, t, message)

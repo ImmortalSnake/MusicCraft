@@ -11,7 +11,7 @@ exports.run = async (client, message, args) => {
         return message.reply('You can explore in ' + ms(tleft, { long: true }));
       }
   await db.set(`timers_${message.author.id}_explore`, Date.now());
-  // client.checkInventory(message.author)
+  await client.checkInventory(message.author)
   let embed = new discord.MessageEmbed()
   .setTitle('Explore')
   .setColor('#206694')
@@ -30,7 +30,7 @@ exports.run = async (client, message, args) => {
     else if (random < .98) crate = crates[3];
     else crate = crates[4]
     inventory.crates.push(crate)
-    console.log(inventory)
+    inventory.hunger-= 5
     await db.set(`inventory_${message.author.id}`, inventory)
     embed.setDescription(`You found a ${crate} Crate!!
 Use \`s!crate ${crate}\` to open it!`)
@@ -89,9 +89,10 @@ async function fight(message, user, inventory, mob, hp, mess) {
       inventory.health = inventory.health - Math.floor(Math.random() * mob.dmg * 3)
       hp = hp - Math.floor(Math.random() * inventory.attack * 3)
       if(hp <= 0){
-        let xp = Math.floor(Math.random() * mob.xp)
+        let xp = Math.floor(Math.random() * mob.xp) + 2
         let reward = mob.rewards.random()
         let inv = await db.fetch(`inventory_${user.id}`)
+        inv.hunger -= 10
         inv.xp += xp;
         let drops = Math.random() < mob.drops[1] ? mob.drops[0] : ''
         if(drops) inv.crates.push(mob.drops[0])

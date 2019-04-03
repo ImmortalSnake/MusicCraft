@@ -9,6 +9,8 @@ exports.run = async (client, message, args) => {
   if(!hoe) return message.channel.send('You do not have an hoe .Use the `s!start` command to get a hoe');
   if (playing.has(`${message.author.id}`)) return message.channel.send(`You can farm only once in 5 minutes`);
 playing.add(`${message.author.id}`);
+  await client.checkInventory(message.author)
+  inventory.hunger -= 2
   let ehoe = client.tools.Tools[hoe]
   let drops = Math.floor(Math.random() * ehoe.drops[1]) + ehoe.drops[0]
   let rand = ['Potato', 'Carrot', 'Wheat'].random()

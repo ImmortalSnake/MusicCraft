@@ -17,7 +17,7 @@ exports.run = async (client, message) => {
   var command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
   if(!command) return;
   if(command.conf.guildOnly && !message.guild) return;
-  if(command.conf.enabled === false) return message.channel.send(`\`${command.help.name}\` is disabled right now. Try again later`)
+  if(command.conf.enabled === false && !client.admins.includes(message.author.id)) return message.channel.send(`\`${command.help.name}\` is disabled right now. Try again later`)
   if(message.guild && command.conf.perms) {
   for(let i = 0; i < command.conf.perms.length; i++) {
   if(!message.member.hasPermission(command.conf.perms[i])) return message.channel.send('You do not have the required permission')

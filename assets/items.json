@@ -54,7 +54,8 @@
       "emote": "<:gold:560733707351097354>"
     },
     "Emerald": {
-      "emote": "<:emerald:560905906414682124>"
+      "emote": "<:emerald:560905906414682124>",
+      "price": 75
     },
     "Diamond": {
       "emote": "<:diamond:560734378393862146>"
@@ -62,38 +63,94 @@
   },
   "food": {
     "Apple": {
-      "emote": "<:apple:561543611804549151>"
+      "emote": "<:apple:561543611804549151>",
+      "energy": 10
     },
     "Carrot": {
-      "emote": "<:carrot:561543767103111168>"
+      "emote": "<:carrot:561543767103111168>",
+      "energy": 5
     },
     "Potato": {
-      "emote": "<:potato:561544134330941444>"
+      "emote": "<:potato:561544134330941444>",
+      "energy": 5
     },
     "Egg": {
-      "emote": "<:egg:561544313478316033>"
+      "emote": "<:egg:561544313478316033>",
+      "energy": 20
     },
     "Wheat": {
-      "emote": "<:wheat:561544489194356756>"
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 2
     },
     "Raw Chicken": {
-      "emote": "<:wheat:561544489194356756>"
+      "emote": "<:rawchicken:562937076178485268>",
+      "energy": -10
     },
     "Cooked Chicken": {
-      "emote": "<:wheat:561544489194356756>"
+      "emote": "<:cookedchicken:562746672057155613>",
+      "energy": 50
     },
     "Mushroom": {
-      "emote": "<:wheat:561544489194356756>"
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 20
     },
     "Sugar": {
-      "emote": "<:wheat:561544489194356756>"
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 18
     },
     "Milk": {
-      "emote": "<:milk:561544638800986144>"
+      "emote": "<:milk:561544638800986144>",
+      "energy": 25
     },
     "Pumpkin": {},
     "Cocoa": {},
-    "Bread": {},
-    "Golden Apple": {}
+    "Bread": {
+      "emote": "<:bread:562961357746733058>",
+      "energy": 40
+    },
+    "Golden Apple": {},
+    "Raw Beef": {
+      "emote": "<:rawbeef:562937991350321152>",
+      "energy": -10
+    },
+    "Raw Mutton": {
+      "emote": "<:rawmutton:562938203527577600>",
+      "energy": -10
+    },
+    "Raw Porkchop": {
+      "emote": "<:rawporkchop:562938729879175178>",
+      "energy": -10
+    }
+  },
+  "recipes": {
+    "Cooked Chicken": {
+      "materials": {
+        "Raw Chicken": 1,
+        "Coal": 20
+      }
+    },
+    "Cooked Beef": {
+      
+    },
+    "Cooked Porkchop": {
+      
+    },
+    "Cooked Mutton": {
+      
+    },
+    "Bread": {
+      "materials": {
+        "Wheat": 10,
+        "Coal": 10
+      }
+    },
+    "Cookie": {
+      "materials": {
+        "Wheat": 10,
+        "Cocoa": 10,
+        "Milk": 1,
+        "Coal": 50
+      }
+    }
   }
 }

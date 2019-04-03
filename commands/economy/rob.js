@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args) => {
   const authbal = await db.fetch(`balance_${message.author.id}`) || 0;
   const userbal =  await db.fetch(`balance_${user.id}`) || 0;
   if(userbal <= 0) return message.channel.send(`Looks like ${user.username} had no money for you to take`)
-  const rob = Math.floor(Math.random() * client.utils.rob[0] + client.utils.rob[1]);
+  let rob = Math.floor(Math.random() * client.utils.rob[0] + client.utils.rob[1]);
   if(rob > userbal) rob = userbal;
 
   if (playing.has(`${message.author.id}`)) return message.channel.send(`You can rob only once in ${ms(client.utils.cooldown.rob)} seconds`);

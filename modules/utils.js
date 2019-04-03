@@ -3,7 +3,7 @@ module.exports = (client) => {
   client.items = require('../assets/items')
   client.mobs = require('../assets/mobs')
   client.owner = '410806297580011520'
-  client.admins = ['410806297580011520', '545983923340181514', '348192128599588864']
+  client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840']
   client.defaultQueue= {
     queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
     isPlaying: false,
@@ -37,7 +37,15 @@ module.exports = (client) => {
       "Diamond": 0
     },
     food: {},
-    crates: []
+    crates: [],
+    animals: {},
+    other: {},
+    trade: {}
+  }
+  client.deftrade = {
+    user: '',
+    recieved: {},
+    give: {}
   }
   client.settings = {
     announcesongs: {

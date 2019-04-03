@@ -10,6 +10,7 @@ exports.run = async (client, message, args) => {
   if(!pickaxe) return message.channel.send('You do not have a pickaxe. Chop some wood with `s!chop` and craft a pickaxe using `s!craft`')
     if (playing.has(`${message.author.id}`)) return message.channel.send(`You can mine only once in 5 seconds`);
 playing.add(`${message.author.id}`);
+  inventory.hunger-= 0.25
   let mines = client.items.Materials
   let p = pickaxe = client.tools.Tools[pickaxe]
   let result = {}

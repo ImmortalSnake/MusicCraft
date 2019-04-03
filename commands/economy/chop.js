@@ -7,6 +7,7 @@ exports.run = async (client, message, args) => {
   if(!inventory) return message.channel.send('You do not have an axe .Use the `s!start` command to get an axe');
   if (playing.has(`${message.author.id}`)) return message.channel.send(`You can chop only once in 5 seconds`);
 playing.add(`${message.author.id}`);
+  inventory.hunger -= 0.25
   let eaxe = inventory.equipped.axe;
   let axe = client.tools.Tools[eaxe]
   let drops = Math.floor(Math.random() * axe.drops[1]) + axe.drops[0] 
