@@ -142,6 +142,7 @@ Object.defineProperty(Array.prototype, "random", {
       }
     }
     await db.set(`inventory_${user.id}`, inventory)
+    return inventory
   }
   client.level = async function(inventory, message){
     let curlvl = inventory.level * 20

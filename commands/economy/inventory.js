@@ -3,7 +3,6 @@ const discord = require('discord.js')
 exports.run = async (client, message, args) => {
   let inventory = db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get a player');
-  let mats = Object.keys(client.items.Materials)
   let val = {}
   let res = {}
   let foo = {}

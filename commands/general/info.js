@@ -2,7 +2,6 @@ const discord = require('discord.js');
 const ms = require('ms');
 
 module.exports.run = async (client, message, args) => {
-      try{
         const bot = client;
         const uptime = bot.uptime;
         const bimage = bot.user.displayAvatarURL;
@@ -14,7 +13,7 @@ module.exports.run = async (client, message, args) => {
         .addField('⌛ Uptime', ms(uptime), true)
         .addField('🏙️ Guilds', bot.guilds.size, true)
         .addField('👥 Members', bot.guilds.reduce((p, c) => p + c.memberCount, 0), true)
-        .addField('💬 Commands', bot.registry.commands.size, true)
+        .addField('💬 Commands', bot.commands.size, true)
         .addField('🔋 Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
         .addField('🔗 Invite', '[Click here](https://discordapp.com/api/oauth2/authorize?client_id=447700419855122432&permissions=8&scope=bot)', true)
         .addField('🤝 Support', '[Click here](https://discord.gg/b8S3HAw)', true)
@@ -23,11 +22,6 @@ module.exports.run = async (client, message, args) => {
         .setFooter('If you want to see your commands added please use `?suggest` command');
 
         message.channel.send(myinfo);
-
-      }
-      catch(err) {
-      message.client.functions.error(message.client, err, message);
-    }
 }
 
 exports.conf = {
