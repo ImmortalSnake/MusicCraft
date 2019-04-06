@@ -15,9 +15,11 @@ module.exports = (client) => {
   client.defaultInventory = {
     health: 100,
     attack: 10,
+    dimension: 'Overworld',
     xp: 0,
     level: 1,
     hunger: 100,
+    lastactivity: 0,
     size: 100,
     equipped: {
       axe: "Wooden Axe",
@@ -39,6 +41,7 @@ module.exports = (client) => {
     food: {},
     crates: [],
     animals: {},
+    armor: {},
     other: {},
     trade: {}
   }
@@ -81,6 +84,8 @@ module.exports = (client) => {
     rob: [50, 0], // dont rob lul
     fine: [50, 25],
     exploreTimer: 3600 * 1000,
+    rhunger: 86400000,
+    villageTime: 10800000,
     cooldown: {
       work: 5 * 1000,
       rob: 5 * 60 * 1000

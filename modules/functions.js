@@ -145,8 +145,8 @@ Object.defineProperty(Array.prototype, "random", {
     return inventory
   }
   client.level = async function(inventory, message){
-    let curlvl = inventory.level * 20
-    if(inventory.xp > curlvl) {
+    let curlvl = Math.floor(0.5 * Math.sqrt(inventory.xp));
+    if(inventory.level < curlvl) {
       inventory.level++
       await db.set(`inventory_${message.author.id}`, inventory)
       message.channel.send(`Level Up! You are now in level **${inventory.level}**`)

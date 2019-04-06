@@ -1,120 +1,128 @@
 {
 "Hostile": {
-  "Villager" :{
+"Overworld": {
+  "Villager" : {
     "hp": 100,
     "dmg": 11,
     "drops": ["Common", 0.50],
-    "rewards": [10],
-    "xp": 5,
+    "rewards": [1, 10],
+    "xp": [2, 5],
     "emote": "https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png?1554057925892"
    },
   "Zombie": {
-    "hp": 100,
-    "dmg": 10,
-    "xp": 5,
+    "hp": 115,
+    "dmg": 18,
+    "xp": [4, 8],
     "drops": ["Common", 0.75],
-    "rewards": [50],
-    "emote": ""
+    "rewards": [25, 5],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/thumb/c/c3/Zombie.png/163px-Zombie.png?version=eabe7e4971cda3b6cd28a35de2af8d3c"
   },
   "Skeleton": {
-    "hp": 30,
+    "hp": 120,
     "dmg": 30,
-    "xp": 20,
-    "drops": ["Uncommon", 0.50],
-    "rewards": [100],
-    "emote": ""
+    "xp": [7, 10],
+    "drops": ["Common", 1],
+    "rewards": [5, 10],
+    "emote": "https://vignette.wikia.nocookie.net/minecraft/images/2/23/Skeleton.png/revision/latest?cb=20130120052248"
   },
   "Creeper": {
-    "description": "xxx",
-    "hp": 30,
-    "dmg": 30,
-    "rewards": [150],
-    "difficulty": "Easy"
+    "hp": 130,
+    "dmg": 40,
+    "xp": [10, 12],
+    "rewards": [75, 15],
+    "drops": ["Uncommon", 0.25],
+    "emote": "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c2f7.png"
   },
   "Enderman": {
-    "description": "xxx",
-    "hp": 50,
+    "hp": 150,
     "dmg": 50,
-    "rewards": [300],
-    "difficulty": "Medium"
-  }, 
+    "xp": [10, 13],
+    "rewards": [30],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://vignette.wikia.nocookie.net/minecraft/images/0/05/Enderman_normal.png/revision/latest?cb=20130724211158"
+  },
   "Slime": {
-    "description": "xxx",
-    "hp": 50,
-    "dmg": 50,
-    "rewards": [500],
-    "difficulty": "Medium"
-  }, 
+    "hp": 200,
+    "dmg": 25,
+    "xp": [2, 5],
+    "rewards": [50],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/3/38/Slime.png"
+  },
   "Silverfish": {
-    "description": "xxx",
-    "hp": 50,
-    "dmg": 50,
-    "rewards": [750],
-    "difficulty": "Medium"
-  }, 
+    "hp": 65,
+    "dmg": 75,
+    "rewards": [75],
+    "xp": [2, 5],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/b/b9/Silverfish.png"
+  },
   "Witch": {
-    "description": "xxx",
-    "hp": 100,
+    "hp": 200,
     "dmg": 50,
-    "rewards": [1000],
-    "difficulty": "Hard"
-  }, 
+    "xp": [2, 5],
+    "rewards": [100],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/e/e6/Witch.png"
+  },
   "Cave Spider": {
-    "description": "xxx",
-    "hp": 100,
-    "dmg": 50,
-    "rewards": [1500],
-    "difficulty": "Hard"
-  }, 
+    "hp": 200,
+    "dmg": 75,
+    "xp": [2, 5],
+    "rewards": [150],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/6/60/Cave_Spider.png"
+  }
+},
+"Nether": {
   "Wither Skeleton": {
-    "description": "xxx",
     "hp": 200,
     "dmg": 150,
-    "rewards": [2000],
-    "difficulty": "Hard"
+    "rewards": [2000]
   }, 
-  "Husk": {
-    "description": "xxx",
-    "hp": 300,
-    "dmg": 300,
-    "rewards": [4000],
-    "difficulty": "Insane"
-  },  
+  "Zombie Pigman": {
+    
+  },
+  "Magma Cube": {
+    
+  },
   "Ghast": {
     "name": "Ghast",
-    "description": "xxx",
     "hp": 300,
     "dmg": 300,
-    "rewards": [7500],
-    "time": 115200000,
-    "difficulty": "Insane"
+    "rewards": [7500]
   }, 
   "Blaze": {
     "hp": 400,    
     "name": "Blaze",
     "description": "xxx",
     "dmg": 350,
-    "rewards": [10000],
-    "time": 144000000,
-    "difficulty": "Insane"
+    "rewards": [10000]
   }, 
   "Wither": {
     "name": "Wither",
     "description": "xxx",
     "hp": 1000,
     "dmg": 1000,
-    "rewards": [25000],
-    "difficulty": "Impossible"
-   }, 
+    "rewards": [25000]
+   }
+  },
+"End": {
+  "Shulker": {
+    "name": "Ender Dragon",
+    "description": "xxx",
+    "hp": 1000,
+    "dmg": 1000,
+    "rewards": [1000000]
+  },
   "Ender Dragon": {
     "name": "Ender Dragon",
     "description": "xxx",
     "hp": 1000,
     "dmg": 1000,
-    "rewards": [1000000],
-    "time": 259200000,
-    "difficulty": "Impossible"
+    "rewards": [1000000]
    }
+  }
  },
   "Animals": {
     "Cow" : {

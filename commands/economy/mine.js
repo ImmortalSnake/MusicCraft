@@ -3,18 +3,22 @@ const discord = require('discord.js')
 const playing = new Set;
 
 exports.run = async (client, message, args) => {
-  let balance = await db.fetch(`balance_${message.author.id}`)
   let inventory = await db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have a pickaxe .Use the `s!start` command to get a pickaxe')
   let pickaxe = inventory.equipped.pickaxe
   if(!pickaxe) return message.channel.send('You do not have a pickaxe. Chop some wood with `s!chop` and craft a pickaxe using `s!craft`')
-    if (playing.has(`${message.author.id}`)) return message.channel.send(`You can mine only once in 5 seconds`);
-playing.add(`${message.author.id}`);
+  if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
+  
+  inventory = await client.checkInventory(message.author)
+  if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
+  if(inventory.hunger %2 === 0 && inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
+
   inventory.hunger-= 0.25
+  inventory.lastactivity = Date.now()
   let mines = client.items.Materials
   let p = pickaxe = client.tools.Tools[pickaxe]
   let result = {}
-  let m = `**${message.author.username} mined and found`
+  let m = `**${message.author.username} mined with a ${p.emote} and found`
   for(const mat in p.drops) {
     if(p.drops[mat][2] && Math.random() > p.drops[mat][2]) continue;
         result[mat] = Math.floor(Math.random() * p.drops[mat][1]) + p.drops[mat][0]
@@ -27,16 +31,12 @@ playing.add(`${message.author.id}`);
   m += `**`
   await db.set(`inventory_${message.author.id}`, inventory)
   let embed = new discord.MessageEmbed()
-  .setTitle(':fishing_pole_and_fish: Mine')
+  .setTitle('Mine')
   .setColor('GREEN')
   .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(m)
   
   message.channel.send(embed);
-  
-  setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, 5000);
 };
 
 exports.conf = {
@@ -45,7 +45,7 @@ exports.conf = {
     aliases: [],
     perms: [],
     botPerms: [],
-    cooldown: 30
+    cooldown: 5000
 };
   
 exports.help = {

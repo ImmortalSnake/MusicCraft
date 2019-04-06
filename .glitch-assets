@@ -8,4 +8,7 @@ const yt = require('simple-youtube-api')
 {"uuid":"8PaKgbrDQFkaYCbR","deleted":true}
 {"name":"image.png","date":"2019-04-03T20:10:44.349Z","url":"https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png","type":"image/png","size":160485,"imageWidth":1366,"imageHeight":768,"thumbnail":"https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fthumbnails%2Fimage.png","thumbnailWidth":330,"thumbnailHeight":186,"dominantColor":"rgb(252,252,252)","uuid":"rRzPx8cSwvzIhhEb"}
 {"uuid":"rRzPx8cSwvzIhhEb","deleted":true}
+{"uuid":"LybRe6QlfbAuWxJT","deleted":true}
+{"name":"image.png","date":"2019-04-04T21:58:45.851Z","url":"https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png","type":"image/png","size":147495,"imageWidth":1366,"imageHeight":768,"thumbnail":"https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fthumbnails%2Fimage.png","thumbnailWidth":330,"thumbnailHeight":186,"dominantColor":"rgb(252,252,252)","uuid":"GFtPBmZF9EGWKNm3"}
+{"uuid":"GFtPBmZF9EGWKNm3","deleted":true}
 const youtube = new yt(process.env.yt_api_key);

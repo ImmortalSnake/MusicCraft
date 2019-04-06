@@ -5,17 +5,20 @@ exports.run = async (client, message, args) => {
   let inventory = await db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command to start')
   let t = args.join(' ').toProperCase()
-  if(!inventory.tools[t]) return message.channel.send('You do not have that tool')
+  if(!inventory.tools[t] && !inventory.armor[t]) return message.channel.send('You do not have that tool')
   let type = t.split(' ')[1]
-  let tool = client.tools.Tools[t]
+  let tool = client.tools.Tools[t] || client.tools.Armor[t]
+  let oldt = inventory.equipped[type.toLowerCase()]
+  if(inventory.equipped[type.toLowerCase()] && client.tools.Armor[oldt] && client.tools.Armor[oldt].health) inventory.health -= client.tools.Armor[oldt].health
   inventory.equipped[type.toLowerCase()] = t;
+  if(tool.health) inventory.health += tool.health
+  console.log(inventory)
   await db.set(`inventory_${message.author.id}`, inventory)
   let embed = new discord.MessageEmbed()
   .setTitle('Equip')
   .setColor('#206694')
   .setFooter(message.author.username, message.author.displayAvatarURL())
-  .setDescription(`Successfully equipped a ${t} ${tool.emote}.
-Use \`s!mine\` to use it`)
+  .setDescription(`Successfully equipped a ${t} ${tool.emote}`)
   message.channel.send(embed)
 }
 

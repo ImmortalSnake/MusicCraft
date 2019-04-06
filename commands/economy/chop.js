@@ -5,8 +5,12 @@ const playing = new Set();
 exports.run = async (client, message, args) => {
   let inventory = await db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have an axe .Use the `s!start` command to get an axe');
-  if (playing.has(`${message.author.id}`)) return message.channel.send(`You can chop only once in 5 seconds`);
-playing.add(`${message.author.id}`);
+    if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
+  
+  inventory = await client.checkInventory(message.author);
+  if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
+  if(inventory.hunger %2 == 0 && inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
+  
   inventory.hunger -= 0.25
   let eaxe = inventory.equipped.axe;
   let axe = client.tools.Tools[eaxe]
@@ -22,17 +26,15 @@ playing.add(`${message.author.id}`);
     inventory.food['Apple'] ? inventory.food['Apple']++ : inventory.food['Apple'] = 1
     m = `\n You found an Apple ${client.items.food['Apple'].emote}`
   }
+  inventory.lastactivity = Date.now()
   await db.set(`inventory_${message.author.id}`, inventory);
   let embed = new discord.MessageEmbed()
-  .setTitle(':fishing_pole_and_fish: Chop')
+  .setTitle('Chop')
   .setColor('GREEN')
   .setFooter(message.author.username, message.author.displayAvatarURL())
-  .setDescription(`**${message.author.username} chopped wood with ${axe.emote}.
+  .setDescription(`**${message.author.username} chopped wood with ${axe.emote}
 You got ${drops} ${wood.emote}.${m}**`)
-  message.channel.send(embed); 
-  setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, 5000);
+  message.channel.send(embed);
 };
 
 exports.conf = {
@@ -41,7 +43,7 @@ exports.conf = {
     aliases: [],
     perms: [],
     botPerms: [],
-    cooldown: 5
+    cooldown: 5000
 };
   
 exports.help = {

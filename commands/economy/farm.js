@@ -7,9 +7,12 @@ exports.run = async (client, message, args) => {
   if(!inventory) return message.channel.send('You do not have a hoe .Use the `s!start` command to get an hoe');
   let hoe = inventory.equipped.hoe
   if(!hoe) return message.channel.send('You do not have an hoe .Use the `s!start` command to get a hoe');
-  if (playing.has(`${message.author.id}`)) return message.channel.send(`You can farm only once in 5 minutes`);
-playing.add(`${message.author.id}`);
-  await client.checkInventory(message.author)
+  if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
+  
+  inventory = await client.checkInventory(message.author)
+  if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
+  if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
+  inventory.lastactivity = Date.now()
   inventory.hunger -= 2
   let ehoe = client.tools.Tools[hoe]
   let drops = Math.floor(Math.random() * ehoe.drops[1]) + ehoe.drops[0]
@@ -19,15 +22,13 @@ playing.add(`${message.author.id}`);
   // inventory.materials.Wood = inventory.materials.Wood + drops
    await db.set(`inventory_${message.author.id}`, inventory);
   let embed = new discord.MessageEmbed()
-  .setTitle(':fishing_pole_and_fish: Chop')
+  .setTitle('Farm')
   .setColor('GREEN')
   .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(`**${message.author.username} farmed with ${ehoe.emote}.
 You got ${drops} ${food.emote}.**`)
   message.channel.send(embed); 
-  setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, 300 * 1000);
+
 };
 
 exports.conf = {
@@ -36,7 +37,7 @@ exports.conf = {
     aliases: [],
     perms: [],
     botPerms: [],
-    cooldown: 5
+    cooldown: 300 * 1000
 };
   
 exports.help = {

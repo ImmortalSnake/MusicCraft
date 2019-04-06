@@ -12,16 +12,19 @@ module.exports.run = async (client, message, args) => {
       let amount = client.utils.daily;
       let embed = new Discord.MessageEmbed()
       let streak = await db.fetch(`timers_${message.author.id}_streak`);
-      if(!streak) streak =  await db.set(`timers_${message.author.id}_streak`, 1);
-      if(streak && streak >= 5) {
+      if(Date.now() - ptimer <= client.utils.dailyTimer * 2 ) {
+        if(streak && streak >= 5) {
         embed.setTitle('Daily **[STREAK]**');
         amount = client.utils.dailystreak;
         await db.set(`timers_${message.author.id}_streak`, 1);
-      }
+        }
         else{
         embed.setTitle(`Daily [${streak}]`);
         await db.add(`timers_${message.author.id}_streak`, 1);
-        }
+       }
+     } else {
+       await db.set(`timers_${message.author.id}_streak`, 1);
+     }
 
       await db.add(`balance_${message.author.id}`, amount);
       embed

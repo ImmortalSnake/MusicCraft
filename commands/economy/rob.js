@@ -13,9 +13,6 @@ module.exports.run = async (client, message, args) => {
   let rob = Math.floor(Math.random() * client.utils.rob[0] + client.utils.rob[1]);
   if(rob > userbal) rob = userbal;
 
-  if (playing.has(`${message.author.id}`)) return message.channel.send(`You can rob only once in ${ms(client.utils.cooldown.rob)} seconds`);
-	playing.add(`${message.author.id}`);
-
       let embed = new discord.MessageEmbed()
       .setTitle('Rob')
       .setFooter(message.author.username, message.author.displayAvatarURL())
@@ -36,16 +33,13 @@ module.exports.run = async (client, message, args) => {
       .setColor('RED')
       }
      message.channel.send(embed);
-
-    setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, client.utils.cooldown.rob);
 }
 
 exports.conf = {
   aliases: [],
   enabled: true,
-  guildOnly: true
+  guildOnly: true,
+  cooldown: 300000
 };
 
 // Name is the only necessary one.

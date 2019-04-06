@@ -27,38 +27,69 @@
     },
     "Dirt": {
       "emote": "<:dirt:560747473258414080>",
-      "price": 1
+      "price": 0.5
     },
     "Wood": {
       "emote": "<:wood:560737837083787285>",
-      "price": 3
+      "price": 1
     },
     "Coal": {
-      "emote": "<:coal:560905931387568130>"
+      "emote": "<:coal:560905931387568130>",
+      "price": 2
     },
     "Stone": {
       "emote": "<:stone:560736050448695296>",
-      "price": 3
+      "price": 2
     },
     "Iron": {
       "emote": "<:iron:560736100054859802>",
-      "price": 8
+      "price": 5
     },
     "Lapis": {
-      "emote": "<:lapis:560905093344395268>"
+      "emote": "<:lapis:560905093344395268>",
+      "price": 25
     },
     "Redstone": {
-      "emote": "<:redstone:560905123539451956>"
+      "emote": "<:redstone:560905123539451956>",
+      "price": 25
     },
     "Gold": {
-      "emote": "<:gold:560733707351097354>"
+      "emote": "<:gold:560733707351097354>",
+      "price": 50
     },
     "Emerald": {
       "emote": "<:emerald:560905906414682124>",
       "price": 75
     },
     "Diamond": {
-      "emote": "<:diamond:560734378393862146>"
+      "emote": "<:diamond:560734378393862146>",
+      "price": 100
+    },
+    "Obsidian": {
+      "emote": "<:obsidian:563437424399613953>",
+      "price": 20
+    }
+  },
+  "Nether": {
+    "Soul Sand": {
+      "emote": "<:soulsand:>"
+    },
+    "Netherrack": {
+      
+    },
+    "Nether Quartz": {
+      
+    },
+    "Magma": {
+      
+    }
+  },
+  "Other": {
+    "Flint And Steel": {
+      "emote": "<:flintandsteel:564003931840315393>"
+    },
+    "Dark Matter": {
+      "emote": ""
     }
   },
   "food": {
@@ -68,11 +99,11 @@
     },
     "Carrot": {
       "emote": "<:carrot:561543767103111168>",
-      "energy": 5
+      "energy": 3
     },
     "Potato": {
       "emote": "<:potato:561544134330941444>",
-      "energy": 5
+      "energy": 3
     },
     "Egg": {
       "emote": "<:egg:561544313478316033>",
@@ -103,7 +134,9 @@
       "energy": 25
     },
     "Pumpkin": {},
-    "Cocoa": {},
+    "Cocoa": {
+      "emote": "<:cocoa:563620422097305603>"
+    },
     "Bread": {
       "emote": "<:bread:562961357746733058>",
       "energy": 40
@@ -120,6 +153,14 @@
     "Raw Porkchop": {
       "emote": "<:rawporkchop:562938729879175178>",
       "energy": -10
+    },
+    "Baked Potato": {
+      "emote": "<:bakedpotato:563672677123096576>",
+      "energy": 50
+    },
+    "Cookie": {
+      "emote": "<:cookie:563417969254727681>",
+      "energy": 100
     }
   },
   "recipes": {
@@ -142,6 +183,13 @@
       "materials": {
         "Wheat": 10,
         "Coal": 10
+      }
+    },
+   "Baked Potato": {
+      "materials": {
+        "Potato": 10,
+        "Coal": 30,
+        "Wheat": 5
       }
     },
     "Cookie": {

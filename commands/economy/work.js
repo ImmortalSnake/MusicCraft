@@ -5,8 +5,6 @@ let playing = new Set();
 
 module.exports.run = async (client, message, args) => {  
   const amount = Math.floor(Math.random() * client.utils.work[0] + client.utils.work[1]);
-  if (playing.has(`${message.author.id}`)) return message.channel.send('You can work only once in 5 seconds');
-	playing.add(`${message.author.id}`);
 
   await db.add(`balance_${message.author.id}`, amount);
       let embed = new discord.MessageEmbed()
@@ -15,16 +13,13 @@ module.exports.run = async (client, message, args) => {
       .setColor('GREEN')
       .setFooter(message.author.username, message.author.displayAvatarURL())
      message.channel.send(embed);
-
-    setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, client.utils.cooldown.work);
 }
 
 exports.conf = {
   aliases: [],
   enabled: true,
-  guildOnly: true
+  guildOnly: true,
+  cooldown: 5000
 };
 
 // Name is the only necessary one.

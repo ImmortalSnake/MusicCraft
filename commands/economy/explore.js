@@ -11,12 +11,17 @@ exports.run = async (client, message, args) => {
         return message.reply('You can explore in ' + ms(tleft, { long: true }));
       }
   await db.set(`timers_${message.author.id}_explore`, Date.now());
-  await client.checkInventory(message.author)
+  inventory = await client.checkInventory(message.author)
+  if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
+  if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
+  if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
   let embed = new discord.MessageEmbed()
   .setTitle('Explore')
   .setColor('#206694')
   .setAuthor(message.author.username, message.author.displayAvatarURL())
   let chance = Math.random()
+  inventory.lastactivity = Date.now()
+  await db.set(`inventory_${message.author.id}`, inventory)
   if(chance < .85) {
     battle(client, message, embed)
   }
@@ -40,9 +45,9 @@ Use \`s!crate ${crate}\` to open it!`)
 
 async function battle(client, message, embed) {
   let inventory = await db.fetch(`inventory_${message.author.id}`)
-  let mobs = Object.keys(client.mobs.Hostile)
-  let name = mobs[Math.floor(Math.random() * inventory.level)]
-  let mob = client.mobs.Hostile[name]
+  let mobs = Object.keys(client.mobs.Hostile[inventory.dimension])
+  let name = mobs.random()
+  let mob = client.mobs.Hostile[inventory.dimension][name]
   if (inventory.equipped.sword) inventory.attack += client.tools.Tools[inventory.equipped.sword].dmg
   embed.setDescription(`You have met a ${name}
 Do you wish to fight?`)
@@ -89,7 +94,7 @@ async function fight(message, user, inventory, mob, hp, mess) {
       inventory.health = inventory.health - Math.floor(Math.random() * mob.dmg * 3)
       hp = hp - Math.floor(Math.random() * inventory.attack * 3)
       if(hp <= 0){
-        let xp = Math.floor(Math.random() * mob.xp) + 2
+        let xp = Math.floor(Math.random() * mob.xp[1]) + mob.xp[0]
         let reward = mob.rewards.random()
         let inv = await db.fetch(`inventory_${user.id}`)
         inv.hunger -= 10

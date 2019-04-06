@@ -11,8 +11,8 @@ module.exports.run = async (client, message, args) => {
     total[i].data = total[i].data + bank;
   }
   let money = sort(total, 'data', { reverse: true})
-    let content = "";
-  
+  let content = "";
+  let pos
     for(let i = 0; i < money.length; i++) {
       if(i < 20) {
         let user = client.users.get(money[i].ID.split('_')[1]);
@@ -21,17 +21,17 @@ module.exports.run = async (client, message, args) => {
           db.delete(`bank_${money[i].ID.split('_')[1]}`)
         }
         else {
-          content = content + `${i+1}. ${user.username} ~ ${money[i].data}\n`;
+          if(user.id === message.author.id) pos = i+1
+          content += `${i+1}. ${user.tag} ~ ${money[i].data}\n`;
         }
       }
     }
-  
+  content += `........\nYour position ${pos}`
   const embed = new Discord.MessageEmbed()
       .setAuthor(`${client.user.username} - LeaderBoard`, message.guild.iconURL)
       .setDescription(content)
       .setColor('GREEN');
   message.channel.send(embed);
-  console.log(content);
 }
 
 exports.conf = {

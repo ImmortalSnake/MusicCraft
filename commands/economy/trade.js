@@ -11,15 +11,16 @@ exports.run = async (client, message, args) => {
     switch(args[0].toLowerCase()) {
       case 'add': {
         let trade = inventory.trade.trades;
-        if(!inventory.trade.trades) return message.channel.send('You are not in a trade with anyone. Use `s!trade [@user]` to start trading!')
+        if(!inventory.trade.trades) return message.channel.send('You are not in a trade with anyone. Use `s!trade [@user]` to start trading!');
+        if(trade.confirmed) return message.channel.send('You have already confirmed the trade use `s!trade cancel` to cancel this trade')
         let item = args.slice(1).join(' ').split('-')[0].trim().toProperCase();
         let amount = parseInt(args.join(' ').split('-')[1]) || 1;
         if(!item) return message.channel.send('Use `s!trade add [item] -[amount]` to add materials or food to the trade');
         let locate = await ifind(client, item, inventory);
-        console.log(item, amount)
+        if(item == 'Money') locate = [{ emote: ':dollar:' }, await db.fetch(`balance_${message.author.id}`)]
         if(!locate[0]) return message.channel.send('Could not find that item in your inventory');
         let total = trade.give[item] ? trade.give[item] + amount : amount
-        if(total > locate[1]) return message.channel.send('You do not have that many items in your inventory')
+        if(total > locate[1]) return message.channel.send('You do not have that many items in your inventory or balance')
         trade.give[item] ? inventory.trade.trades.give[item] += amount : inventory.trade.trades.give[item] = amount
         await db.set(`inventory_${message.author.id}`, inventory)
         let aembed = new discord.MessageEmbed()
@@ -33,6 +34,7 @@ exports.run = async (client, message, args) => {
       case 'remove': {
         let trade = inventory.trade.trades;
         if(!trade) return message.channel.send('You are not in a trade with anyone. Use `s!trade [@user]` to start trading!')
+        if(trade.confirmed) return message.channel.send('You have already confirmed the trade use `s!trade cancel` to cancel this trade')
         let item = args.slice(1).join(' ').toProperCase();
         if(!trade.give[item]) return message.channel.send('That item is not in the trade. Use `s!trade add [item] -[amount]` to add materials or food to the trade')
         inventory.trade.trades.give[item] = 0
@@ -58,7 +60,7 @@ exports.run = async (client, message, args) => {
           res[c] = trade.give[c] || 0
         }
         for(const v in res) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v]
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
           g += `${v}${e.emote} x${res[v]}\n`
         }
         /////////////////////////////////////////////////////////
@@ -66,7 +68,7 @@ exports.run = async (client, message, args) => {
           foo[c] = trade2.give[c] || 0
         }
         for(const v in foo) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v]
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
           r += `${v}${e.emote} x${foo[v]}\n`
         }
         g += `**`
@@ -94,7 +96,7 @@ exports.run = async (client, message, args) => {
           res[c] = trade.give[c] || 0
         }
         for(const v in res) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v]
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
           g += `${v}${e.emote} x${res[v]}\n`
         }
         /////////////////////////////////////////////////////////
@@ -102,7 +104,7 @@ exports.run = async (client, message, args) => {
           foo[c] = trade2.give[c] || 0
         }
         for(const v in foo) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v]
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
           r += `${v}${e.emote} x${foo[v]}\n`
         }
         g += `**`
@@ -128,8 +130,15 @@ React with ✅ to confirm the trade**`)
          }
          else if(r.emoji.name == '✅') {
            let inventory2 = await db.fetch(`inventory_${trade.user}`)
+           let bal = await db.fetch(`balance_${message.author.id}`)
+           let bal2 = await db.fetch(`balance_${trade.user}`)
            if(inventory2.trade.trades.confirmed) {
               for(const v in res) {
+                if(v === 'Money' && bal >= res[v]) {
+                  await db.subtract(`balance_${message.author.id}`, res[v]);
+                  await db.add(`balance_${trade.user}`, res[v]);
+                  continue;
+                }
                 if(inventory.materials[v] && inventory.materials[v] >= res[v]){ 
                   inventory.materials[v] -= res[v]
                   inventory2.materials[v] ? inventory2.materials[v] += res[v] : inventory2.materials[v] = res[v]
@@ -145,7 +154,11 @@ React with ✅ to confirm the trade**`)
               
               }
             for(const t in foo) {
-              
+                if(t === 'Money' && bal2 >= foo[t]) {
+                  await db.add(`balance_${message.author.id}`, foo[t]);
+                  await db.subtract(`balance_${trade.user}`, foo[t]);
+                  continue;
+                }
                 if(inventory2.materials[t] && inventory2.materials[t] >= foo[t]){ 
                   inventory2.materials[t] -= foo[t]
                   inventory.materials[t] ? inventory.materials[t] += foo[t] : inventory.materials[t] = foo[t]

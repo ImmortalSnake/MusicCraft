@@ -30,7 +30,8 @@ searchLyrics(`${baseURL}&q=${encodeURIComponent(query)}`)
 exports.conf = {
   aliases: [],
   enabled: true,
-  guildOnly: true
+  guildOnly: true,
+  cooldown: 10000
 };
 
 // Name is the only necessary one.

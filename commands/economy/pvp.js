@@ -3,10 +3,14 @@ const discord = require('discord.js')
 const playing = new Set;
 
 exports.run = async (client, message, args) => {
-  let inventory = await db.fetch(`inventory_${message.author.id}`)
-  if(!inventory) return message.channel.send('You do not have a hoe .Use the `s!start` command to get an hoe');
+let inventory = await db.fetch(`inventory_${message.author.id}`)
+if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get started');
 let user = message.mentions.members.first();
 if(!user) return message.reply('Mention the user you want to fight with')
+  
+let inventory2 = await db.fetch(`inventory_${user.id}`)
+if(!inventory2) return message.channel.send('That user does not have a player');
+
 message.channel.send(user.user.username + ', Do you accept the fight?')
   .then(async m => {
     await m.react('✅');
@@ -16,7 +20,7 @@ message.channel.send(user.user.username + ', Do you accept the fight?')
             { time: 240000 });
     collector.on('collect', async (r) => {
       if(r.emoji.name == '❎'){
-        message.channel.send(user.user + ' did not accept the fight');
+        message.channel.send(user.user.username + ' did not accept the fight');
         collector.stop();
       }
       else if(r.emoji.name == '✅') {
@@ -68,11 +72,11 @@ async function moves(client, message, user1, user2, stats) {
       if(r.emoji.name == '🇦') {
         collector.stop();
    let success = 0;
-  (Math.floor(health2 + Math.random() * 15) < Math.floor(attack1 + Math.random () * 15)) ? success++ : success--;
+  (Math.random()  > 0.3) ? success++ : success--;
         if(success > 0) {
           stats = { hp2: health1, hp1: health2 - Math.ceil(Math.random() * attack1) - attack1, dmg2: attack1, dmg1: attack2 };
         } else {
-          stats = { hp2: health1 - Math.ceil(health2 / 10), hp1: health2, dmg2: attack1, dmg1: attack2 };
+          stats = { hp2: health1 - Math.ceil(attack2 / 10), hp1: health2, dmg2: attack1, dmg1: attack2 };
         }
         if(stats.hp2 < 0) return win(message, user2, user1);
         else if(stats.hp1 < 0) return win(message, user1, user2);
@@ -81,9 +85,9 @@ async function moves(client, message, user1, user2, stats) {
       else if(r.emoji.name == '🇩') {
         collector.stop();
       let success = 0;
-       (Math.floor(attack2 + Math.random() * 15) < Math.floor(health1 + Math.random () * 15)) ? success++ : success--;
+       (Math.random()  > 0.3) ? success++ : success--;
         if(success > 0) {
-          stats = { hp2: health1, hp1: health2 - Math.ceil(Math.random() * attack1) - attack1, dmg2: attack1, dmg1: attack2 };
+          stats = { hp2: health1 + Math.ceil(Math.random() * 10), hp1: health2, dmg2: attack1, dmg1: attack2 };
         } else {
           stats = { hp2: health1 - Math.ceil(attack2 / 10), hp1: health2, dmg2: attack1, dmg1: attack2 };
         }
@@ -99,9 +103,9 @@ function win(message, winner, loser) {
       let embed = new discord.MessageEmbed()
       .setTitle('Fight')
       .setColor('GREEN')
-      .setAuthor(winner.username, winner.displayAvatarURL)
+      .setAuthor(winner.username, winner.displayAvatarURL())
       .setDescription(`${winner} defeated ${loser}.`)
-      .setFooter(loser.username, loser.displayAvatarURL);
+      .setFooter(loser.username, loser.displayAvatarURL());
       message.channel.send(embed);
 }
 

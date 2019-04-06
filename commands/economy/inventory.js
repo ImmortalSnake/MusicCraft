@@ -6,6 +6,8 @@ exports.run = async (client, message, args) => {
   let val = {}
   let res = {}
   let foo = {}
+  let bar = {}
+  let b = `**`
   let m = `**`
   let t = `**`
   let d = `**`
@@ -19,6 +21,9 @@ exports.run = async (client, message, args) => {
   for(const f in inventory.food) {
     foo[f] = inventory.food[f] || 0
   }
+  for(const f in inventory.armor) {
+    bar[f] = inventory.armor[f] || 0
+  }
   for(const v in val) {
     let emote = client.items.Materials[v].emote
     m += `${v}${emote} x${val[v]}\n`
@@ -31,16 +36,23 @@ exports.run = async (client, message, args) => {
     let emote = client.items.food[f].emote
     d += `${f}${emote} x${foo[f]}\n`
   }
+  for(const f in bar) {
+    let emote = client.tools.Armor[f].emote
+    b += `${f}${emote} x${bar[f]}\n`
+  }
   m += `**`
   t += `**`
   d += `**`
+  b += `**`
+  
   let embed = new discord.MessageEmbed()
-  .setTitle(':fishing_pole_and_fish: Inventory')
+  .setTitle('Inventory')
   .setColor('GREEN')
   .setFooter(message.author.username, message.author.displayAvatarURL())
   .addField('Materials', m, true)
   .addField('Tools', t, true)
   .addField('Food', d, true)
+  .addField('Armor', b, true)
   message.channel.send(embed)
 }
 

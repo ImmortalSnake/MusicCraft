@@ -69,10 +69,6 @@ fs.readdir(`./events/`, async (err, files) => {
   console.log(`[Events]\tLoaded a total of ${jsfiles.length} events.`);
 });
 
-bot.on('ready', () => {
-  console.log('Music Bot Has Turned On Successfuly');
-})
-
 bot.login(config.token).catch(e => {
   console.log(e);
 });
@@ -80,3 +76,4 @@ bot.login(config.token).catch(e => {
 process
     .on('uncaughtException', err => console.error(err.stack))
     .on('unhandledRejection', err => console.error(err.stack));                
+

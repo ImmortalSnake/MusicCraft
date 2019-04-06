@@ -1,5 +1,5 @@
-let playing = {}
-
+let cooldown = {}
+const ms = require('ms')
 exports.run = async (client, message) => {
     /* Statement below disables bot-to-bot commands by returning if the message author is a bot */
   if (message.author.bot) return;
@@ -23,5 +23,17 @@ exports.run = async (client, message) => {
   if(!message.member.hasPermission(command.conf.perms[i])) return message.channel.send('You do not have the required permission')
   }
   }
-  if (command)command.run(client, message, args)
+  if(cooldown[`${message.author.id}_${command.help.name}`]) {
+    message.channel.send(`Woah there! you gotta wait ${ms(Math.abs(Date.now() - cooldown[`${message.author.id}_${command.help.name}`] - command.conf.cooldown), {long:true})} before you use this command`)
+    return
+  }
+  if (command) {
+    if(command.conf.cooldown) {
+    cooldown[`${message.author.id}_${command.help.name}`] = Date.now()
+      setTimeout(() => {
+        delete cooldown[`${message.author.id}_${command.help.name}`]
+      }, command.conf.cooldown)
+  }
+  command.run(client, message, args)
+  }
 }

@@ -2,7 +2,6 @@ const db = require('quick.db');
 const discord = require('discord.js');
 const slots = ['🍇', '🍒', '🍋'];
 const ms = require('ms');
-let playing = new Set();
 
 module.exports.run = async (client, message, args) => { 
     let bet = parseInt(args[0]);
@@ -31,15 +30,13 @@ module.exports.run = async (client, message, args) => {
       .setColor('RED');
     message.channel.send(embed);
   }
-    setTimeout(() => {
-      playing.delete(`${message.author.id}`);
-        }, client.utils.cooldown.work);
 }
 
 exports.conf = {
   aliases: [],
   enabled: true,
-  guildOnly: true
+  guildOnly: true,
+  cooldown: 10000
 };
 
 // Name is the only necessary one.
