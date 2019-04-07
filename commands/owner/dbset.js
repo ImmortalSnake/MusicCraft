@@ -7,36 +7,20 @@ module.exports.run = async (client, message, args, color, prefix) => {
   let user = client.users.get(args[0]) || message.mentions.users.first()
   if(!user.id) return message.channel.send('Could not find that user')
   if(!args[1]) return message.channel.send('Correct format is `s!dbset [user] [option]`')
+  
   switch(args[1].toLowerCase()){
     case 'invlist': {
       let inventory = await db.fetch(`inventory_${user.id}`);
         if(!inventory) return message.channel.send('That user does not have a player');
-        let val = {}
-        let res = {}
-        let foo = {}
-        let m = `**`
-        let t = `**`
-        let d = `**`
-        for(const m in client.items.Materials) { val[m] = inventory.materials[m] || 0 }
-        for(const c in inventory.tools) { res[c] = inventory.tools[c] || 0 }
-        for(const f in inventory.food) { foo[f] = inventory.food[f] || 0 }
-        for(const v in val) { let emote = client.items.Materials[v].emote
-        m += `${v}${emote} x${val[v]}\n` }
-        for(const x in res) { let emote = client.tools.Tools[x].emote
-        t += `${x}${emote} x${res[x]}\n` }
-        for(const f in foo) { let emote = client.items.food[f].emote
-        d += `${f}${emote} x${foo[f]}\n`}
-        m += `**`
-        t += `**`
-        d += `**`
-        let embed = new discord.MessageEmbed()
-          .setTitle(':fishing_pole_and_fish: Inventory')
-          .setColor('GREEN')
-          .setFooter(user.username, user.displayAvatarURL())
-          .addField('Materials', m, true)
-          .addField('Tools', t, true)
-          .addField('Food', d, true)
-       message.channel.send(embed)
+          let embed = new discord.MessageEmbed()
+            .setTitle('Inventory')
+            .setColor('GREEN')
+            .setFooter(message.author.username, message.author.displayAvatarURL())
+            .addField('Materials', getinv(inventory, 'Materials', client), true)
+            .addField('Tools', getinv(inventory, 'Tools', client), true)
+            .addField('Food', getinv(inventory, 'Food', client), true)
+            .addField('Armor', getinv(inventory, 'Armor', client), true)
+          message.channel.send(embed)
       break;
     }
     case 'invadd': {
@@ -71,6 +55,21 @@ function find(client, name) {
   if(client.items.food[name]) return 'food'
   if(client.items.Materials[name]) return 'materials'
   return false
+}
+
+function getinv(inventory, type, client) {
+  let res = {}
+  let m = `**`
+  for(const mat in inventory[type.toLowerCase()]) {
+    res[mat] = inventory[type.toLowerCase()][mat] || 0
+  }
+  for(const v in res) {
+    let e
+    client.items[type] ? e = client.items[type][v] : e = client.tools[type][v]
+    m += `${v}${e.emote} x${res[v]}\n`
+  }
+  m += `**`
+  return m
 }
 
 exports.conf = {

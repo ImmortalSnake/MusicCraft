@@ -14,7 +14,46 @@ exports.run = async (client, message, args) => {
     .setTitle('Craft')
     .setColor('#206694')
     .setFooter(message.author.username, message.author.displayAvatarURL())
-  if(client.tools.Armor[t]) {
+  switch(tool.type) {
+
+    case 'Armor': {
+    for(const mat in client.tools.Armor[t].materials) {
+    inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
+    }
+   (inventory.armor[t]) ? inventory.armor[t]++ : inventory.armor[t] = 1;
+    embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
+Use \`s!equip ${t}\` to equip it!`)
+  await db.set(`inventory_${message.author.id}`, inventory)
+  message.channel.send(embed)
+    return;
+    break;
+    }
+    case 'Other': {
+      for(const mat in tool.materials) {
+       inventory.materials[mat.toProperCase()] -= tool.materials[mat]
+      }
+      for(const oth in tool.other) {
+       inventory.other[oth.toProperCase()] -= tool.other[oth]
+       }
+      if(tool.onetime){
+        if(inventory.other[t]) return message.channel.send(`You already have a ${t}`)
+        inventory.other[t] = {} 
+      } else {
+        inventory.other[t] ? inventory.other[t]++ : inventory.other[t] = 1
+      }
+      embed.setDescription(`Successfully crafted a ${t} ${tool.emote}`)
+      message.channel.send(embed)
+      await db.set(`inventory_${message.author.id}`, inventory)
+      return;
+      break;
+    }
+    case 'Normal': {
+      generate(inventory, tool, t, message);
+      return;
+      break;
+    }
+  }
+  /*if(client.tools.Armor[t]) {
     for(const mat in client.tools.Armor[t].materials) {
     inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
     }
@@ -57,16 +96,17 @@ Use \`s!cook [food]\` to start cooking!`)
 Use \`s!dim nether\` to go to the nether world!`)
   message.channel.send(embed)
     return
-  }
-  generate(inventory, tool, t, message)
+  }*/
 }
 
 function check(inventory, tool) {
   for(const mat in tool.materials) {
     if(tool.materials[mat] > inventory.materials[mat.toProperCase()]) return false
   }
+  if(tool.other) {
   for(const oth in tool.other) {
-    if(tool.other[oth] > inventory.other[oth.toProperCase()]) return false
+    if(tool.other[oth] > inventory.other[oth.toProperCase()] || !inventory.other[oth.toProperCase()]) return false
+   }
   }
   return true;
 }
@@ -80,6 +120,7 @@ function ok(tool, client) {
     let x = client.tools.Armor[tool.toProperCase()]
     if(x) return x
   }
+  if(client.tools.Other[tool.toProperCase()]) return client.tools.Other[tool.toProperCase()]
   return false
 }
 

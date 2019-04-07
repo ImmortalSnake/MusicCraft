@@ -5,7 +5,8 @@ const playing = new Set();
 exports.run = async (client, message, args) => {
   let inventory = await db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have an axe .Use the `s!start` command to get an axe');
-    if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
+  if(inventory.dimension === 'Nether') return message.channel.send('You cant chop wood in the Nether! Use `s!dim overworld` to go back to the overworld');
+  if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
   
   inventory = await client.checkInventory(message.author);
   if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
@@ -17,14 +18,14 @@ exports.run = async (client, message, args) => {
   let drops = Math.floor(Math.random() * axe.drops[1]) + axe.drops[0] 
   let wood = client.items.Materials.Wood;
   inventory.materials.Wood = inventory.materials.Wood + drops
-  await client.checkInventory(message.author)
+  
   let apple = false;
   let m = ''
   let rand = Math.random()
   if( rand > .9) apple = true
   if(apple){ 
     inventory.food['Apple'] ? inventory.food['Apple']++ : inventory.food['Apple'] = 1
-    m = `\n You found an Apple ${client.items.food['Apple'].emote}`
+    m = `\n You found an Apple ${client.items.Food['Apple'].emote}`
   }
   inventory.lastactivity = Date.now()
   await db.set(`inventory_${message.author.id}`, inventory);

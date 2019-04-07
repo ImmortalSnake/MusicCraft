@@ -23,9 +23,9 @@ exports.run = async (client, message, args) => {
        inventory.materials[kcrate[i]] ? inventory.materials[kcrate[i]] += drops : inventory.materials[kcrate[i]] = drops
        m += `${kcrate[i]}${emote} x${drops}\n`
      }
-      else if(client.items.food[kcrate[i]]) {
+      else if(client.items.Food[kcrate[i]]) {
        let drops = Math.floor(Math.random() * ecrate[i][1]) + ecrate[i][0]
-       let emote = client.items.food[kcrate[i]].emote
+       let emote = client.items.Food[kcrate[i]].emote
        inventory.food[kcrate[i]] ? inventory.food[kcrate[i]] += drops : inventory.food[kcrate[i]] = drops
        m += `${kcrate[i]}${emote} x${drops}\n`
      }

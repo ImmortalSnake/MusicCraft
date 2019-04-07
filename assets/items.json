@@ -68,14 +68,12 @@
     "Obsidian": {
       "emote": "<:obsidian:563437424399613953>",
       "price": 20
-    }
-  },
-  "Nether": {
+    },
     "Soul Sand": {
-      "emote": "<:soulsand:>"
+      "emote": "<:soulsand:564198566604570639>"
     },
     "Netherrack": {
-      
+      "emote": "<:netherrack:564198987737858060>"
     },
     "Nether Quartz": {
       
@@ -84,6 +82,7 @@
       
     }
   },
+
   "Other": {
     "Flint And Steel": {
       "emote": "<:flintandsteel:564003931840315393>"
@@ -92,7 +91,7 @@
       "emote": ""
     }
   },
-  "food": {
+  "Food": {
     "Apple": {
       "emote": "<:apple:561543611804549151>",
       "energy": 10

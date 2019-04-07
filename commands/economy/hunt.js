@@ -30,7 +30,7 @@ React with :regional_indicator_t: to tame it and :regional_indicator_k: to kill 
   }
       console.log(result)
   for(const r in result) {
-    let e = client.items.Materials[r] ||  client.items.food[r]
+    let e = client.items.Materials[r] ||  client.items.Food[r]
     m += `\n ${e.emote} ${r} x${result[r]}`
   }
   m += `**`

@@ -19,16 +19,22 @@ exports.run = async (client, message, args) => {
   let p = pickaxe = client.tools.Tools[pickaxe]
   let result = {}
   let m = `**${message.author.username} mined with a ${p.emote} and found`
-  for(const mat in p.drops) {
-    if(p.drops[mat][2] && Math.random() > p.drops[mat][2]) continue;
-        result[mat] = Math.floor(Math.random() * p.drops[mat][1]) + p.drops[mat][0]
-    inventory.materials[mat] += result[mat];
+  let drops = p.drops;
+  if(inventory.dimension !== 'Overworld'){ 
+    drops = p[inventory.dimension];
+  }
+  if(!drops) return message.channel.send(`Cannot mine with this pickaxe in the ${inventory.dimension}`)
+  for(const mat in drops) {
+    if(drops[mat][2] && Math.random() > drops[mat][2]) continue;
+      result[mat] = Math.floor(Math.random() * drops[mat][1]) + drops[mat][0]
+      inventory.materials[mat] ? inventory.materials[mat] += result[mat] : inventory.materials[mat] = result[mat]
   }
   for(const r in result) {
-    let emote = client.items.Materials[r].emote
+    let emote = mines[r].emote
     m += `\n ${emote} ${r} x${result[r]}`
   }
   m += `**`
+  // console.log(inventory)
   await db.set(`inventory_${message.author.id}`, inventory)
   let embed = new discord.MessageEmbed()
   .setTitle('Mine')

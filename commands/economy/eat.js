@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
   let a = args.join(' ').toProperCase()
   let f = inventory.food[a]
   if(!f) return message.channel.send('Could not find that food in your inventory. Use `s!eat [food]` to eat food and use `s!inv` to see all the food you have in your inventory')
-  let food = client.items.food[a]
+  let food = client.items.Food[a]
   console.log(food)
   let embed = new discord.MessageEmbed()
   .setTitle('Eat')

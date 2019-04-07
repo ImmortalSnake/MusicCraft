@@ -17,7 +17,7 @@ exports.run = async (client, message, args) => {
   .setTitle('Cook')
   .setColor('#206694')
   .setFooter(message.author.username, message.author.displayAvatarURL())
-  .setDescription(`Successfully cooked a ${c} ${client.items.food[c].emote}.
+  .setDescription(`Successfully cooked a ${c} ${client.items.Food[c].emote}.
 Use \`s!eat ${c}\` to eat it`)
   await db.set(`inventory_${message.author.id}`, inventory)
   message.channel.send(embed)

@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   let tool = find(client, t)
   if(!tool) return message.channel.send('Could not find that tool')
   if(!tool.materials ) return message.channel.send('That item is not craftable right now')
-  let emo = tool.emote || client.items.food[t].emote
+  let emo = tool.emote || client.items.Food[t].emote
   let res = {}
   let m = `Recipe for ${t} ${emo}\n**`
   for(const mat in tool.materials) {
@@ -21,7 +21,7 @@ exports.run = async (client, message, args) => {
   }
   }
   for(const t in res) {
-    let e = client.items.Materials[t.toProperCase()] || client.items.food[t.toProperCase()] || client.items.Other[t.toProperCase()]
+    let e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.items.Other[t.toProperCase()]
     m += `${t} ${e.emote} x${res[t]}\n`
   }
   m += `**`

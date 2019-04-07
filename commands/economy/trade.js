@@ -60,7 +60,7 @@ exports.run = async (client, message, args) => {
           res[c] = trade.give[c] || 0
         }
         for(const v in res) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:'}
           g += `${v}${e.emote} x${res[v]}\n`
         }
         /////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ exports.run = async (client, message, args) => {
           foo[c] = trade2.give[c] || 0
         }
         for(const v in foo) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:'}
           r += `${v}${e.emote} x${foo[v]}\n`
         }
         g += `**`
@@ -96,7 +96,7 @@ exports.run = async (client, message, args) => {
           res[c] = trade.give[c] || 0
         }
         for(const v in res) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:'}
           g += `${v}${e.emote} x${res[v]}\n`
         }
         /////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ exports.run = async (client, message, args) => {
           foo[c] = trade2.give[c] || 0
         }
         for(const v in foo) {
-          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.food[v] || { emote: ':dollar:'}
+          let e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:'}
           r += `${v}${e.emote} x${foo[v]}\n`
         }
         g += `**`
@@ -247,6 +247,8 @@ React to confirm or deny the trade request`)
         return;
       }
       else if(r.emoji.name == '✅') {
+  inventory2 = await db.fetch(`inventory_${user.id}`)
+  if(inventory2.trade.trades) return message.channel.send(user.user.username+ ' is already in a trade with someone else')
   let cembed = new discord.MessageEmbed()
   .setTitle('Trade Request Confirmed')
   .setColor('#206694')
@@ -295,7 +297,7 @@ async function ifind(client, item, inventory) {
     return [client.tools.Tools[item], t]
   }
   else if(f && f > 0) {
-    return [client.items.food[item], f]
+    return [client.items.Food[item], f]
   }
   else return false;
 }

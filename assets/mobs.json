@@ -78,42 +78,44 @@
   "Wither Skeleton": {
     "hp": 200,
     "dmg": 150,
-    "rewards": [2000]
+    "rewards": [300]
   }, 
   "Zombie Pigman": {
-    
+    "hp": 200,
+    "dmg": 150,
+    "rewards": [400]
   },
   "Magma Cube": {
-    
+    "hp": 200,
+    "dmg": 150,
+    "rewards": [500]
   },
   "Ghast": {
     "name": "Ghast",
     "hp": 300,
     "dmg": 300,
-    "rewards": [7500]
+    "rewards": [750]
   }, 
   "Blaze": {
     "hp": 400,    
     "name": "Blaze",
-    "description": "xxx",
     "dmg": 350,
-    "rewards": [10000]
+    "rewards": [1000]
   }, 
   "Wither": {
     "name": "Wither",
-    "description": "xxx",
     "hp": 1000,
     "dmg": 1000,
-    "rewards": [25000]
+    "rewards": [2500]
    }
   },
 "End": {
   "Shulker": {
-    "name": "Ender Dragon",
+    "name": "Shulker",
     "description": "xxx",
     "hp": 1000,
     "dmg": 1000,
-    "rewards": [1000000]
+    "rewards": [10000]
   },
   "Ender Dragon": {
     "name": "Ender Dragon",

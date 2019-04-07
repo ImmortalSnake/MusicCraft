@@ -8,9 +8,9 @@ module.exports.run = async (client, message, args) => {
   let total = db.all().filter(b=>b.ID.startsWith('balance'))
   for(let i = 0; i< total.length; i++) {
     let bank = await db.fetch(`bank_${total[i].ID.split('_')[1]}`)
-    total[i].data = total[i].data + bank;
+    total[i].data += bank;
   }
-  let money = sort(total, 'data', { reverse: true})
+  let money = total.sort((a,b) => (a.data > b.data) ? -1 : ((b.data > a.data) ? 1 : 0));
   let content = "";
   let pos
     for(let i = 0; i < money.length; i++) {
