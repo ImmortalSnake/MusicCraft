@@ -9,7 +9,7 @@ module.exports.run = async (client, msg, args) => {
 				To run commands, use \`${prefix}command\`.
 			`);
 		}
-
+  if(args[0].length > 5) return msg.channel.send('The prefix cannot be more than 5 characters long')
 		// Check the user's permission before changing anything
 		if(msg.guild) {
 			if(!msg.member.hasPermission('ADMINISTRATOR') && !client.isOwner(msg.author)) {

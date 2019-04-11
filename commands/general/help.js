@@ -1,6 +1,8 @@
-exports.run = (client, message, args, level) => {
+const discord = require('discord.js')
+
+exports.run = (client, message, args) => {
   // If no specific command is called, show all filtered commands.
-  if (!args[0]) {
+  /*if (!args[0]) {
     // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
     const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
 
@@ -28,6 +30,22 @@ exports.run = (client, message, args, level) => {
       command = client.commands.get(command);
       message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
     }
+  }*/
+  if(args[0]) {
+    const t = args[0].toLowerCase()
+    const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
+    const groups = client.groups
+    let command = myCommands.get(t)
+    let group = groups.get(t)
+    if(group) {
+      let m = group.map(c => c.help.name)
+      message.channel.send(m)
+    } else if(command) {
+      message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
+    }
+  } else {
+    let embed = new discord.MessageEmbed()
+    .setColor('#206694')
   }
 };
 

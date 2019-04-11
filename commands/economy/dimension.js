@@ -40,7 +40,7 @@ exports.run = async (client, message, args) => {
 
 exports.conf = {
   aliases: ['dim'],
-  enabled: false,
+  enabled: true,
   guildOnly: true
 };
 

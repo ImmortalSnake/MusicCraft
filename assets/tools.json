@@ -22,6 +22,7 @@
     "Iron Sword": {
       "uses": 50,
       "dmg": 20,
+      "critical": 40,
       "type": "Normal",
       "emote": "<:ironsword:562706380642058244>",
       "materials": {
@@ -32,6 +33,7 @@
     "Gold Sword": {
       "uses": 50,
       "dmg": 40,
+      "critical": 50,
       "type": "Normal",
       "emote": "<:goldsword:563669379917545473>",
       "materials": {
@@ -43,10 +45,11 @@
     "Diamond Sword": {
       "uses": 50,
       "dmg": 1,
+      "critical": 60,
       "type": "Normal",
       "emote": "",
       "materials": {
-       "wood": 1000,
+        "wood": 1000,
         "gold": 50,
         "diamond": 40
       }
@@ -251,6 +254,15 @@
         "gold": 50,
         "diamond": 30
       }
+    },
+    "Fishing Rod": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:diamondhoe:>",
+      "materials": {
+        "wood": 200,
+        "stone": 50
+      }
     }
   },
   "Other": {
@@ -310,8 +322,29 @@
     "Iron Helmet": {
       "uses": 50,
       "type": "Armor",
-      "health": 20,
+      "critical": [0.20, -10],
       "emote": "<:ironhelmet:563676246018621485>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+   "Iron Boots": {
+      "uses": 50,
+      "type": "Armor",
+      "speed": 20,
+      "emote": "<:ironboots:565210164324597801>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+    "Iron Chestplate": {
+      "uses": 50,
+      "type": "Armor",
+      "health": 20,
+      "defense": [10, 20],
+      "emote": "<:ironchestplate:565210502503071754>",
       "materials": {
         "iron": 50,
         "coal": 100

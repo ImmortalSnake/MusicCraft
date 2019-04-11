@@ -3,15 +3,21 @@
 "Overworld": {
   "Villager" : {
     "hp": 100,
+    "cdef": [0.5, 0],
+    "crit": 22,
     "dmg": 11,
+    "speed": 10,
     "drops": ["Common", 0.50],
     "rewards": [1, 10],
     "xp": [2, 5],
-    "emote": "https://cdn.glitch.com/a3a5c7af-abbd-47a8-bfce-1c791df303ce%2Fimage.png?1554057925892"
+    "emote": ""
    },
   "Zombie": {
     "hp": 115,
+    "cdef": [0.5, 0],
+    "crit": 30,
     "dmg": 18,
+    "speed": 8,
     "xp": [4, 8],
     "drops": ["Common", 0.75],
     "rewards": [25, 5],
@@ -19,7 +25,10 @@
   },
   "Skeleton": {
     "hp": 120,
-    "dmg": 30,
+    "dmg": 20,
+    "cdef": [0.5, 0],
+    "crit": 40,
+    "speed": 10,
     "xp": [7, 10],
     "drops": ["Common", 1],
     "rewards": [5, 10],
@@ -27,7 +36,10 @@
   },
   "Creeper": {
     "hp": 130,
+    "cdef": [0.75, 0],
+    "crit": 100,
     "dmg": 40,
+    "speed": 10,
     "xp": [10, 12],
     "rewards": [75, 15],
     "drops": ["Uncommon", 0.25],
@@ -35,7 +47,10 @@
   },
   "Enderman": {
     "hp": 150,
+    "cdef": [0.4, 0],
+    "crit": 60,
     "dmg": 50,
+    "speed": 18,
     "xp": [10, 13],
     "rewards": [30],
     "drops": ["Uncommon", 0.25],
@@ -43,7 +58,10 @@
   },
   "Slime": {
     "hp": 200,
+    "cdef": [0.3, 0],
+    "crit": 40,
     "dmg": 25,
+    "speed": 11,
     "xp": [2, 5],
     "rewards": [50],
     "drops": ["Uncommon", 0.25],
@@ -52,6 +70,9 @@
   "Silverfish": {
     "hp": 65,
     "dmg": 75,
+    "cdef": [0.1, 0],
+    "crit": 100,
+    "speed": 40,
     "rewards": [75],
     "xp": [2, 5],
     "drops": ["Uncommon", 0.25],
@@ -59,7 +80,10 @@
   },
   "Witch": {
     "hp": 200,
+    "cdef": [0.6, 10],
+    "crit": 80,
     "dmg": 50,
+    "speed": 12,
     "xp": [2, 5],
     "rewards": [100],
     "drops": ["Uncommon", 0.25],
@@ -67,7 +91,10 @@
   },
   "Cave Spider": {
     "hp": 200,
+    "cdef": [0.3, 25],
+    "crit": 90,
     "dmg": 75,
+    "speed": 20,
     "xp": [2, 5],
     "rewards": [150],
     "drops": ["Uncommon", 0.25],

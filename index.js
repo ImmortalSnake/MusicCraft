@@ -49,7 +49,7 @@ fs.readdir(`./commands/`, (err, groups) => {
     commandFunction.conf.aliases.map(alias => bot.aliases.set(alias, commandname));
   });
       console.log(`[Commands]\tLoaded a total amount ${jsfiles.length} commands in ${group}`);
-      bot.groups.set(group, bot.commands.filter(cmd => cmd.help.group))
+      bot.groups.set(group, bot.commands.filter(cmd => cmd.help.group == group))
   })
   })
 });
@@ -75,5 +75,6 @@ bot.login(config.token).catch(e => {
 
 process
     .on('uncaughtException', err => console.error(err.stack))
-    .on('unhandledRejection', err => console.error(err.stack));                
+    .on('unhandledRejection', err => console.error(err.stack));      
+
 

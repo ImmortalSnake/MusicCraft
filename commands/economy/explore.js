@@ -36,7 +36,7 @@ exports.run = async (client, message, args) => {
     else crate = crates[4]
     inventory.crates.push(crate)
     inventory.hunger-= 5
-    await db.set(`inventory_${message.author.id}`, inventory)
+   // await db.set(`inventory_${message.author.id}`, inventory)
     embed.setDescription(`You found a ${crate} Crate!!
 Use \`s!crate ${crate}\` to open it!`)
     return message.channel.send(embed)
@@ -47,62 +47,97 @@ async function battle(client, message, embed) {
   let inventory = await db.fetch(`inventory_${message.author.id}`)
   let mobs = Object.keys(client.mobs.Hostile[inventory.dimension])
   let name = mobs.random()
-  let mob = client.mobs.Hostile[inventory.dimension][name]
-  if (inventory.equipped.sword) inventory.attack += client.tools.Tools[inventory.equipped.sword].dmg
+  let stats = await info(client, message.author, name)
+    console.log(stats)
+  // let mob = client.mobs.Hostile[inventory.dimension][name]
+ // if (inventory.equipped.sword) inventory.attack += client.tools.Tools[inventory.equipped.sword].dmg
   embed.setDescription(`You have met a ${name}
 Do you wish to fight?`)
-    .addField('Your stats', 'Health ' + inventory.health + '\nAttack ' + inventory.attack)
-    .addField('Enemy', 'Health ' + mob.hp + '\nAttack ' + mob.dmg)
-    .setThumbnail(mob.emote)
+    .addField('Your stats', 'Health ' + stats.player.hp + '\nAttack ' + stats.player.dmg)
+    .addField('Enemy', 'Health ' + stats.mob.hp + '\nAttack ' + stats.mob.dmg)
+    .setThumbnail(stats.mob.emote)
     let m = await message.channel.send(embed)
   await m.react('✅')
   await m.react('❎')
-  const collector = m.createReactionCollector(
-      (reaction, u) => u.id == message.author.id,
-            { time: 240000 });
+  const collector = m.createReactionCollector((reaction, u) => u.id == message.author.id, { time: 240000 });
   collector.on('collect', async (r) => {
     if(r.emoji.name == '❎'){
         message.channel.send(message.author.username + ' did not accept the fight');
         collector.stop();
       }
       else if(r.emoji.name == '✅') {
-      fight(m, message.author, inventory, mob, mob.hp, message)
+      fight(client, m, stats)
       collector.stop();
       }
     });
     collector.on('end', async (r) => {
-      if(r.size == 0) return message.reply(message.author.username + ' did not accept the fight');
+      if(r.size == 0) return message.reply(message.author.username + ' left the fight');
     });
 }
 
-async function fight(message, user, inventory, mob, hp, mess) {
+async function fight(client, message, stats) {
+  let user = client.users.get(stats.player.id)
   let embed = new discord.MessageEmbed()
   .setTitle('Fight')
   .setDescription('React with 👊 to fight')
-  .addField('Your stats', 'Health ' + inventory.health + '\nAttack ' + inventory.attack)
-  .addField('Enemy', 'Health ' + hp + '\nAttack ' + mob.dmg)
+  .addField('Your stats', 'Health ' + stats.player.hp + '\nAttack ' + stats.player.dmg)
+  .addField('Enemy', 'Health ' + stats.mob.hp + '\nAttack ' + stats.mob.dmg)
   .setColor('#206694')
-  .setAuthor(message.author.username, message.author.displayAvatarURL())
-  .setThumbnail(mob.emote)
+  .setAuthor(user.username, user.displayAvatarURL())
+  .setThumbnail(stats.mob.emote)
   let m = await message.edit(embed)
   await m.react('👊')
-  const collector = m.createReactionCollector(
-      (reaction, u) => u.id === user.id,
-      { time: 240000 });
+  const collector = m.createReactionCollector((reaction, u) => u.id === user.id, { time: 240000 });
   collector.on('collect', async (r) => {
       if(r.emoji.name == '👊') {
-      inventory.health = inventory.health - Math.floor(Math.random() * mob.dmg * 3)
-      hp = hp - Math.floor(Math.random() * inventory.attack * 3)
-      if(hp <= 0){
-        let xp = Math.floor(Math.random() * mob.xp[1]) + mob.xp[0]
-        let reward = mob.rewards.random()
+      Math.random() > stats.player.cdef[0] ? stats.player.hp -= stats.mob.crit : stats.player.hp -= stats.mob.dmg - Math.ceil(Math.random() * 10)
+      Math.random() > stats.mob.cdef[0] ? stats.mob.hp -=  stats.player.crit : stats.mob.hp -=  stats.player.dmg - Math.ceil(Math.random() * 10)
+
+    if(stats.player.sp > stats.mob.speed) {
+      if(stats.mob.hp <= 0) return win(stats, user, message, collector)
+      else if(stats.player.hp <= 0) return lose(stats, user, message, collector)
+    } else {
+      if(stats.player.hp <= 0) return lose(stats, user, message, collector)
+      else if(stats.mob.hp <= 0) return win(stats, user, message, collector)
+    }
+      await fight(client, message, stats)
+      collector.stop();
+        }
+    });
+    collector.on('end', async (r) => {
+      if(r.size == 0) return message.reply(user.username + ' left the fight like a noob');
+    });
+}
+
+async function info(client, player, mob) {
+  let stats = await db.fetch(`inventory_${player.id}`)
+  let enemy = client.mobs.Hostile[stats.dimension][mob]
+  let x = {}
+  let ne = Object.assign(x, enemy)
+  let p = {
+    hp: stats.health + (stats.equipped.chestplate ? client.tools.Armor[stats.equipped.chestplate].health : 0),
+    dmg: stats.attack + (stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].dmg : 0),
+    crit: stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].critical : 20,
+    def: stats.equipped.chestplate ? client.tools.Armor[stats.equipped.chestplate].defense : [1, 5],
+    cdef: stats.equipped.helmet ? client.tools.Armor[stats.equipped.helmet].critical : [0.5, 0],
+    sp: stats.speed + (stats.equipped.boots ? client.tools.Armor[stats.equipped.boots].speed : 0),
+    luck: stats.luck,
+    id: player.id
+  }
+  let res = { player: p, mob: ne }
+  return res
+}
+
+async function win(stats, user, message, collector) {
+        let xp = Math.floor(Math.random() * stats.mob.xp[1]) + stats.mob.xp[0]
+        let reward = stats.mob.rewards.random()
         let inv = await db.fetch(`inventory_${user.id}`)
         inv.hunger -= 10
         inv.xp += xp;
-        let drops = Math.random() < mob.drops[1] ? mob.drops[0] : ''
-        if(drops) inv.crates.push(mob.drops[0])
-        if (inventory.equipped.sword) inventory.attack -= message.client.tools.Tools[inventory.equipped.sword].dmg
-        await db.set(`inventory_${user.id}`, inv)
+        let drops = Math.random() < stats.mob.drops[1] ? stats.mob.drops[0] : ''
+        if(drops) inv.crates.push(stats.mob.drops[0])
+        console.log(inv)
+       // await db.set(`inventory_${user.id}`, inv)
         let winEmbed = new discord.MessageEmbed()
         .setTitle('You Win')
         .setColor('#206694')
@@ -110,22 +145,15 @@ async function fight(message, user, inventory, mob, hp, mess) {
         .setDescription(`You got ${reward}$ and ${xp} XP
 ${drops ? `You found a ${drops} Crate!\nUse\`s!crate ${drops}\` to open it!` : '' }`)
         message.channel.send(winEmbed)
-        message.client.level(inv, mess)
+        message.client.level(inv, message.channel, user)
         collector.stop();
         return;
-      }
-      if(inventory.health <= 0){ 
-        message.channel.send('You lost')
-        collector.stop();
-        return;
-      }
-      await fight(m, user, inventory, mob, hp, mess)
-      collector.stop();
-        }
-    });
-    collector.on('end', async (r) => {
-      if(r.size == 0) return message.reply(user.username + ' did not fight');
-    });
+}
+
+async function lose(stats, user, message, collector) {
+  message.channel.send('You lost')
+  collector.stop();
+  return;
 }
 
 exports.conf = {

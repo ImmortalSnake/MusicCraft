@@ -8,10 +8,10 @@ exports.run = async (client, message, args) => {
   if(!inventory.tools[t] && !inventory.armor[t]) return message.channel.send('You do not have that tool')
   let type = t.split(' ')[1]
   let tool = client.tools.Tools[t] || client.tools.Armor[t]
-  let oldt = inventory.equipped[type.toLowerCase()]
-  if(inventory.equipped[type.toLowerCase()] && client.tools.Armor[oldt] && client.tools.Armor[oldt].health) inventory.health -= client.tools.Armor[oldt].health
+  // let oldt = inventory.equipped[type.toLowerCase()]
+  // if(inventory.equipped[type.toLowerCase()] && client.tools.Armor[oldt] && client.tools.Armor[oldt].health) inventory.health -= client.tools.Armor[oldt].health
   inventory.equipped[type.toLowerCase()] = t;
-  if(tool.health) inventory.health += tool.health
+  //if(tool.health) inventory.health += tool.health
   console.log(inventory)
   await db.set(`inventory_${message.author.id}`, inventory)
   let embed = new discord.MessageEmbed()

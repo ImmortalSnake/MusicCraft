@@ -42,9 +42,11 @@ exports.run = async (client, message, args) => {
   }
   else {
     let crates = `**`
-    for(let i = 0; i < inventory.crates.length; i++){
-      let e = client.tools.crates[inventory.crates[i]]
-      crates += `${inventory.crates[i]} Crate x${inventory.crates.filter(r => r === inventory.crates[i]).length}\n`
+    let x = inventory.crates
+    for(let i = 0; i < x.length; i++){
+      let e = client.tools.crates[x[i]]
+      crates += `${x[i]} Crate x${x.filter(r => r === x[i]).length}\n`
+      x = x.filter(r => r !== x[i])
     }
     crates += `**`
     if(crates === `****`) crates = 'NO crates found.. Use `s!explore` to find some'

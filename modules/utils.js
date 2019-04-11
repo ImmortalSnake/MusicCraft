@@ -15,6 +15,8 @@ module.exports = (client) => {
   client.defaultInventory = {
     health: 100,
     attack: 10,
+    speed: 10,
+    luck: 0,
     dimension: 'Overworld',
     xp: 0,
     level: 1,
@@ -83,7 +85,7 @@ module.exports = (client) => {
     work: [10, 1], // max and minimum note: maximum is the sum of both. so in this case it will be
     rob: [50, 0], // dont rob lul
     fine: [50, 25],
-    exploreTimer: 3600 * 1000,
+    exploreTimer: 3600 * 1,
     rhunger: 86400000,
     villageTime: 10800000,
     cooldown: {
