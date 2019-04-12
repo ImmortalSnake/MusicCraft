@@ -1,28 +1,15 @@
-const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const config = process.env
 const yt_api_key = config.yt_api_key;
 const youtube = new YouTube(yt_api_key);
 
-module.exports = class PlayMusicCommand extends commando.Command { // important
-    constructor(client) { // important
-        super(client, { // important
-            name: 'playlist', // no caps no spaces. this is the command name
-            group: 'music', // the group name the command is in
-            memberName: 'playlist', // should be same as the name
-            description: 'Searches and Play\'s a music.', // change this the '\' allows you to put a '
-            guildOnly: true,
-            fotmat: '[music]'
-        });
-    }
-
-    async run(message, args) {
+module.exports.run = async (client, message, args) => {
   try{ 
    let queue = global.guilds[message.guild.id];
       if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = message.client.utils.defaultQueue;
       queue = global.guilds[message.guild.id];
-           const voiceChannel = message.member.voiceChannel;
+           const voiceChannel = message.member.voice.channel;
 	         const url = args ? args.replace(/<(.+)>/g, '$1') : ''
 
             if (!voiceChannel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
@@ -63,5 +50,18 @@ module.exports = class PlayMusicCommand extends commando.Command { // important
   catch(e) {
     console.log(e)
   }
-    }
+}
+
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: true
+};
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'playlist',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'playlist [command]'
 }

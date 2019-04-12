@@ -1,4 +1,3 @@
-const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 const getArtistTitle = require('get-artist-title');
 const axios = require('axios');
@@ -6,19 +5,7 @@ const cheerio = require('cheerio');
 const settings = process.env
 const baseURL = `https://api.genius.com/search?access_token=${settings.GENIUS}`;
 
-module.exports = class PauseCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'lyrics',
-            group: 'music',
-            memberName: 'lyrics',
-            description: 'Pauses the music for ya',
-            guildOnly: true,
-            format: '[song]'
-        });
-    }
-
-    async run(message, args) {
+module.exports.run = async (client, message, args) => {
 if(!args && !global.guilds[message.guild.id]) return;
 let find = args || global.guilds[message.guild.id].queue[0].title
 const query = createQuery(find);
@@ -38,8 +25,22 @@ searchLyrics(`${baseURL}&q=${encodeURIComponent(query)}`)
     message.channel.send(`No lyrics found for: ${query} 🙁`, {code:'asciidoc'});
     console.warn(err);
   });
-  }
+}
+
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: true,
+  cooldown: 10000
 };
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'lyrics',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'lyrics [command]'
+}
 
 const scrapeLyrics = path => {
   return axios.get(path)

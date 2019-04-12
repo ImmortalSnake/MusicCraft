@@ -1,0 +1,178 @@
+{
+"Hostile": {
+"Overworld": {
+  "Villager" : {
+    "hp": 100,
+    "cdef": [0.5, 0],
+    "crit": 22,
+    "dmg": 11,
+    "speed": 10,
+    "drops": ["Common", 0.50],
+    "rewards": [1, 10],
+    "xp": [2, 5],
+    "emote": ""
+   },
+  "Zombie": {
+    "hp": 115,
+    "cdef": [0.5, 0],
+    "crit": 30,
+    "dmg": 18,
+    "speed": 8,
+    "xp": [4, 8],
+    "drops": ["Common", 0.75],
+    "rewards": [25, 5],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/thumb/c/c3/Zombie.png/163px-Zombie.png?version=eabe7e4971cda3b6cd28a35de2af8d3c"
+  },
+  "Skeleton": {
+    "hp": 120,
+    "dmg": 20,
+    "cdef": [0.5, 0],
+    "crit": 40,
+    "speed": 10,
+    "xp": [7, 10],
+    "drops": ["Common", 1],
+    "rewards": [5, 10],
+    "emote": "https://vignette.wikia.nocookie.net/minecraft/images/2/23/Skeleton.png/revision/latest?cb=20130120052248"
+  },
+  "Creeper": {
+    "hp": 130,
+    "cdef": [0.75, 0],
+    "crit": 100,
+    "dmg": 40,
+    "speed": 10,
+    "xp": [10, 12],
+    "rewards": [75, 15],
+    "drops": ["Uncommon", 0.25],
+    "emote": "http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c2f7.png"
+  },
+  "Enderman": {
+    "hp": 150,
+    "cdef": [0.4, 0],
+    "crit": 60,
+    "dmg": 50,
+    "speed": 18,
+    "xp": [10, 13],
+    "rewards": [30],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://vignette.wikia.nocookie.net/minecraft/images/0/05/Enderman_normal.png/revision/latest?cb=20130724211158"
+  },
+  "Slime": {
+    "hp": 200,
+    "cdef": [0.3, 0],
+    "crit": 40,
+    "dmg": 25,
+    "speed": 11,
+    "xp": [2, 5],
+    "rewards": [50],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/3/38/Slime.png"
+  },
+  "Silverfish": {
+    "hp": 65,
+    "dmg": 75,
+    "cdef": [0.1, 0],
+    "crit": 100,
+    "speed": 40,
+    "rewards": [75],
+    "xp": [2, 5],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/b/b9/Silverfish.png"
+  },
+  "Witch": {
+    "hp": 200,
+    "cdef": [0.6, 10],
+    "crit": 80,
+    "dmg": 50,
+    "speed": 12,
+    "xp": [2, 5],
+    "rewards": [100],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/e/e6/Witch.png"
+  },
+  "Cave Spider": {
+    "hp": 200,
+    "cdef": [0.3, 25],
+    "crit": 90,
+    "dmg": 75,
+    "speed": 20,
+    "xp": [2, 5],
+    "rewards": [150],
+    "drops": ["Uncommon", 0.25],
+    "emote": "https://gamepedia.cursecdn.com/minecraft_gamepedia/6/60/Cave_Spider.png"
+  }
+},
+"Nether": {
+  "Wither Skeleton": {
+    "hp": 200,
+    "dmg": 150,
+    "rewards": [300]
+  }, 
+  "Zombie Pigman": {
+    "hp": 200,
+    "dmg": 150,
+    "rewards": [400]
+  },
+  "Magma Cube": {
+    "hp": 200,
+    "dmg": 150,
+    "rewards": [500]
+  },
+  "Ghast": {
+    "name": "Ghast",
+    "hp": 300,
+    "dmg": 300,
+    "rewards": [750]
+  }, 
+  "Blaze": {
+    "hp": 400,    
+    "name": "Blaze",
+    "dmg": 350,
+    "rewards": [1000]
+  }, 
+  "Wither": {
+    "name": "Wither",
+    "hp": 1000,
+    "dmg": 1000,
+    "rewards": [2500]
+   }
+  },
+"End": {
+  "Shulker": {
+    "name": "Shulker",
+    "description": "xxx",
+    "hp": 1000,
+    "dmg": 1000,
+    "rewards": [10000]
+  },
+  "Ender Dragon": {
+    "name": "Ender Dragon",
+    "description": "xxx",
+    "hp": 1000,
+    "dmg": 1000,
+    "rewards": [1000000]
+   }
+  }
+ },
+  "Animals": {
+    "Cow" : {
+      "drops": {"Raw Beef": [1, 1], "Leather": [0, 2]},
+      "farm": ["Milk"],
+      "emote": "<:cow:562750581211660298>"
+    },
+    "Sheep" : {
+      "drops": {"Raw Mutton": [1, 1]},
+      "farm": ["Wool"],
+      "emote": "<:sheep:562750874720403458>"
+    },
+    "Chicken" : {
+      "drops": {"Raw Chicken": [1, 1]},
+      "farm": ["Egg"],
+      "emote": "<:chicken:562750163710509066>"
+    },
+    "Pig" : {
+      "drops": {"Raw Porkchop": [1, 1]},
+      "farm": [],
+      "emote": "<:pig:562750898116493330>"
+    }
+  }
+}

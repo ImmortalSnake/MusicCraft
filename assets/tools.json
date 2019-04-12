@@ -1,0 +1,379 @@
+{
+  "Tools": {
+    "Wooden Sword": {
+      "uses": 50,
+      "dmg": 5,
+      "type": "Normal",
+      "emote": "<:woodensword:562706322467061760>",
+      "materials": {
+       "wood": 60
+      }
+    },
+    "Stone Sword": {
+      "uses": 50,
+      "dmg": 10,
+      "type": "Normal",
+      "emote": "<:stonesword:562706351973728258>",
+      "materials": {
+        "wood": 100,
+        "stone": 20
+      }
+    },
+    "Iron Sword": {
+      "uses": 50,
+      "dmg": 20,
+      "critical": 40,
+      "type": "Normal",
+      "emote": "<:ironsword:562706380642058244>",
+      "materials": {
+       "wood": 120,
+       "iron": 50
+      }
+    },
+    "Gold Sword": {
+      "uses": 50,
+      "dmg": 40,
+      "critical": 50,
+      "type": "Normal",
+      "emote": "<:goldsword:563669379917545473>",
+      "materials": {
+       "wood": 500,
+       "iron": 100,
+       "gold": 40
+      }
+    },
+    "Diamond Sword": {
+      "uses": 50,
+      "dmg": 1,
+      "critical": 60,
+      "type": "Normal",
+      "emote": "",
+      "materials": {
+        "wood": 1000,
+        "gold": 50,
+        "diamond": 40
+      }
+    },
+    "Wooden Pickaxe": {
+      "uses": 50,
+      "drops": {
+        "Dirt": [2, 5],
+        "Stone": [0, 2]
+      },
+      "type": "Normal",
+      "emote": "<:woodenpickaxe:560738424576016405>",
+      "materials": {
+      "wood": 30
+      }
+    },
+    "Stone Pickaxe": {
+      "uses": 50,
+      "drops": {
+        "Dirt": [0, 2],
+        "Coal": [0, 2],
+        "Stone": [2, 3],
+        "Iron": [0, 2, 0.2]
+      },
+      "type": "Normal",
+      "emote": "<:stonepickaxe:560738938000769026>",
+      "materials": {
+        "wood": 100,
+        "stone": 40
+      }
+    },
+    "Iron Pickaxe": {
+      "uses": 50,
+      "drops": {
+        "Stone": [1, 2],
+        "Coal": [1, 2],
+        "Iron": [2, 3],
+        "Emerald": [1, 1, 0.05],
+        "Redstone": [1, 1, 0.15],
+        "Lapis": [1, 1, 0.15],
+        "Gold": [1, 1, 0.10],
+        "Diamond": [1, 1, 0.01]
+      },
+      "type": "Normal",
+      "emote": "<:ironpickaxe:560738057003859969>",
+      "materials": {
+        "wood": 100,
+        "coal": 50,
+        "iron": 50
+      }
+    },
+    "Gold Pickaxe": {
+      "uses": 50,
+      "drops": {
+        "Stone": [2, 2],
+        "Coal": [2, 2],
+        "Iron": [2, 2],
+        "Emerald": [1, 1, 0.1],
+        "Redstone": [1, 1, 0.25],
+        "Lapis": [1, 1, 0.25],
+        "Gold": [1, 1, 0.2],
+        "Diamond": [1, 1, 0.08]
+      },
+      "type": "Normal",
+      "emote": "<:goldpickaxe:560738248134098944>",
+      "materials": {
+        "wood": 500,
+        "iron": 300,
+        "gold": 40
+      }
+    },
+    "Diamond Pickaxe": {
+      "uses": 50,
+      "drops": {
+        "Stone": [3, 3],
+        "Coal": [3, 3],
+        "Iron": [3, 3],
+        "Emerald": [1, 1, 0.2],
+        "Redstone": [1, 1, 0.8],
+        "Lapis": [1, 1, 0.8],
+        "Gold": [1, 1, 0.25],
+        "Diamond": [1, 1, 0.1],
+        "Obsidian": [1, 1, 0.2]
+      },
+      "Nether": {
+        "Soul Sand": [1, 1],
+        "Netherrack": [1, 1, 0.4]
+      },
+      "type": "Normal",
+      "emote": "<:diamondpickaxe:560733779703103489>",
+      "materials": {
+        "wood": 1000,
+        "gold": 25,
+        "coal": 100,
+        "iron": 400,
+        "diamond": 40
+      }
+    },
+    "Nether Pickaxe": {
+      "uses": 50,
+      "type": "Normal",
+      "materials": {
+        "diamond": 40,
+        "Nether Quartz": 40
+      }
+    },
+    "Magma Pickaxe": {
+      "uses": 50,
+      "type": "Normal",
+      "materials": {
+        "diamond": 40,
+        "Nether Quartz": 40
+      }
+    },
+    "Wooden Axe": {
+      "uses": 50,
+      "type": "Normal",
+      "drops": [1, 2],
+      "price": 10,
+      "emote": "<:woodenaxe:560778791643774976>",
+      "materials": {
+        "wood": 20
+      }
+    },
+    "Stone Axe": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:stoneaxe:561524214629138452>",
+      "drops": [2, 3],
+      "materials": {
+        "wood": 100,
+        "stone": 30
+      }
+    },
+    "Iron Axe": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:ironaxe:561534665769615364>",
+      "drops": [3, 5],
+      "materials": {
+      "wood": 200,
+      "iron": 50
+      }
+    },
+    "Gold Axe": {
+      "uses": 50,
+      "type": "Normal",
+      "drops": [5, 8],
+      "emote": "<:goldaxe:564018320639131659>",
+      "materials": {
+        "wood": 500,
+        "iron": 200,
+        "gold": 50
+      }
+    },
+    "Diamond Axe": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "",
+      "materials": {
+        "wood": 200,
+        "gold": 50,
+        "diamond": 40
+      }
+   },
+    "Wooden Hoe": {
+      "uses": 50,
+      "type": "Normal",
+      "drops": [0, 2],
+      "emote": "<:woodenhoe:562246996178632707>",
+      "materials": {
+        "wood": 20
+      }
+    },
+    "Stone Hoe": {
+      "uses": 50,
+      "type": "Normal",
+      "drops": [1, 2],
+      "emote": "<:stonehoe:562373671654522881>",
+      "materials": {
+        "wood": 50,
+        "stone": 20
+      }
+    },
+    "Iron Hoe": {
+      "uses": 50,
+      "type": "Normal",
+      "drops": [2, 3],
+      "emote": "<:ironhoe:562373880162025483>",
+      "materials": {
+        "wood": 100,
+        "iron": 40
+      }
+    },
+    "Gold Hoe": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:goldhoe:>",
+      "materials": {
+        "wood": 200,
+        "gold": 40
+      }
+    },
+    "Diamond Hoe": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:diamondhoe:>",
+      "materials": {
+        "wood": 200,
+        "gold": 50,
+        "diamond": 30
+      }
+    },
+    "Fishing Rod": {
+      "uses": 50,
+      "type": "Normal",
+      "emote": "<:diamondhoe:>",
+      "materials": {
+        "wood": 200,
+        "stone": 50
+      }
+    }
+  },
+  "Other": {
+    "Chest": {
+      "size" : 1000,
+      "type": "Other",
+      "emote": "<:chest:562375311740895262>",
+      "materials": {
+         "wood": 750,
+         "iron": 20,
+         "stone": 100
+      }
+    },
+    "Furnace": {
+      "emote": "<:furnace:562957299191382037>",
+      "type": "Other",
+      "onetime": true,
+      "materials": {
+        "wood": 200,
+        "iron": 20,
+        "stone": 100
+      }
+    },
+    "T N T": {
+      "type": "Other",
+      "emote": "<:TNT:563434671854190619>",
+      "materials": {
+        "coal": 50,
+        "iron": 50,
+        "redstone": 25
+      }
+    },
+    "Flint And Steel": {
+      "type": "Other",
+      "emote": "<:flintandsteel:564003931840315393>",
+      "materials": {
+        "coal": 100,
+        "iron": 100
+      }
+    },
+    "Nether Portal": {
+      "emote": "<:netherportal:563464307661078528>",
+      "type": "Other",
+      "onetime": true,
+      "materials": {
+        "obsidian": 25,
+        "iron": 100,
+        "coal": 100,
+        "lapis": 50
+      },
+      "other": {
+        "flint and steel": 4
+      }
+    }
+  },
+  "Armor": {
+    "Iron Helmet": {
+      "uses": 50,
+      "type": "Armor",
+      "critical": [0.20, -10],
+      "emote": "<:ironhelmet:563676246018621485>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+   "Iron Boots": {
+      "uses": 50,
+      "type": "Armor",
+      "speed": 20,
+      "emote": "<:ironboots:565210164324597801>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+    "Iron Chestplate": {
+      "uses": 50,
+      "type": "Armor",
+      "health": 20,
+      "defense": [10, 20],
+      "emote": "<:ironchestplate:565210502503071754>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    }
+  },
+  "crates": {
+    "Common": {
+      "items": { "Cash": [50, 100], "Wood": [30, 50], "Coal": [10, 20], "Apple": [1, 3] }
+    },
+    "Uncommon": {
+      "items": { "Cash": [100, 50], "Wood": [50, 100], "Iron": [5, 10], "Apple": [2, 5], "Redstone": [1, 2], "Lapis": [0, 2] }
+    },
+    "Rare": {
+      "items": { "Cash": [500, 700], "Wood": [100, 200], "Iron": [20, 50], "Milk": [6, 4], "Redstone": [3, 6], "Lapis": [3, 6], "Gold": [2, 5], "Diamond": [0, 2], "Emerald": [1, 4] }
+    },
+    "Epic": {
+      "items": { "Cash": [1000, 500], "Wood": [100, 300], "Iron": [10, 60], "Redstone": [10, 14], "Lapis": [10, 13], "Diamond": [1, 3], "Gold": [4, 10], "Emerald": [2, 6], "Milk": [2, 7], "Cooked Chicken": [2, 10]}
+    },
+    "Legendary": {
+      "items": {}
+    }
+  }
+}

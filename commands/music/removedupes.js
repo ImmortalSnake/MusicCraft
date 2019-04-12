@@ -1,20 +1,7 @@
-const commando = require('discord.js-commando');
 const discord = require('discord.js');
 
-class VolumeCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'removedupes',
-            group: 'music',
-            aliases: ['rd'],
-            memberName: 'removedupes',
-            description: 'Clears the music queue for ya',
-            guildOnly: true,
-        });
-    }
-
-    async run(message, args) {
-  if (!message.member.voiceChannel) return message.reply('You are not in a voice channel!');
+module.exports.run = async (client, message, args) => {
+  if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
     let guildq = global.guilds[message.guild.id];
     if (!guildq) guildq = message.client.utils.defaultQueue;
 		if (!guildq.queue[0]) return message.reply('There is nothing playing.');
@@ -23,9 +10,21 @@ class VolumeCommand extends commando.Command {
       let nq = global.guilds[message.guild.id].queue.length
       message.reply(`The queue dupes has been cleared by ${message.author}. \`${old-nq}\` songs removed `);
     }
-}
 
-module.exports = VolumeCommand;
+
+exports.conf = {
+  aliases: ['rd'],
+  enabled: true,
+  guildOnly: true
+};
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'removedupes',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'removedupes [command]'
+}
 
 function rd(q) {
   let nq = []

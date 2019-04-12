@@ -1,46 +1,68 @@
-const commando = require('discord.js-commando');
-const discord = require('discord.js');
+const discord = require('discord.js')
 
-class SuggestCommand extends commando.Command {
-  constructor(client) {
-    super(client, {
-      name: 'help',
-      group: 'general',
-      memberName: 'help',
-      examples: ['help', 'help prefix'],
-      format: 'help [command]',
-      description: 'Shows you a list of commands or detailed information about a command',
-    });
-  }
+exports.run = (client, message, args) => {
+    let embed = new discord.MessageEmbed()
+    .setColor('#206694')
+  if(args[0]) {
+    const t = args[0].toLowerCase()
+    const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
+    const groups = client.groups
+    let command = myCommands.get(t)
+    let group = groups.get(t)
+    if(group) {
+      embed.setTitle(t.toProperCase())
+      .setDescription(`
+${group.size} commands in ${t.toProperCase()}
 
-  async run(message, args) {
-const bot = message.client
-if(!args) {
-  let embed = new discord.RichEmbed()
-  .setTitle(`Commands List (${bot.registry.commands.size})`)
-  .setColor('GREEN')
-  .setAuthor(message.author.username, message.author.displayAvatarURL)
-  .setDescription(`The prefix for ${message.guild.name} is \`?\`.
-\nA list of SnakeBot's Commands can be found here \n[Commands list](https://snakebot-disc.glitch.me/commands)
-\nJoin the support server for more info\n[Support Server](https://discord.gg/b8S3HAw).
-\nUse \`${message.guild.commandPrefix}help [command]\` to view detailed information about a specific command.`)
-  message.channel.send(embed);
-}
-else if(bot.registry.commands.some(c=> c.name == args.toLowerCase() || c.aliases.includes(args.toLowerCase()))) {
-  let cmd = bot.registry.commands.find(c=> c.name == args.toLowerCase() || c.aliases.includes(args.toLowerCase()))
-  let embed = new discord.RichEmbed()
-  .setTitle(`**${cmd.name}**`)
-  .setColor('GREEN')
-  .setAuthor(message.author.username, message.author.displayAvatarURL)
-  .setDescription(`
-\n**Description:**\n\`${cmd.description}\`
-\n**Group:** ${cmd.group.name} ${(cmd.guildOnly) ? `**\`[Server Only]\`**` : ''}
-\n**Usage:**\n ${cmd.usage(cmd.format, message.guild.commandPrefix)}
-\n${((cmd.aliases && cmd.aliases[0]) ? `**Aliases:**\n \`${cmd.aliases.join(', ')}\`` : '')}
-\n${((cmd.details) ? `**Details:**\n \`${cmd.details}\`` : '')}
-\n${((cmd.examples) ? `**Examples:**\n \`${cmd.examples.join('\n')}\`` : '')}`);
-  message.channel.send(embed);
-}
-}
+Use \`s!help [command]\` to view detailed information about a command${group.map(c => '\n\n**s!' + c.help.name + '**\n' + c.help.description)}
+`)
+     return message.channel.send(embed)
+    } else if(command) {
+      embed.setTitle(command.help.name.toProperCase())
+      .setDescription(`
+**Group** ${command.help.group.toProperCase()}
+
+**Description**
+${command.help.description}
+
+**Usage**
+${command.help.usage}
+${command.conf.aliases[0] ? '\n**Aliases**\n`' + command.conf.aliases.join(", ") + '`' : ''}
+${command.conf.examples ? '\n**Examples**\n`' + command.conf.examples.join('\n') + '`' : ''}
+`)
+      return message.channel.send(embed);
+    }
+  }  
+    embed.setDescription(`
+**Commands List ${client.commands.size}**
+
+The prefix for ${message.guild ? message.guild.name : client.user.username} is \`${message.guild ? message.guild.prefix : client.prefix}\`
+
+Use \`s!help [command]\` to view detailed information about the command
+
+Use \`s!help [group]\` to view all the commands in the group
+
+\`s!help fun\` to view all fun commands
+\`s!help economy\` to view all economy commands
+\`s!help music\` to view all music commands
+\`s!help general\` to view all basic commands
+
+Join the support server for further help!
+
+Documentation coming soon!`)
+    return message.channel.send(embed)
 };
-module.exports = SuggestCommand;
+
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: ["h", "halp"],
+  permLevel: "User"
+};
+
+exports.help = {
+  name: "help",
+  group: "general",
+  description: "Displays all the available commands for your permission level.",
+  usage: "help [command]"
+};

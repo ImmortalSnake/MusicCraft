@@ -1,20 +1,16 @@
-const commando = require('discord.js-commando');
-const { oneLine } = require('common-tags');
-const discord = require('discord.js');
+module.exports.run = async (client, message) => {
+  message.channel.send(`🏓 API: \`${Math.round(client.ws.ping)}\`, Latency: \`${Date.now() - message.createdTimestamp}\``)
+}
 
-module.exports = class SettingsCommand extends commando.Command {
-  constructor(client) {
-    super(client, {
-      name: 'ping',
-      group: 'general',
-      memberName: 'ping',
-      description: 'Shows the current latency of the bot',
-      guarded: true,
-    });
-  }
-  async run(message, args) {
-    message.channel.send('Pinging..').then(m => { 
-    m.edit(`🏓 API: \`${Math.round(message.client.ping)}\`    Latency: \`${Date.now() - m.createdTimestamp}\``)
-    })
-  }
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: false
+}
+
+exports.help = {
+  name: 'ping',
+  description: 'Shows API / Latency ping.',
+  group: 'general',
+  usage: 'ping'
 }

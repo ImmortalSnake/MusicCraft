@@ -1,0 +1,206 @@
+{
+  "Fish": {
+    "trash": {
+      "price": 0,
+      "name": "trash",
+      "emote": "🗑"
+    },
+    "fish": {
+      "price": 25,
+      "name": "fish",
+      "emote": "🐟"
+    },
+    "crab": {
+      "price": 50,
+      "name": "crab",
+      "emote": "🦀"
+    },
+    "shark": {
+      "price": 100,
+      "name": "shark",
+      "emote": "🦈"
+    }
+  },
+  "Materials": {
+    "Leather": {
+      "emote": "<:leather:561523052031246366>"
+    },
+    "Dirt": {
+      "emote": "<:dirt:560747473258414080>",
+      "price": 0.5
+    },
+    "Wood": {
+      "emote": "<:wood:560737837083787285>",
+      "price": 1
+    },
+    "Coal": {
+      "emote": "<:coal:560905931387568130>",
+      "price": 2
+    },
+    "Stone": {
+      "emote": "<:stone:560736050448695296>",
+      "price": 2
+    },
+    "Iron": {
+      "emote": "<:iron:560736100054859802>",
+      "price": 5
+    },
+    "Lapis": {
+      "emote": "<:lapis:560905093344395268>",
+      "price": 25
+    },
+    "Redstone": {
+      "emote": "<:redstone:560905123539451956>",
+      "price": 25
+    },
+    "Gold": {
+      "emote": "<:gold:560733707351097354>",
+      "price": 50
+    },
+    "Emerald": {
+      "emote": "<:emerald:560905906414682124>",
+      "price": 75
+    },
+    "Diamond": {
+      "emote": "<:diamond:560734378393862146>",
+      "price": 100
+    },
+    "Obsidian": {
+      "emote": "<:obsidian:563437424399613953>",
+      "price": 20
+    },
+    "Soul Sand": {
+      "emote": "<:soulsand:564198566604570639>"
+    },
+    "Netherrack": {
+      "emote": "<:netherrack:564198987737858060>"
+    },
+    "Nether Quartz": {
+      
+    },
+    "Magma": {
+      
+    }
+  },
+
+  "Other": {
+    "Flint And Steel": {
+      "emote": "<:flintandsteel:564003931840315393>"
+    },
+    "Dark Matter": {
+      "emote": ""
+    }
+  },
+  "Food": {
+    "Apple": {
+      "emote": "<:apple:561543611804549151>",
+      "energy": 10
+    },
+    "Carrot": {
+      "emote": "<:carrot:561543767103111168>",
+      "energy": 3
+    },
+    "Potato": {
+      "emote": "<:potato:561544134330941444>",
+      "energy": 3
+    },
+    "Egg": {
+      "emote": "<:egg:561544313478316033>",
+      "energy": 20
+    },
+    "Wheat": {
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 2
+    },
+    "Raw Chicken": {
+      "emote": "<:rawchicken:562937076178485268>",
+      "energy": -10
+    },
+    "Cooked Chicken": {
+      "emote": "<:cookedchicken:562746672057155613>",
+      "energy": 50
+    },
+    "Mushroom": {
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 20
+    },
+    "Sugar": {
+      "emote": "<:wheat:561544489194356756>",
+      "energy": 18
+    },
+    "Milk": {
+      "emote": "<:milk:561544638800986144>",
+      "energy": 25
+    },
+    "Pumpkin": {},
+    "Cocoa": {
+      "emote": "<:cocoa:563620422097305603>"
+    },
+    "Bread": {
+      "emote": "<:bread:562961357746733058>",
+      "energy": 40
+    },
+    "Golden Apple": {
+      "emote": "<:goldenapple:>"
+    },
+    "Raw Beef": {
+      "emote": "<:rawbeef:562937991350321152>",
+      "energy": -10
+    },
+    "Raw Mutton": {
+      "emote": "<:rawmutton:562938203527577600>",
+      "energy": -10
+    },
+    "Raw Porkchop": {
+      "emote": "<:rawporkchop:562938729879175178>",
+      "energy": -10
+    },
+    "Raw ": {},
+    "Baked Potato": {
+      "emote": "<:bakedpotato:563672677123096576>",
+      "energy": 50
+    },
+    "Cookie": {
+      "emote": "<:cookie:563417969254727681>",
+      "energy": 100
+    }
+  },
+  "recipes": {
+    "Cooked Chicken": {
+      "materials": {
+        "Raw Chicken": 1,
+        "Coal": 20
+      }
+    },
+    "Cooked Beef": {
+      
+    },
+    "Cooked Porkchop": {
+      
+    },
+    "Cooked Mutton": {
+      
+    },
+    "Bread": {
+      "materials": {
+        "Wheat": 10,
+        "Coal": 10
+      }
+    },
+   "Baked Potato": {
+      "materials": {
+        "Potato": 10,
+        "Coal": 30,
+        "Wheat": 5
+      }
+    },
+    "Cookie": {
+      "materials": {
+        "Wheat": 10,
+        "Cocoa": 10,
+        "Milk": 1,
+        "Coal": 50
+      }
+    }
+  }
+}

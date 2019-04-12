@@ -1,17 +1,4 @@
-const commando = require('discord.js-commando');
-
-class LeaveChannelCommand extends commando.Command {
-    constructor(client) {
-        super(client, {
-            name: 'leave',
-            group: 'music',
-            memberName: 'leave',
-            description: 'leaves the voice channel xD',
-            guildOnly: true,
-        });
-    }
-
-    async run(message, args) {
+module.exports.run = async (client, message, args) => {
    if(message.guild.voiceConnection) {
             global.guilds[message.guild.id].queue = [];
             message.guild.voiceConnection.disconnect();
@@ -21,6 +8,17 @@ class LeaveChannelCommand extends commando.Command {
             message.channel.send('I am not in any voice channel..');
         }
     }
-}
 
-module.exports = LeaveChannelCommand;
+exports.conf = {
+  aliases: [],
+  enabled: true,
+  guildOnly: true
+};
+
+// Name is the only necessary one.
+exports.help = {
+  name: 'leave',
+  description: 'Evaluates a JS code.',
+  group: 'music',
+  usage: 'leave [command]'
+}
