@@ -2,6 +2,7 @@ module.exports = (client) => {
   client.tools = require('../assets/tools')
   client.items = require('../assets/items')
   client.mobs = require('../assets/mobs')
+  client.shop = require('../assets/shop')
   client.owner = '410806297580011520'
   client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840']
   client.defaultQueue= {

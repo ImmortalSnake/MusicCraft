@@ -34,6 +34,10 @@ exports.run = async (client, message) => {
         delete cooldown[`${message.author.id}_${command.help.name}`]
       }, command.conf.cooldown)
   }
+    try {
   command.run(client, message, args)
+    } catch(err) {
+      console.log(err)
+    }
   }
 }

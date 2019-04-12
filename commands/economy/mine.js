@@ -1,6 +1,5 @@
 const db = require('quick.db');
 const discord = require('discord.js')
-const playing = new Set;
 
 exports.run = async (client, message, args) => {
   let inventory = await db.fetch(`inventory_${message.author.id}`)

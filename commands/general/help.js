@@ -1,36 +1,8 @@
 const discord = require('discord.js')
 
 exports.run = (client, message, args) => {
-  // If no specific command is called, show all filtered commands.
-  /*if (!args[0]) {
-    // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
-    const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
-
-    // Here we have to get the command names only, and we use that array to get the longest name.
-    // This make the help commands "aligned" in the output.
-    const commandNames = myCommands.keyArray();
-    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-
-    let currentCategory = "";
-    let output = `= Command List =\n\n[Use ${message.guild.prefix}help <commandname> for details]\n`;
-    const sorted = myCommands.array().sort((p, c) => p.help.group > c.help.group ? 1 :  p.help.name > c.help.name && p.help.group === c.help.group ? 1 : -1 );
-    sorted.forEach( c => {
-      const cat = c.help.group.toProperCase();
-      if (currentCategory !== cat) {
-        output += `\u200b\n== ${cat} ==\n`;
-        currentCategory = cat;
-      }
-      output += `${message.guild.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
-    });
-    message.channel.send(output, {code: "asciidoc", split: { char: "\u200b" }});
-  } else {
-    // Show individual command's help.
-    let command = args[0];
-    if (client.commands.has(command)) {
-      command = client.commands.get(command);
-      message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
-    }
-  }*/
+    let embed = new discord.MessageEmbed()
+    .setColor('#206694')
   if(args[0]) {
     const t = args[0].toLowerCase()
     const myCommands = message.guild ? client.commands : client.commands.filter(cmd => cmd.conf.guildOnly !== true)
@@ -38,15 +10,47 @@ exports.run = (client, message, args) => {
     let command = myCommands.get(t)
     let group = groups.get(t)
     if(group) {
-      let m = group.map(c => c.help.name)
-      message.channel.send(m)
+      embed.setTitle(t.toProperCase())
+      .setDescription(`
+${group.size} commands in ${t.toProperCase()}
+
+Use \`s!help [command]\` to view detailed information about a command${group.map(c => '\n\n**s!' + c.help.name + '**\n' + c.help.description)}
+`)
+     return message.channel.send(embed)
     } else if(command) {
-      message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
+      embed.setTitle(command.help.name.toProperCase())
+      .setDescription(`
+**Group** ${command.help.group.toProperCase()}
+
+**Description**
+${command.help.description}
+
+**Usage**
+${command.help.usage}
+${command.conf.aliases[0] ? '\n**Aliases**\n`' + command.conf.aliases.join(", ") + '`' : ''}
+${command.conf.examples ? '\n**Examples**\n`' + command.conf.examples.join('\n') + '`' : ''}
+`)
+      return message.channel.send(embed);
     }
-  } else {
-    let embed = new discord.MessageEmbed()
-    .setColor('#206694')
-  }
+  }  
+    embed.setDescription(`
+**Commands List ${client.commands.size}**
+
+The prefix for ${message.guild ? message.guild.name : client.user.username} is \`${message.guild ? message.guild.prefix : client.prefix}\`
+
+Use \`s!help [command]\` to view detailed information about the command
+
+Use \`s!help [group]\` to view all the commands in the group
+
+\`s!help fun\` to view all fun commands
+\`s!help economy\` to view all economy commands
+\`s!help music\` to view all music commands
+\`s!help general\` to view all basic commands
+
+Join the support server for further help!
+
+Documentation coming soon!`)
+    return message.channel.send(embed)
 };
 
 exports.conf = {

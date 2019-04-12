@@ -156,6 +156,14 @@
         "Nether Quartz": 40
       }
     },
+    "Magma Pickaxe": {
+      "uses": 50,
+      "type": "Normal",
+      "materials": {
+        "diamond": 40,
+        "Nether Quartz": 40
+      }
+    },
     "Wooden Axe": {
       "uses": 50,
       "type": "Normal",

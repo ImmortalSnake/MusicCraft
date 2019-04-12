@@ -73,6 +73,8 @@ bot.login(config.token).catch(e => {
   console.log(e);
 });
 
+bot.on('error', console.error);
+
 process
     .on('uncaughtException', err => console.error(err.stack))
     .on('unhandledRejection', err => console.error(err.stack));      
