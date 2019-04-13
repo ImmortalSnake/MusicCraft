@@ -47,7 +47,7 @@
       "dmg": 1,
       "critical": 60,
       "type": "Normal",
-      "emote": "",
+      "emote": "<:diamondsword:>",
       "materials": {
         "wood": 1000,
         "gold": 50,
@@ -208,7 +208,7 @@
     "Diamond Axe": {
       "uses": 50,
       "type": "Normal",
-      "emote": "",
+      "emote": "<:diamondaxe:>",
       "materials": {
         "wood": 200,
         "gold": 50,
@@ -266,7 +266,11 @@
     "Fishing Rod": {
       "uses": 50,
       "type": "Normal",
-      "emote": "<:diamondhoe:>",
+      "emote": "<:fishingrod:566529467854487563>",
+      "drops": {
+        "Raw Cod": 0.5,
+        "Raw Salmon": 0.75
+      },
       "materials": {
         "wood": 200,
         "stone": 50

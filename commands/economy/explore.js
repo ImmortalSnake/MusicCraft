@@ -36,7 +36,7 @@ exports.run = async (client, message, args) => {
     else crate = crates[4]
     inventory.crates.push(crate)
     inventory.hunger-= 5
-   // await db.set(`inventory_${message.author.id}`, inventory)
+    await db.set(`inventory_${message.author.id}`, inventory)
     embed.setDescription(`You found a ${crate} Crate!!
 Use \`s!crate ${crate}\` to open it!`)
     return message.channel.send(embed)
@@ -137,7 +137,7 @@ async function win(stats, user, message, collector) {
         let drops = Math.random() < stats.mob.drops[1] ? stats.mob.drops[0] : ''
         if(drops) inv.crates.push(stats.mob.drops[0])
         console.log(inv)
-       // await db.set(`inventory_${user.id}`, inv)
+        await db.set(`inventory_${user.id}`, inv)
         let winEmbed = new discord.MessageEmbed()
         .setTitle('You Win')
         .setColor('#206694')
