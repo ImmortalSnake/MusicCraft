@@ -141,9 +141,8 @@ Object.defineProperty(Array.prototype, "random", {
         console.log(keys[i])
       }
     }
-    for(const t in inventory.tools) {
-      if(!inventory.tools[t]) delete inventory.tools[t]
-    }
+    for(const t in inventory.tools) { if(!inventory.tools[t]) delete inventory.tools[t] }
+    for(const f in inventory.food) { if(!inventory.food[f]) delete inventory.food[f] }
     await db.set(`inventory_${user.id}`, inventory)
     return inventory
   }

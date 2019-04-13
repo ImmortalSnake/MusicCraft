@@ -1,44 +1,30 @@
 {
-  "Boosters": {
+  "Bonus": {
     "Luck 1": {
       "price": ["Lapis", 50],
-      "luck": 0.3
+      "luck": 3,
+      "id": 1
     },
     "XP Boost 1": {
       "price": ["Lapis", 60],
-      "xpboost": 5
+      "xpboost": 5,
+      "id": 2
     }
   },
-  "Auto Drills": {
+  /*"Boosters": {
     "Auto Mine 1": {
-      "price": ["Redstone", 50],
-      "automine": {
-        "time": 3600000,
-        "interval": 300000,
-        "drops": {
-          "": 1
-        }
-      }
+      "name": "Auto Mine 1",
+      "price": ["Redstone", 75],
+      "time": 3600000,
+      "interval": 300000,
+      "id": 1
     },
     "Auto Chop 1": {
-      "price": ["Redstone", 50],
-      "automine": {
-        "time": 3600000,
-        "interval": 300000,
-        "drops": {
-          "": 1
-        }
-      }
-    },
-    "Auto Farm 1": {
-      "price": ["Redstone", 50],
-      "automine": {
-        "time": 3600000,
-        "interval": 300000,
-        "drops": {
-          "": 1
-        }
-      }
+      "name": "Auto Chop 1",
+      "price": ["Redstone", 75],
+      "time": 3600000,
+      "interval": 300000,
+      "id": 2
     }
-  }
+  }*/
 }

@@ -17,7 +17,8 @@ You got ${food.energy}+ Energy!`)
   message.channel.send(embed)
   inventory.hunger += food.energy
   inventory.food[a] --
-await db.set(`inventory_${message.author.id}`, inventory)
+  
+  await db.set(`inventory_${message.author.id}`, inventory)
 }
 
 exports.conf = {

@@ -269,7 +269,8 @@
       "emote": "<:fishingrod:566529467854487563>",
       "drops": {
         "Raw Cod": 0.5,
-        "Raw Salmon": 0.75
+        "Raw Salmon": 0.75,
+        "Tropical Fish": 0.9
       },
       "materials": {
         "wood": 200,

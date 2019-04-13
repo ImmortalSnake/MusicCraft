@@ -164,6 +164,18 @@
       "emote": "<:rawcod:566518147251830787>",
       "energy": -5
     },
+    "Tropical Fish": {
+      "emote": "<:tropicalfish:566518147251830787>",
+      "energy": 30
+    },
+    "Cooked Cod": {
+      "emote": "<:cookedcod:>",
+      "energy": 25
+    },
+    "Cooked Salmon": {
+      "emote": "<:cookedsalmon:566503739452686336>",
+      "energy": 25
+    },
     "Baked Potato": {
       "emote": "<:bakedpotato:563672677123096576>",
       "energy": 50
@@ -188,6 +200,18 @@
     },
     "Cooked Mutton": {
       
+    },
+    "Cooked Salmon": {
+      "materials": {
+        "Raw Salmon": 1,
+        "Coal": 25
+      }
+    },
+    "Cooked Cod": {
+      "materials": {
+        "Raw Cod": 1,
+        "Coal": 25
+      }
     },
     "Bread": {
       "materials": {
