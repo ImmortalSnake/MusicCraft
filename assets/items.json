@@ -94,15 +94,15 @@
   "Food": {
     "Apple": {
       "emote": "<:apple:561543611804549151>",
-      "energy": 10
+      "energy": 5
     },
     "Carrot": {
       "emote": "<:carrot:561543767103111168>",
-      "energy": 3
+      "energy": 2
     },
     "Potato": {
       "emote": "<:potato:561544134330941444>",
-      "energy": 3
+      "energy": 2
     },
     "Egg": {
       "emote": "<:egg:561544313478316033>",
@@ -110,7 +110,7 @@
     },
     "Wheat": {
       "emote": "<:wheat:561544489194356756>",
-      "energy": 2
+      "energy": 1
     },
     "Raw Chicken": {
       "emote": "<:rawchicken:562937076178485268>",
@@ -141,7 +141,8 @@
       "energy": 40
     },
     "Golden Apple": {
-      "emote": "<:goldenapple:>"
+      "emote": "<:goldenapple:566504525415055365>",
+      "energy": 1000
     },
     "Raw Beef": {
       "emote": "<:rawbeef:562937991350321152>",
@@ -155,7 +156,26 @@
       "emote": "<:rawporkchop:562938729879175178>",
       "energy": -10
     },
-    "Raw ": {},
+    "Raw Salmon": {
+      "emote": "<:rawsalmon:566503628873924648>",
+      "energy": -5
+    },
+    "Raw Cod": {
+      "emote": "<:rawcod:566518147251830787>",
+      "energy": -5
+    },
+    "Tropical Fish": {
+      "emote": "<:tropicalfish:566518147251830787>",
+      "energy": 30
+    },
+    "Cooked Cod": {
+      "emote": "<:cookedcod:>",
+      "energy": 25
+    },
+    "Cooked Salmon": {
+      "emote": "<:cookedsalmon:566503739452686336>",
+      "energy": 25
+    },
     "Baked Potato": {
       "emote": "<:bakedpotato:563672677123096576>",
       "energy": 50
@@ -180,6 +200,18 @@
     },
     "Cooked Mutton": {
       
+    },
+    "Cooked Salmon": {
+      "materials": {
+        "Raw Salmon": 1,
+        "Coal": 25
+      }
+    },
+    "Cooked Cod": {
+      "materials": {
+        "Raw Cod": 1,
+        "Coal": 25
+      }
     },
     "Bread": {
       "materials": {

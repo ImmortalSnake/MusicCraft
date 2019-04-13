@@ -86,7 +86,7 @@ module.exports = (client) => {
     work: [10, 1], // max and minimum note: maximum is the sum of both. so in this case it will be
     rob: [50, 0], // dont rob lul
     fine: [50, 25],
-    exploreTimer: 3600 * 1,
+    exploreTimer: 3600 * 1000,
     rhunger: 86400000,
     villageTime: 10800000,
     cooldown: {

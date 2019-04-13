@@ -6,19 +6,15 @@ const sort = require('array-sort');
 module.exports.run = async (client, message, args) => {
     //let money = await client.dbSort(`balance`);
   let total = db.all().filter(b=>b.ID.startsWith('balance'))
-  for(let i = 0; i< total.length; i++) {
-    let bank = await db.fetch(`bank_${total[i].ID.split('_')[1]}`)
-    total[i].data += bank;
-  }
   let money = total.sort((a,b) => (a.data > b.data) ? -1 : ((b.data > a.data) ? 1 : 0));
   let content = "";
   let pos
     for(let i = 0; i < money.length; i++) {
+      
       if(i < 20) {
         let user = client.users.get(money[i].ID.split('_')[1]);
         if(!user) {
           db.delete(`balance_${money[i].ID.split('_')[1]}`)
-          db.delete(`bank_${money[i].ID.split('_')[1]}`)
         }
         else {
           if(user.id === message.author.id) pos = i+1

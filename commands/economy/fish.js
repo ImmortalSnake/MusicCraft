@@ -3,27 +3,28 @@ const fish = require('../../assets/items');
 const discord = require('discord.js')
 
 exports.run = async (client, message, args) => {
-  let balance = await db.fetch(`balance_${message.author.id}`)
-  if(balance < 25) return message.channel.send('You do not have enough money to fish')
-  await db.subtract(`balance_${message.author.id}`, 25)
-    let random = Math.random();
-    let result;
-    const fishes = ["trash", "fish", "crab", "shark"];
-      if (random < .5) result = 0;
-      else if (random < .75) result = 1; 
-      else if (random < .9) result = 2;
-      else result = 3;
-    
-  let kind = fishes[result];
-  let m = (kind === 'trash') ? 'You lost 25$' : `You sold it for ${fish.Fish[kind].price}$`
-  await db.add(`balance_${message.author.id}`, fish.Fish[kind].price) 
+  let inventory = await db.fetch(`inventory_${message.author.id}`)
+  if(!inventory) return message.channel.send('You do not have a fishing rod .Use the `s!start` command to start playing');
+  let r = inventory.equipped.rod;
+  if(!r) return message.channel.send('You do not have a fishing rod. Use `s!craft fishing rod` to craft one')
+  let rod = client.tools.Tools[r]
+  let random = Math.random()
+  let result = '';
+  for(const drops in rod.drops) {
+    if(Math.random() > rod.drops[drops]) result = drops;
+  }
+  if(result) inventory.food[result] ? inventory.food[result]++ : inventory.food[result] = 1
+  else result = 'Nothing';
+  let fish = client.items.Food[result] || { emote: ''}
   let embed = new discord.MessageEmbed()
   .setTitle(':fishing_pole_and_fish: Fish')
   .setColor('GREEN')
   .setFooter(message.author.username, message.author.displayAvatarURL())
-  .setDescription(`**${message.author.username} paid 25$ and caught a ${kind} ${fish.Fish[kind].emote}.\n${m}**`)
+  .setDescription(`**${message.author.username} tried to fish with a ${r} and found
+${result} ${fish.emote}**`)
   
-  message.channel.send(embed);
+  await db.set(`inventory_${message.author.id}`, inventory)
+  return message.channel.send(embed);
 };
 
 exports.conf = {
@@ -32,7 +33,7 @@ exports.conf = {
     aliases: [],
     perms: [],
     botPerms: [],
-    cooldown: 30
+    cooldown: 30 * 60 * 1000
 };
   
 exports.help = {

@@ -8,7 +8,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (request, response) => {
-  console.log(moment(Date.now()) + ' Ping Received');
+  console.log(moment.utc(Date.now()).format('MM/DD/YYYY h:mm A') + ' Ping Received');
  // consoleHook.send(ms(, { long: true }) + ' Ping Received');
   response.sendStatus(200);
 });
