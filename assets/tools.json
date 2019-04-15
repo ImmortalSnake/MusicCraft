@@ -6,7 +6,7 @@
       "type": "Normal",
       "emote": "<:woodensword:562706322467061760>",
       "materials": {
-       "wood": 60
+        "wood": 60
       }
     },
     "Stone Sword": {
@@ -26,8 +26,8 @@
       "type": "Normal",
       "emote": "<:ironsword:562706380642058244>",
       "materials": {
-       "wood": 120,
-       "iron": 50
+        "wood": 120,
+        "iron": 50
       }
     },
     "Gold Sword": {
@@ -63,7 +63,7 @@
       "type": "Normal",
       "emote": "<:woodenpickaxe:560738424576016405>",
       "materials": {
-      "wood": 30
+        "wood": 30
       }
     },
     "Stone Pickaxe": {
@@ -151,9 +151,14 @@
     "Nether Pickaxe": {
       "uses": 50,
       "type": "Normal",
+      "emote": "",
       "materials": {
         "diamond": 40,
-        "Nether Quartz": 40
+        "netherrack": 200
+      },
+      "Nether": {
+        "Netherrack": [],
+        "Nether Quartz": []
       }
     },
     "Magma Pickaxe": {

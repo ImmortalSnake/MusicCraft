@@ -35,10 +35,8 @@ exports.run = async (client, message, args) => {
   m += `**`
   // console.log(inventory)
   await db.set(`inventory_${message.author.id}`, inventory)
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Mine')
-  .setColor('GREEN')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(m)
   
   message.channel.send(embed);

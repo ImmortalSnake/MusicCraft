@@ -29,10 +29,8 @@ exports.run = async (client, message, args) => {
   }
   inventory.lastactivity = Date.now()
   await db.set(`inventory_${message.author.id}`, inventory);
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Chop')
-  .setColor('GREEN')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(`**${message.author.username} chopped wood with ${axe.emote}
 You got ${drops} ${wood.emote}.${m}**`)
   message.channel.send(embed);

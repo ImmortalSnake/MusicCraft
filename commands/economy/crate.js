@@ -32,10 +32,8 @@ exports.run = async (client, message, args) => {
    }
     inventory.crates.splice(inventory.crates.indexOf(cr), 1)
     m += `**`
-    let embed = new discord.MessageEmbed()
+    let embed = client.embed(message)
     .setTitle(`${cr} Crate`)
-    .setAuthor(message.author.username, message.author.displayAvatarURL())
-    .setColor('#206694')
     .setDescription(m)
     await db.set(`inventory_${message.author.id}`, inventory)
     message.channel.send(embed)
@@ -48,14 +46,11 @@ exports.run = async (client, message, args) => {
       crates += `${x[i]} Crate x${x.filter(r => r === x[i]).length}\n`
       x = x.filter(r => r !== x[i])
     }
-    crates += `**`
+    crates += `**\n\nUse \`s!crate [crate]\` to open one of them`
     if(crates === `****`) crates = 'NO crates found.. Use `s!explore` to find some'
-    let embed = new discord.MessageEmbed()
+    let embed = client.embed(message)
     .setTitle('Your Crates')
-    .setColor('#206694')
-    .setAuthor(message.author.username, message.author.displayAvatarURL())
     .setDescription(crates)
-    .setFooter('Use `s!crate [crate]` to open one of them')
     message.channel.send(embed)
   }
 }

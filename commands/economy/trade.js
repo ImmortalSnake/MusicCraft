@@ -23,10 +23,8 @@ exports.run = async (client, message, args) => {
         if(total > locate[1]) return message.channel.send('You do not have that many items in your inventory or balance')
         trade.give[item] ? inventory.trade.trades.give[item] += amount : inventory.trade.trades.give[item] = amount
         await db.set(`inventory_${message.author.id}`, inventory)
-        let aembed = new discord.MessageEmbed()
+        let aembed = client.embed(message)
           .setTitle('Trade Add')
-          .setColor('#206694')
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
           .setDescription(`**Successfully added ${item} ${locate[0].emote} x${amount} to the trade**`)
         return message.channel.send(aembed)
         break;
@@ -39,10 +37,8 @@ exports.run = async (client, message, args) => {
         if(!trade.give[item]) return message.channel.send('That item is not in the trade. Use `s!trade add [item] -[amount]` to add materials or food to the trade')
         inventory.trade.trades.give[item] = 0
         await db.set(`inventory_${message.author.id}`, inventory)
-        let rembed = new discord.MessageEmbed()
+        let rembed = client.embed(message)
           .setTitle('Trade Remove')
-          .setColor('#206694')
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
           .setDescription(`**Successfully removed ${item} from the trade**`)
         return message.channel.send(rembed)
         break;
@@ -73,10 +69,8 @@ exports.run = async (client, message, args) => {
         }
         g += `**`
         r += `**`
-        let iembed = new discord.MessageEmbed()
+        let iembed = client.embed(message)
           .setTitle('Trade Info')
-          .setColor('#206694')
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
           .addField('You are giving', g)
           .addField('You will recieve', r)
           .setFooter(trader.tag, trader.displayAvatarURL())
@@ -189,10 +183,8 @@ React with ✅ to confirm the trade**`)
         let trade = inventory.trade.trades;
         if(!trade) return message.channel.send('You are not in a trade with anyone. Use `s!trade [@user]` to start trading!')
         let trader = client.users.get(trade.user)
-        let confirmEmbed = new discord.MessageEmbed()
+        let confirmEmbed = client.embed(message)
           .setTitle('Cancel Trade')
-          .setColor('#206694')
-          .setAuthor(message.author.tag, message.author.displayAvatarURL())
           .setFooter(trader.tag, trader.displayAvatarURL())
           .setDescription(`**Do you wish to cancel the trade with ${trader.tag}
 React with ✅ to cancel the trade**`)

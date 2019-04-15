@@ -4,10 +4,8 @@ exports.run = async (client, message, args) => {
   let inventory = db.fetch(`inventory_${message.author.id}`)
   if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get a player');
   
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Inventory')
-  .setColor('GREEN')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .addField('Materials', getinv(inventory, 'Materials', client), true)
   .addField('Tools', getinv(inventory, 'Tools', client), true)
   .addField('Food', getinv(inventory, 'Food', client), true)

@@ -1,5 +1,5 @@
 const discord = require('discord.js');
-const ytdl = require('ytdl-core');
+const ytdl = require('ytdl-core-discord');
 const request = require("request");
 const db = require('quick.db');
 const sort = require('array-sort');
@@ -14,11 +14,11 @@ try{
     global.guilds[message.guild.id].voiceChannel = message.member.voice.channel;
     global.guilds[message.guild.id].voiceChannel.join().then(async function(connection) {
       let stream;
-      if(!soundcloud) stream = await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly'});
+      if(!soundcloud) stream = await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'highestaudio'});
       else stream = await request("http://api.soundcloud.com/tracks/" + id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf");
         guildq.skippers = [];
 
-        guildq.dispatcher = await connection.play(stream, {volume: guildq.volume, seek: seek});
+        guildq.dispatcher = await connection.play(stream, {volume: guildq.volume, seek: seek, type: 'opus', bitrate: 192000 });
         guildq.dispatcher.on('end', function() {
             guildq.skippers = [];
             if(guildq.looping) {
@@ -153,5 +153,12 @@ Object.defineProperty(Array.prototype, "random", {
       await db.set(`inventory_${user.id}`, inventory)
       channel.send(`Level Up! You are now in level **${inventory.level}**`)
     }
+  }
+  client.embed = function (message, type) {
+    let embed = new discord.MessageEmbed()
+    .setColor('#206694')
+    .setFooter(message.author.username, message.author.displayAvatarURL())
+    .setAuthor(client.user.username, client.user.displayAvatarURL())
+    return embed
   }
 }

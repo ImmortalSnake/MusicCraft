@@ -78,7 +78,7 @@ exports.conf = {
 
 // Name is the only necessary one.
 exports.help = {
-  name: 'dbset',
+  name: 'owner',
   description: 'Evaluates a JS code.',
   usage: 'eval',
   group: 'owner'

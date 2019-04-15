@@ -25,10 +25,8 @@ exports.run = async (client, message, args) => {
     m += `${t} ${e.emote} x${res[t]}\n`
   }
   m += `**`
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle(`Recipe`)
-  .setColor('#206694')
-  .setAuthor(message.author.username, message.author.displayAvatarURL())
   .setDescription(m)
   message.channel.send(embed)
 }

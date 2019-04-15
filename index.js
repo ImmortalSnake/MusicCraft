@@ -17,6 +17,10 @@ setInterval(() => {
 http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
+// lets save this for when the bot gets added to dbl
+// const DBL = require('dblapi.js');
+// const dbl = new DBL(process.env.DBLTOKEN, { webhookServer: server, webhookAuth: 'authorkeplerbot' }, bot);
+
 bot.Discord = discord;
 bot.commands = new discord.Collection();
 bot.groups = new discord.Collection() 

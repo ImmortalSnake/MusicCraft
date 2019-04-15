@@ -5,10 +5,8 @@ exports.run = async (client, message, args) => {
   if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command to get a pickaxe')
     let rand = Object.keys(client.mobs.Animals).random()
     let animal = client.mobs.Animals[rand]
-    let embed = new discord.MessageEmbed()
+    let embed = client.embed(message)
     .setTitle('Hunt')
-    .setColor('#206694')
-    .setAuthor(message.author.username, message.author.displayAvatarURL())
     .setDescription(`You met a ${rand} ${animal.emote}
 Do you want to tame it or kill it
 React with :regional_indicator_t: to tame it and :regional_indicator_k: to kill it`)
@@ -34,19 +32,15 @@ React with :regional_indicator_t: to tame it and :regional_indicator_k: to kill 
     m += `\n ${e.emote} ${r} x${result[r]}`
   }
   m += `**`
-  let membed = new discord.MessageEmbed()
+  let membed = client.embed(message)
   .setTitle('KILL')
-  .setColor('#206694')
-  .setAuthor(message.author.username, message.author.displayAvatarURL())
   .setDescription(m)
   message.channel.send(membed)
       collector.stop();
       }
 else if(r.emoji.name == '🇹') {
-  let tembed = new discord.MessageEmbed()
+  let tembed = client.embed(message)
   .setTitle('Tame')
-  .setColor('#206694')
-  .setAuthor(message.author.username, message.author.displayAvatarURL())
   .setDescription(`**${message.author.username} tamed a ${rand} ${animal.emote}
 Use \`s!animal ${rand}\` to breed it, kill it or get materials**`)
   message.channel.send(tembed) 

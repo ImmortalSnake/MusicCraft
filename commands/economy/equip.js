@@ -14,10 +14,8 @@ exports.run = async (client, message, args) => {
   //if(tool.health) inventory.health += tool.health
   console.log(inventory)
   await db.set(`inventory_${message.author.id}`, inventory)
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Equip')
-  .setColor('#206694')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(`Successfully equipped a ${t} ${tool.emote}`)
   message.channel.send(embed)
 }

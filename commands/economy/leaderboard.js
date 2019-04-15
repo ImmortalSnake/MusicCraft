@@ -23,10 +23,8 @@ module.exports.run = async (client, message, args) => {
       }
     }
   content += `........\nYour position ${pos}`
-  const embed = new Discord.MessageEmbed()
-      .setAuthor(`${client.user.username} - LeaderBoard`, message.guild.iconURL)
+  const embed = client.embed(message)
       .setDescription(content)
-      .setColor('GREEN');
   message.channel.send(embed);
 }
 
