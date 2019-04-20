@@ -280,13 +280,9 @@ Use \`s!trade cancel\` to cancel the trade`)
 
 async function ifind(client, item, inventory) {
   let mat = inventory.materials[item]
-  let t = inventory.tools[item]
   let f = inventory.food[item]
   if(mat && mat > 0) {
     return [client.items.Materials[item], mat]
-  }
-  else if(t && t > 0) {
-    return [client.tools.Tools[item], t]
   }
   else if(f && f > 0) {
     return [client.items.Food[item], f]

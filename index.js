@@ -36,7 +36,7 @@ global.guilds = {};
 fs.readdir(`./commands/`, (err, groups) => {
   if (err) throw new Error(`\n[Commands]\tThere was an error!`);
   groups.forEach(group =>{
-  fs.readdir(`./commands/${group}/`, (err,files) =>{
+  fs.readdir(`./commands/${group}/`, (err, files) =>{
   var jsfiles = files.filter(f => f.split(`.`).pop() == `js`);
   if (jsfiles.length == 0) throw new Error(`\n[Commands]\tNo commands to load.`);
   jsfiles.map(file => {

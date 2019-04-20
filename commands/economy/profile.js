@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   .addField('Level', inventory.level, true)
   .addField('Hunger', inventory.hunger, true)
   .addField('Health', inventory.health, true)
-  .addField('Attack', inventory.attack + client.tools.Tools[inventory.equipped.sword].dmg, true)
+  .addField('Attack', inventory.attack + inventory.equipped.sword ? client.tools.Tools[inventory.equipped.sword].dmg : 0, true)
   .addField('Tools', Object.keys(inventory.tools).length, true)
 
   message.channel.send(embed)

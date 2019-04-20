@@ -1,10 +1,10 @@
 const discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
-  if(!parseInt(args)) return message.client.utils.formatError(this, message);
+  if(!parseInt(args)) return client.formatError(this, message);
   if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
    let guildq = global.guilds[message.guild.id];
-      if (!guildq) guildq = message.client.utils.defaultQueue;
+      if (!guildq) guildq = client.defaultQueue;
       if(!guildq.queue[0]) return message.reply('There is no music playing right now');
       if(!guildq.queue[args - 1]) return message.reply('Could not find a music in that id');
       global.guilds[message.guild.id].queue.splice(0, args - 1);

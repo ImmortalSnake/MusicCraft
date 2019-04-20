@@ -33,6 +33,6 @@ exports.conf = {
 exports.help = {
   name: 'tweet',
   description: 'Evaluates a JS code.',
-  group: 'music',
+  group: 'fun',
   usage: 'tweet [command]'
 }

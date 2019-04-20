@@ -29,24 +29,24 @@ exports.run = async (client, message, args) => {
 
 function ifind(client, item, inventory){
   let mat = inventory.materials[item]
-  let t = inventory.tools[item]
+  let t = inventory.food[item]
   if(mat && mat > 0) {
     return client.items.Materials[item]
   }
-  else if(t) {
-    return client.tools.Tools[item]
+  else if(t && t > 0) {
+    return client.items.Food[item]
   }
   else return false;
 }
 
 function ilocate(item, inventory) {
   let mat = inventory.materials[item]
-  let t = inventory.tools[item]
+  let t = inventory.food[item]
   if(mat) {
     return 'materials'
   }
   else if(t) {
-    return 'tools'
+    return 'food'
   }
 }
 

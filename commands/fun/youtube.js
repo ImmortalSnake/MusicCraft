@@ -33,7 +33,7 @@ exports.conf = {
 exports.help = {
   name: 'youtube',
   description: 'Evaluates a JS code.',
-  group: 'music',
+  group: 'fun',
   usage: 'youtube [command]'
 }
 

@@ -109,7 +109,7 @@ async function calc(client, user1, user2) {
     dmg: player1.attack + (player1.equipped.sword ? client.tools.Tools[player1.equipped.sword].dmg : 0),
     crit: player1.equipped.sword ? client.tools.Tools[player1.equipped.sword].critical : 20,
     def: player1.equipped.chestplate ? client.tools.Armor[player1.equipped.chestplate].defense : [1, 5],
-    cdef: player1.equipped.helmet ? client.tools.Armor[player1.equipped.helmet].critical : [0.5, 0],
+    cdef: player1.equipped.helmet ? client.tools.Armor[player1.equipped.helmet].crit : [0.5, 0],
     sp: player1.speed + (player1.equipped.boots ? client.tools.Armor[player1.equipped.boots].speed : 0),
     luck: player1.luck,
     id: user1.id
@@ -119,7 +119,7 @@ async function calc(client, user1, user2) {
     dmg: player2.attack + (player2.equipped.sword ? client.tools.Tools[player2.equipped.sword].dmg : 0),
     crit: player2.equipped.sword ? client.tools.Tools[player2.equipped.sword].critical : 20,
     def: player1.equipped.chestplate ? client.tools.Armor[player1.equipped.chestplate].defense : [1, 5],
-    cdef: player2.equipped.helmet ? client.tools.Armor[player2.equipped.helmet].critical : [0.5, 0],
+    cdef: player2.equipped.helmet ? client.tools.Armor[player2.equipped.helmet].crit : [0.5, 0],
     sp: player2.speed + (player2.equipped.boots ? client.tools.Armor[player1.equipped.boots].speed : 0),
     luck: player2.luck,
     id: user2.id

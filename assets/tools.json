@@ -1,8 +1,12 @@
 {
   "Tools": {
     "Wooden Sword": {
-      "uses": 50,
+      "durability": 60,
       "dmg": 5,
+      "repair": {
+        "wood": 20,
+        "coal": 20
+      },
       "type": "Normal",
       "emote": "<:woodensword:562706322467061760>",
       "materials": {
@@ -10,8 +14,13 @@
       }
     },
     "Stone Sword": {
-      "uses": 50,
+      "durability": 120,
       "dmg": 10,
+      "repair": {
+        "wood": 50,
+        "coal": 40,
+        "stone": 10
+      },
       "type": "Normal",
       "emote": "<:stonesword:562706351973728258>",
       "materials": {
@@ -20,42 +29,62 @@
       }
     },
     "Iron Sword": {
-      "uses": 50,
+      "durability": 300,
       "dmg": 20,
+      "repair": {
+        "wood": 70,
+        "coal": 40,
+        "iron": 20
+      },
       "critical": 40,
       "type": "Normal",
       "emote": "<:ironsword:562706380642058244>",
       "materials": {
-        "wood": 120,
+        "wood": 200,
         "iron": 50
       }
     },
     "Gold Sword": {
-      "uses": 50,
+      "durability": 300,
       "dmg": 40,
+      "repair": {
+        "wood": 150,
+        "coal": 50,
+        "iron": 30,
+        "gold": 10
+      },
       "critical": 50,
       "type": "Normal",
       "emote": "<:goldsword:563669379917545473>",
       "materials": {
-       "wood": 500,
-       "iron": 100,
-       "gold": 40
+        "wood": 500,
+        "iron": 100,
+        "coal": 100,
+        "gold": 40
       }
     },
     "Diamond Sword": {
-      "uses": 50,
+      "durability": 1000,
       "dmg": 1,
+      "repair": {
+        "wood": 250,
+        "coal": 100,
+        "iron": 30,
+        "gold": 15,
+        "diamond": 8
+      },
       "critical": 60,
       "type": "Normal",
       "emote": "<:diamondsword:>",
       "materials": {
         "wood": 1000,
         "gold": 50,
+        "coal": 200,
         "diamond": 40
       }
     },
     "Wooden Pickaxe": {
-      "uses": 50,
+      "durability": 60,
       "drops": {
         "Dirt": [2, 5],
         "Stone": [0, 2]
@@ -67,7 +96,7 @@
       }
     },
     "Stone Pickaxe": {
-      "uses": 50,
+      "durability": 50,
       "drops": {
         "Dirt": [0, 2],
         "Coal": [0, 2],
@@ -82,7 +111,7 @@
       }
     },
     "Iron Pickaxe": {
-      "uses": 50,
+      "durability": 300,
       "drops": {
         "Stone": [1, 2],
         "Coal": [1, 2],
@@ -102,7 +131,7 @@
       }
     },
     "Gold Pickaxe": {
-      "uses": 50,
+      "durability": 50,
       "drops": {
         "Stone": [2, 2],
         "Coal": [2, 2],
@@ -122,7 +151,7 @@
       }
     },
     "Diamond Pickaxe": {
-      "uses": 50,
+      "durability": 50,
       "drops": {
         "Stone": [3, 3],
         "Coal": [3, 3],
@@ -149,11 +178,11 @@
       }
     },
     "Nether Pickaxe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "",
       "materials": {
-        "diamond": 40,
+        "diamond": 20,
         "netherrack": 200
       },
       "Nether": {
@@ -162,15 +191,33 @@
       }
     },
     "Magma Pickaxe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "materials": {
         "diamond": 40,
         "Nether Quartz": 40
       }
     },
+    "Dark Matter Pickaxe": {
+      "durability": 190000,
+      "type": "Normal",
+      "materials": {
+        "diamond": 100,
+        "Nether Quartz": 40,
+        "Dark Matter": 10
+      }
+    },
+    "Red Matter Pickaxe": {
+      "durability": 190000,
+      "type": "Normal",
+      "materials": {
+        "diamond": 100,
+        "Nether Quartz": 40,
+        "Red Matter": 10
+      }
+    }, 
     "Wooden Axe": {
-      "uses": 50,
+      "durability": 60,
       "type": "Normal",
       "drops": [1, 2],
       "price": 10,
@@ -180,7 +227,7 @@
       }
     },
     "Stone Axe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "<:stoneaxe:561524214629138452>",
       "drops": [2, 3],
@@ -190,7 +237,7 @@
       }
     },
     "Iron Axe": {
-      "uses": 50,
+      "durability": 300,
       "type": "Normal",
       "emote": "<:ironaxe:561534665769615364>",
       "drops": [3, 5],
@@ -200,7 +247,7 @@
       }
     },
     "Gold Axe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "drops": [5, 8],
       "emote": "<:goldaxe:564018320639131659>",
@@ -211,7 +258,7 @@
       }
     },
     "Diamond Axe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "<:diamondaxe:>",
       "materials": {
@@ -221,7 +268,7 @@
       }
    },
     "Wooden Hoe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "drops": [0, 2],
       "emote": "<:woodenhoe:562246996178632707>",
@@ -230,7 +277,7 @@
       }
     },
     "Stone Hoe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "drops": [1, 2],
       "emote": "<:stonehoe:562373671654522881>",
@@ -240,7 +287,7 @@
       }
     },
     "Iron Hoe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "drops": [2, 3],
       "emote": "<:ironhoe:562373880162025483>",
@@ -250,7 +297,7 @@
       }
     },
     "Gold Hoe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "<:goldhoe:>",
       "materials": {
@@ -259,7 +306,7 @@
       }
     },
     "Diamond Hoe": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "<:diamondhoe:>",
       "materials": {
@@ -269,7 +316,7 @@
       }
     },
     "Fishing Rod": {
-      "uses": 50,
+      "durability": 50,
       "type": "Normal",
       "emote": "<:fishingrod:566529467854487563>",
       "drops": {
@@ -279,7 +326,8 @@
       },
       "materials": {
         "wood": 200,
-        "stone": 50
+        "stone": 50,
+        "coal": 25
       }
     }
   },
@@ -338,9 +386,9 @@
   },
   "Armor": {
     "Iron Helmet": {
-      "uses": 50,
+      "durability": 300,
       "type": "Armor",
-      "critical": [0.20, -10],
+      "crit": [0.20, -10],
       "emote": "<:ironhelmet:563676246018621485>",
       "materials": {
         "iron": 50,
@@ -348,7 +396,7 @@
       }
     },
    "Iron Boots": {
-      "uses": 50,
+      "durability": 300,
       "type": "Armor",
       "speed": 20,
       "emote": "<:ironboots:565210164324597801>",
@@ -358,7 +406,7 @@
       }
     },
     "Iron Chestplate": {
-      "uses": 50,
+      "durability": 300,
       "type": "Armor",
       "health": 20,
       "defense": [10, 20],

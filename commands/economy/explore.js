@@ -117,7 +117,7 @@ async function info(client, player, mob) {
     dmg: stats.attack + (stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].dmg : 0),
     crit: stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].critical : 20,
     def: stats.equipped.chestplate ? client.tools.Armor[stats.equipped.chestplate].defense : [1, 5],
-    cdef: stats.equipped.helmet ? client.tools.Armor[stats.equipped.helmet].critical : [0.5, 0],
+    cdef: stats.equipped.helmet ? client.tools.Armor[stats.equipped.helmet].crit : [0.5, 0],
     sp: stats.speed + (stats.equipped.boots ? client.tools.Armor[stats.equipped.boots].speed : 0),
     luck: stats.luck,
     id: player.id

@@ -17,8 +17,9 @@ exports.run = async (client, message, args) => {
   else result = 'Nothing';
   let fish = client.items.Food[result] || { emote: ''}
   let embed = client.embed(message)
-  .setTitle(':fishing_pole_and_fish: Fish')
-  .setDescription(`**${message.author.username} tried to fish with a ${r} and found
+  .setDescription(`**:fishing_pole_and_fish: Fish
+
+${message.author.username} tried to fish with a ${r} and found
 ${result} ${fish.emote}**`)
   
   await db.set(`inventory_${message.author.id}`, inventory)
