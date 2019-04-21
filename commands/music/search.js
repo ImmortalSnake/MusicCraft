@@ -5,12 +5,11 @@ const yt_api_key = config.yt_api_key;
 const youtube = new YouTube(yt_api_key);
 
 module.exports.run = async (client, message, args) => {
-  try{
    let queue = global.guilds[message.guild.id];
-      if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = message.client.utils.defaultQueue;
+      if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = client.defaultQueue;
       queue = global.guilds[message.guild.id];
            const voiceChannel = message.member.voice.channel;
-	         const url = args ? args.replace(/<(.+)>/g, '$1') : ''
+	         const url = args ? args.join(' ').replace(/<(.+)>/g, '$1') : ''
 
             if (!voiceChannel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
                 try {
@@ -20,46 +19,43 @@ module.exports.run = async (client, message, args) => {
                     try {
                         let videos = await youtube.searchVideos(url, 10);
                         let index = 0;
-                        message.channel.send(`
+                        let m = await message.channel.send(`
 __**Song selection:**__
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
-Please provide a value to select one of the 🔎 results ranging from 1-10.
+
+\`Please provide a value to select one of the 🔎 results ranging from 1-10\`
 					`);
 
-                            let response = await message.channel.awaitMessages(msg2 => msg2.content > 0 && msg2.content < 11, {
-                                maxMatches: 1,
-                                time: 10000, // waits for 10 seconds
-                                errors: ['time'],
-                            });
-                      if(!response) return message.reply('No value selected')
-                        const videoIndex = parseInt(response.first().content);
-                        var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+                      const collector = m.channel.createMessageCollector(msg2 => msg2.author.id === message.author.id && parseInt(msg2.content), { time: 10000 })
+                      collector.on('collect', async  mess => {
+                        const videoIndex = parseInt(mess.content);
+                        if(videoIndex > 10 || videoIndex < 1) return message.channel.send('Please enter a value from 1 to 10')
+                        let video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+                        let cqueue = {
+                          url: video.url,
+                          title: video.title,
+                          id: video.id,
+                          skippers: [],
+                          requestor: message.author.id,
+                          seek: 0
+                        }
+                        global.guilds[message.guild.id].queue.push(cqueue);
+                        global.guilds[message.guild.id].isPlaying = true;
+                        if(!queue.queue[1]) {
+                          await message.channel.send('✅ Now playing: **' + video.title + '**');
+                          client.playMusic(video.id, message);
+                        } else {
+                          message.reply('✅ Added to queue: **' + video.title + '**');
+                        }
+                      })
+                      collector.on('end', res => {
+                        if(!res) return message.channel.send('No value Selected')
+                      })
                     } catch (err) {
                         console.error(err);
                         return message.channel.send('🆘 I could not obtain any search results.');
                     }
                 }
-          if(!queue.queue[0]) {
-            await message.channel.send('✅ Now playing: **' + video.title + '**');
-            message.client.functions.playMusic(video.id, message);
-          }
-          else {
-           message.reply('✅Added to queue: **' + video.title + '**');
-          }
-          let cqueue = {
-            url: video.url,
-            title: video.title,
-            id: video.id,
-            skippers: [],
-            requestor: message.author.id,
-            seek: 0
-          }
-          global.guilds[message.guild.id].queue.push(cqueue);
-          global.guilds[message.guild.id].isPlaying = true;
-      }
-  catch(e) {
-    console.log(e)
-  }
 }
 
 exports.conf = {

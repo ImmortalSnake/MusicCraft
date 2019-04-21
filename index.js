@@ -17,12 +17,17 @@ setInterval(() => {
 http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
 
+// lets save this for when the bot gets added to dbl
+// const DBL = require('dblapi.js');
+// const dbl = new DBL(process.env.DBLTOKEN, { webhookServer: server, webhookAuth: 'authorkeplerbot' }, bot);
+
 bot.Discord = discord;
 bot.commands = new discord.Collection();
 bot.groups = new discord.Collection() 
 bot.aliases = new discord.Collection();
 bot.events = new discord.Collection();
 bot.prefix = 's!'
+bot.version = '1.9.0 Stable'
 
 require("./modules/functions.js")(bot)
 require("./modules/utils.js")(bot)
@@ -32,7 +37,7 @@ global.guilds = {};
 fs.readdir(`./commands/`, (err, groups) => {
   if (err) throw new Error(`\n[Commands]\tThere was an error!`);
   groups.forEach(group =>{
-  fs.readdir(`./commands/${group}/`, (err,files) =>{
+  fs.readdir(`./commands/${group}/`, (err, files) =>{
   var jsfiles = files.filter(f => f.split(`.`).pop() == `js`);
   if (jsfiles.length == 0) throw new Error(`\n[Commands]\tNo commands to load.`);
   jsfiles.map(file => {
@@ -78,5 +83,3 @@ bot.on('error', console.error);
 process
     .on('uncaughtException', err => console.error(err.stack))
     .on('unhandledRejection', err => console.error(err.stack));      
-
-

@@ -7,10 +7,7 @@ exports.run = async (client, message, args) => {
   let item = ifind(client, i, inventory)
   if(!item) return message.channel.send('Couldnt find that tool in your inventory');
   let locate = ilocate(i, inventory)
-  let mbed = new discord.MessageEmbed()
-  .setTitle('Sell')
-  .setColor('#206694')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
+  let mbed = client.embed(message)
   .setDescription(`How many ${i} would you like to sell?
 **1${item.emote} = ${item.price}$**`)
   await message.channel.send(mbed)
@@ -23,10 +20,8 @@ exports.run = async (client, message, args) => {
     let price = item.price * num;
     await db.set(`inventory_${message.author.id}`, inventory)
     await db.add(`balance_${message.author.id}`, price)
-    let embed = new discord.MessageEmbed()
+    let embed = client.embed(message)
     .setTitle('Sell')
-    .setColor('#206694')
-    .setFooter(message.author.username, message.author.displayAvatarURL())
     .setDescription(`You sold ${num} ${i}${item.emote} for ${price}$`)
     message.channel.send(embed)
   })
@@ -34,24 +29,24 @@ exports.run = async (client, message, args) => {
 
 function ifind(client, item, inventory){
   let mat = inventory.materials[item]
-  let t = inventory.tools[item]
+  let t = inventory.food[item]
   if(mat && mat > 0) {
     return client.items.Materials[item]
   }
-  else if(t) {
-    return client.tools.Tools[item]
+  else if(t && t > 0) {
+    return client.items.Food[item]
   }
   else return false;
 }
 
 function ilocate(item, inventory) {
   let mat = inventory.materials[item]
-  let t = inventory.tools[item]
+  let t = inventory.food[item]
   if(mat) {
     return 'materials'
   }
   else if(t) {
-    return 'tools'
+    return 'food'
   }
 }
 

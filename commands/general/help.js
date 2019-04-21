@@ -9,14 +9,27 @@ exports.run = (client, message, args) => {
     const groups = client.groups
     let command = myCommands.get(t)
     let group = groups.get(t)
+    //= group.map(c => '\n\n**s!' + c.help.name + '**\n' + c.help.description)
     if(group) {
-      embed.setTitle(t.toProperCase())
-      .setDescription(`
-${group.size} commands in ${t.toProperCase()}
+      let curpage = 1
 
-Use \`s!help [command]\` to view detailed information about a command${group.map(c => '\n\n**s!' + c.help.name + '**\n' + c.help.description)}
-`)
-     return message.channel.send(embed)
+      message.channel.send(genPage(group, embed, t, curpage))
+      .then(async mess => {
+        await mess.react('⬅')
+        await mess.react('➡')
+        
+        const collector = mess.createReactionCollector((reaction, u) => u.id === message.author.id, { time: 180000 })
+        collector.on('collect', r => {
+          if(r.emoji.name === '⬅') {
+            curpage --;
+            mess.edit(genPage(group, embed, t, curpage));
+          } else if (r.emoji.name === '➡') {
+            curpage ++;
+            mess.edit(genPage(group, embed, t, curpage));
+          }
+        })
+        collector.on('end', async r => await mess.reactions.removeAll())
+      })
     } else if(command) {
       embed.setTitle(command.help.name.toProperCase())
       .setDescription(`
@@ -32,7 +45,7 @@ ${command.conf.examples ? '\n**Examples**\n`' + command.conf.examples.join('\n')
 `)
       return message.channel.send(embed);
     }
-  }  
+  }  else {
     embed.setDescription(`
 **Commands List ${client.commands.size}**
 
@@ -51,6 +64,7 @@ Join the support server for further help!
 
 Documentation coming soon!`)
     return message.channel.send(embed)
+  }
 };
 
 exports.conf = {
@@ -66,3 +80,22 @@ exports.help = {
   description: "Displays all the available commands for your permission level.",
   usage: "help [command]"
 };
+
+function genPage(group, embed, t, curpage) {
+  let m = '';
+  let pages = Math.ceil(group.size / 10)
+  let count = 0
+  group.forEach(c => {
+    if(count < curpage * 10 && count >= (curpage - 1) * 10) {
+      m += `\n\n**${count+1}] s!${c.help.name}**\n${c.help.description}`
+    }
+     count ++;
+  })
+  embed.setTitle(t.toProperCase())
+      .setDescription(`
+${group.size} commands in ${t.toProperCase()}
+
+Use \`s!help [command]\` to view detailed information about a command${m}`)
+      .setFooter(`Page ${curpage}/${pages}`)
+  return embed
+}

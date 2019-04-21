@@ -16,11 +16,10 @@ exports.run = async (client, message, args) => {
   if(result) inventory.food[result] ? inventory.food[result]++ : inventory.food[result] = 1
   else result = 'Nothing';
   let fish = client.items.Food[result] || { emote: ''}
-  let embed = new discord.MessageEmbed()
-  .setTitle(':fishing_pole_and_fish: Fish')
-  .setColor('GREEN')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
-  .setDescription(`**${message.author.username} tried to fish with a ${r} and found
+  let embed = client.embed(message)
+  .setDescription(`**:fishing_pole_and_fish: Fish
+
+${message.author.username} tried to fish with a ${r} and found
 ${result} ${fish.emote}**`)
   
   await db.set(`inventory_${message.author.id}`, inventory)

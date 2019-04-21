@@ -10,20 +10,18 @@ exports.run = async (client, message, args) => {
   if(!tool) return message.channel.send('That tool is not craftable right now!')
   inventory = await client.checkInventory(message.author)
   if(!check(inventory, tool)) return message.channel.send('You do not have enough materials')
-  let embed = new discord.MessageEmbed()
-    .setTitle('Craft')
-    .setColor('#206694')
-    .setFooter(message.author.username, message.author.displayAvatarURL())
+  let embed = client.embed(message).setTitle('Craft')
   switch(tool.type) {
 
     case 'Armor': {
+    if(inventory.armor[t]) return message.channel.send('You already own this tool');
     for(const mat in client.tools.Armor[t].materials) {
     inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
     }
-   (inventory.armor[t]) ? inventory.armor[t]++ : inventory.armor[t] = 1;
+   inventory.armor[t] = { durability : tool.durability, enchant: ''}
     embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
 Use \`s!equip ${t}\` to equip it!`)
-  await db.set(`inventory_${message.author.id}`, inventory)
+   await db.set(`inventory_${message.author.id}`, inventory)
   message.channel.send(embed)
     return;
     break;
@@ -53,52 +51,7 @@ Use \`s!equip ${t}\` to equip it!`)
       break;
     }
   }
-  /*if(client.tools.Armor[t]) {
-    for(const mat in client.tools.Armor[t].materials) {
-    inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
-    }
-   (inventory.armor[t]) ? inventory.armor[t]++ : inventory.armor[t] = 1;
-    embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
-Use \`s!equip ${t}\` to equip it!`)
-   await db.set(`inventory_${message.author.id}`, inventory)
-  message.channel.send(embed)
-    return
-  }
-  if(t == 'Chest') {
-    inventory.size += client.tools.Tools['Chest'].size
-    for(const mat in client.tools.Tools['Chest'].materials) {
-    inventory.materials[mat.toProperCase()] -= client.tools.Tools['Chest'].materials[mat]
-    }
-    console.log(inventory)
-    return
-  }
-  else if(t == 'Furnace') {
-    if (inventory.other['Furnace']) return message.channel.send('You already have a furnace') 
-    inventory.other['Furnace'] = {}
-    for(const mat in client.tools.Tools['Furnace'].materials) {
-    inventory.materials[mat.toProperCase()] -= client.tools.Tools['Furnace'].materials[mat]
-    }
-   await db.set(`inventory_${message.author.id}`, inventory)
-   embed.setDescription(`Successfully crafted a Furnace ${client.tools.Tools['Furnace'].emote}.
-Use \`s!cook [food]\` to start cooking!`)
-  message.channel.send(embed)
-    return
-  }
-  else if(t == 'Nether Portal') {
-    if (inventory.other['Nether Portal']) return message.channel.send('You already have a Nether Portal') 
-    inventory.other['Nether Portal'] = {}
-    for(const mat in client.tools.Tools['Nether Portal'].materials) {
-    inventory.materials[mat.toProperCase()] -= client.tools.Tools['Nether Portal'].materials[mat]
-    }
-   // await db.set(`inventory_${message.author.id}`, inventory)
-    console.log(inventory)
-    embed.setDescription(`Successfully crafted a Nether Portal ${client.tools.Tools['Nether Portal'].emote}.
-Use \`s!dim nether\` to go to the nether world!`)
-  message.channel.send(embed)
-    return
-  }*/
 }
-
 function check(inventory, tool) {
   for(const mat in tool.materials) {
     if(tool.materials[mat] > inventory.materials[mat.toProperCase()]) return false
@@ -125,15 +78,15 @@ function ok(tool, client) {
 }
 
 async function generate(inventory, tool, name, message) {
+  if(inventory.tools[name]) return message.channel.send('You already own this tool')
   for(const mat in tool.materials) {
     inventory.materials[mat.toProperCase()] -= tool.materials[mat]
   }
-  (inventory.tools[name]) ? inventory.tools[name]++ : inventory.tools[name] = 1;
+  // (inventory.tools[name]) ? inventory.tools[name]++ : inventory.tools[name] = 1;
+  inventory.tools[name] = { durability : tool.durability, enchant: ''}
   await db.set(`inventory_${message.author.id}`, inventory)
-  let embed = new discord.MessageEmbed()
+  let embed = message.client.embed(message)
   .setTitle('Craft')
-  .setColor('#206694')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(`Successfully crafted a ${name} ${tool.emote}.
 Use \`s!equip ${name}\` to equip it`)
   message.channel.send(embed)

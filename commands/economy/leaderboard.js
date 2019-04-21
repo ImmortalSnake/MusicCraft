@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args) => {
     //let money = await client.dbSort(`balance`);
   let total = db.all().filter(b=>b.ID.startsWith('balance'))
   let money = total.sort((a,b) => (a.data > b.data) ? -1 : ((b.data > a.data) ? 1 : 0));
-  let content = "";
+  let content = "**";
   let pos
     for(let i = 0; i < money.length; i++) {
       
@@ -22,11 +22,9 @@ module.exports.run = async (client, message, args) => {
         }
       }
     }
-  content += `........\nYour position ${pos}`
-  const embed = new Discord.MessageEmbed()
-      .setAuthor(`${client.user.username} - LeaderBoard`, message.guild.iconURL)
+  content += `**........\nYour position **${pos}**`
+  const embed = client.embed(message)
       .setDescription(content)
-      .setColor('GREEN');
   message.channel.send(embed);
 }
 

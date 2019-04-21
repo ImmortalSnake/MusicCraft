@@ -25,8 +25,7 @@ ${slots[result1]} ${slots[result2]} ${slots[result3]} **<<<**
 **----------------**
 ${slots[random4]} ${slots[random5]} ${slots[random6]}
 `
-    let embed = new discord.MessageEmbed()
-    .setFooter(message.author.username, message.author.displayAvatarURL());
+    let embed = client.embed(message)
 		if (result1 === result2 && result1 === result3) {
       await db.add(`balance_${message.author.id}`, bet * 10)
 			embed.setDescription(`${m}

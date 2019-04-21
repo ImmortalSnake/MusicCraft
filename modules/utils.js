@@ -25,13 +25,13 @@ module.exports = (client) => {
     lastactivity: 0,
     size: 100,
     equipped: {
-      axe: "Wooden Axe",
-      pickaxe: '',
-      sword: '',
-      hoe: ''
+      axe: "Wooden Axe"
     },
     tools: {
-      "Wooden Axe": 1,
+      "Wooden Axe": {
+        durability: 60,
+        enchant: ''
+      }
     },
     materials: {
       "Wood": 0,
@@ -74,6 +74,13 @@ module.exports = (client) => {
       options: ['text'],
       description: 'Changes the prefix used to address Rythm bot.'
     }
+  }
+  client.defSettings = {
+    prefix: 's!',
+    DJRole: '',
+    defaultVolume: 5,
+    announceSongs: '',
+    musicChannel: ''
   }
   client.utils = {
     heads: client.emojis.find(emoji => emoji.name === 'heads'),

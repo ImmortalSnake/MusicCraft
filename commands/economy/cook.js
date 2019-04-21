@@ -13,10 +13,7 @@ exports.run = async (client, message, args) => {
     inventory.materials[mat.toProperCase()] ? inventory.materials[mat.toProperCase()] -= food.materials[mat] : inventory.food[mat.toProperCase()] -= food.materials[mat]
   }
   inventory.food[c] ? inventory.food[c]++ : inventory.food[c] = 1
-  let embed = new discord.MessageEmbed()
-  .setTitle('Cook')
-  .setColor('#206694')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
+  let embed = client.embed(message, { title: '**Cook**' })
   .setDescription(`Successfully cooked a ${c} ${client.items.Food[c].emote}.
 Use \`s!eat ${c}\` to eat it`)
   await db.set(`inventory_${message.author.id}`, inventory)

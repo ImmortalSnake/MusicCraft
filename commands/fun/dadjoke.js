@@ -1,5 +1,6 @@
 const fetch = require('node-superfetch');
-const discord = require('discord.js')
+const discord = require('discord.js');
+
 module.exports.run = async (client, message, args) => {
 const url = `https://icanhazdadjoke.com/`;
   fetch.get(url, {
@@ -27,6 +28,6 @@ exports.conf = {
 exports.help = {
   name: 'dadjoke',
   description: 'Evaluates a JS code.',
-  group: 'music',
+  group: 'fun',
   usage: 'youtube [command]'
 }

@@ -15,10 +15,8 @@ exports.run = async (client, message, args) => {
   if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
   if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
   if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Explore')
-  .setColor('#206694')
-  .setAuthor(message.author.username, message.author.displayAvatarURL())
   let chance = Math.random()
   inventory.lastactivity = Date.now()
   await db.set(`inventory_${message.author.id}`, inventory)
@@ -119,7 +117,7 @@ async function info(client, player, mob) {
     dmg: stats.attack + (stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].dmg : 0),
     crit: stats.equipped.sword ? client.tools.Tools[stats.equipped.sword].critical : 20,
     def: stats.equipped.chestplate ? client.tools.Armor[stats.equipped.chestplate].defense : [1, 5],
-    cdef: stats.equipped.helmet ? client.tools.Armor[stats.equipped.helmet].critical : [0.5, 0],
+    cdef: stats.equipped.helmet ? client.tools.Armor[stats.equipped.helmet].crit : [0.5, 0],
     sp: stats.speed + (stats.equipped.boots ? client.tools.Armor[stats.equipped.boots].speed : 0),
     luck: stats.luck,
     id: player.id

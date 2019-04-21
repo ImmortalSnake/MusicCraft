@@ -22,10 +22,8 @@ exports.run = async (client, message, args) => {
   inventory.food[rand] ? inventory.food[rand]+=drops : inventory.food[rand] = drops
   // inventory.materials.Wood = inventory.materials.Wood + drops
    await db.set(`inventory_${message.author.id}`, inventory);
-  let embed = new discord.MessageEmbed()
+  let embed = client.embed(message)
   .setTitle('Farm')
-  .setColor('GREEN')
-  .setFooter(message.author.username, message.author.displayAvatarURL())
   .setDescription(`**${message.author.username} farmed with ${ehoe.emote}.
 You got ${drops} ${food.emote}.**`)
   message.channel.send(embed); 

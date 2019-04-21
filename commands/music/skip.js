@@ -6,9 +6,9 @@ module.exports.run = async (client, message, args) => {
       if(!guildq.queue[0]) return message.reply('There is no music playing right now');
         if (guildq.queue[0].skippers.indexOf(message.author.id) == -1) {
             guildq.queue[0].skippers.push(message.author.id);
-            if (guildq.skippers.length >= Math.ceil((guildq.voiceChannel.members.size - 1) / 2)) {
+            if ((Math.ceil((guildq.voiceChannel.members.size - 1) / 2) - guildq.queue[0].skippers.length) === 0) {
                 guildq.dispatcher.end();
-                return message.reply('✅your skip has been acknowledged. Skipping now!');
+                return message.reply('✅ Your skip has been acknowledged. Skipping now!');
             }
           else {
             message.reply(' your skip has been acknowledged. You need **' + (Math.ceil((guildq.voiceChannel.members.size - 1) / 2) - guildq.queue[0].skippers.length) + '**  more skip votes!');

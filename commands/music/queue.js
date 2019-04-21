@@ -5,7 +5,7 @@ const fetchVideoInfo = require('youtube-info');
 module.exports.run = async (client, message, args) => {
   args = args[0]
       let guildq = global.guilds[message.guild.id];
-        if (!guildq) guildq = message.client.utils.defaultQueue;
+        if (!guildq) guildq = client.defaultQueue;
         if(guildq.queue.length == 0) return message.channel.send('no music queue right now..');
         let page = parseInt(args) || 1;
         let total = Math.ceil(guildq.queue.length / 9)
