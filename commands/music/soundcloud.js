@@ -18,8 +18,20 @@ exports.run = async (client, message, args) => {
 			request("http://api.soundcloud.com/resolve.json?url=" + videos + "&client_id=71dfa98f05fa01cb3ded3265b9672aaf", function (error, response, body) {
 				if(error) console.log(error)
 				else if (response.statusCode == 200) {
-				  	body = JSON.parse( body );
-				  	if(body.tracks) message.channel.send("More than 1 song was found. Please use !playlist to queue these songs.");
+				  	body = JSON.parse(body);
+            console.log(body)
+				  	if(body.tracks) {
+              message.channel.send("More than 1 song was found. Please use !playlist to queue these songs.");
+              let cqueue = {
+                url: body.permalink_url,
+                title: body.title,
+                id: body.id,
+                skippers: [],
+                requestor: message.author.id,
+                seek: 0,
+                soundcloud: true
+              }
+            }
 				  	else {
             let cqueue = {
                 url: body.permalink_url,
@@ -31,7 +43,7 @@ exports.run = async (client, message, args) => {
                 soundcloud: true
             }
             if(!guilds[message.guild.id].queue[0]) {
-            client.playMusic(body.id, message, 0, true)
+            client.playMusic(body.id, message, true)
             message.channel.send('✅Now playing: **' + body.title + '**');
             } else {
               message.channel.send('✅Added to queue: **' + body.title + '**');
@@ -59,17 +71,17 @@ exports.run = async (client, message, args) => {
                 soundcloud: true
             }
             if(!guilds[message.guild.id].queue[0]) {
-            client.playMusic(body[0].id, message, 0, true)
+            client.playMusic(body[0].id, message, true)
             message.channel.send('✅Now playing: **' + body[0].title + '**');
             } else {
               message.channel.send('✅Added to queue: **' + body[0].title + '**');
             }
             guilds[message.guild.id].queue.push(cqueue);
             guilds[message.guild.id].isPlaying = true;
-     })
+       })
      }
-      }
     }
+}
 
 function timeFormat(time) {
     var seconds = Math.floor(time % 60);

@@ -27,6 +27,7 @@ bot.groups = new discord.Collection()
 bot.aliases = new discord.Collection();
 bot.events = new discord.Collection();
 bot.prefix = 's!'
+bot.version = '1.9.0 Stable'
 
 require("./modules/functions.js")(bot)
 require("./modules/utils.js")(bot)
@@ -82,5 +83,3 @@ bot.on('error', console.error);
 process
     .on('uncaughtException', err => console.error(err.stack))
     .on('unhandledRejection', err => console.error(err.stack));      
-
-

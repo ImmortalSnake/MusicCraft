@@ -34,6 +34,7 @@
     "ytdl-core": "^0.29.0",
     "ytdl-core-discord": "^1.0.3",
     "node-opus": "^0.3.1",
-    "pastebin-js": "^1.0.1"
+    "pastebin-js": "^1.0.1",
+    "node-fetch": "^2.3.0"
   }
 }

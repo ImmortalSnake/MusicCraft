@@ -18,7 +18,6 @@ module.exports.run = async (client, message, args) => {
     if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
     if (member.voice.channel || guilds[message.guild.id].voiceChannel != null) {
            await getID(args, async function(id) {
-             console.log(id)
              if(!id) return message.channel.send('Could not obtain any search results')
              if(id === 'playlist') {
                const url = args ? args.replace(/<(.+)>/g, '$1') : ''
@@ -74,7 +73,7 @@ module.exports.run = async (client, message, args) => {
                   if (guilds[message.guild.id].queue.length > 1 || guilds[message.guild.id].isPlaying) {
                     message.channel.send('✅Added to queue: **' + videoInfo.title + '**');
                   } else {
-                    client.playMusic(id, message, 0);
+                    client.playMusic(id, message);
                     guilds[message.guild.id].isPlaying = true;
                     message.channel.send('✅Now playing: **' + videoInfo.title + '**');
                   }
@@ -93,27 +92,26 @@ module.exports.run = async (client, message, args) => {
 }
 
 async function getID(str, cb) {
-  if (isYoutube(str)) {
+  if(isYoutube(str)) {
     if(getYouTubeID(str)) cb(getYouTubeID(str))
     else {
       cb('playlist')
       }
     }
   else {
-    let id = await search_video(str)
-    cb(id);
+    search_video(str, function(id) {
+      cb(id)
+    })
   }
 }
 
 async function search_video(query, callback) {
   await request('https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=' + encodeURIComponent(query) + '&key=' + yt_api_key, function(error, response, body) {
-    if(error) throw new Error(error)
     const json = JSON.parse(body);
-    console.log(json)
-    if(!json.items[0]) { 
-      return '3_-a9nVZYjk';
+    if(!json.items[0]) {
+      callback('3_-a9nVZYjk');
     } else {
-      return json.items[0].id.videoId;
+      callback(json.items[0].id.videoId);
     }
   });
 }

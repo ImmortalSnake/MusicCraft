@@ -2,17 +2,16 @@ const discord = require('discord.js');
 const ms = require('ms');
 
 module.exports.run = async (client, message, args) => {
-        const bot = client;
-        const uptime = bot.uptime;
-        const bimage = bot.user.displayAvatarURL();
+        const uptime = client.uptime;
+        const bimage = client.user.displayAvatarURL();
         const myinfo = new discord.MessageEmbed()
-        .setTitle(bot.user.tag)
-        .addField('⚙️ Version', ['1.0.0 Stable'], true)
-        .addField('👑 Creator', ['ImmortalSnake#9836'], true)
+        .setAuthor(client.user.tag, bimage)
+        .addField('⚙️ Version', client.version, true)
+        .addField('👑 Creator', 'ImmortalSnake#9836', true)
         .addField('⌛ Uptime', ms(uptime), true)
-        .addField('🏙️ Guilds', bot.guilds.size, true)
-        .addField('👥 Members', bot.guilds.reduce((p, c) => p + c.memberCount, 0), true)
-        .addField('💬 Commands', bot.commands.size, true)
+        .addField('🏙️ Guilds', client.guilds.size, true)
+        .addField('👥 Members', client.guilds.reduce((p, c) => p + c.memberCount, 0), true)
+        .addField('💬 Commands', client.commands.size, true)
         .addField('🔋 Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
         .addField('🔗 Invite', '[Click here](https://discordapp.com/api/oauth2/authorize?client_id=557831541653241857&permissions=8&scope=bot)', true)
         .addField('🤝 Support', '[Click here](https://discord.gg/b8S3HAw)', true)

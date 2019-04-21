@@ -13,6 +13,7 @@ dependencies:
   get-youtube-id: 1.0.1
   libsodium-wrappers: 0.7.4
   moment: 2.24.0
+  node-fetch: 2.3.0
   node-opus: 0.3.1
   node-superfetch: 0.1.9
   pastebin-js: 1.0.1
@@ -1551,6 +1552,7 @@ specifiers:
   get-youtube-id: ^1.0.1
   libsodium-wrappers: ^0.7.3
   moment: ^2.24.0
+  node-fetch: ^2.3.0
   node-opus: ^0.3.1
   node-superfetch: ^0.1.9
   pastebin-js: ^1.0.1

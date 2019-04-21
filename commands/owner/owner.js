@@ -96,12 +96,34 @@ module.exports.run = async (client, message, args, color, prefix) => {
       return message.channel.send(`The command \`${args[1]}\` has been reloaded`);
       break;
     }
+    case 'reboot':{
+      await message.reply("Bot is shutting down and reconnecting");
+      client.destroy();
+      process.exit(1)
+      break;
+    }
+    case 'backup': {
+      if (!client.admins.includes(message.author.id)) return message.reply ('you are not allowed to use this command');
+      let users = db.all().filter(d => d.ID.startsWith('inventory'))
+      let embed = client.embed(message, {title: '**Backup Success**'})
+      .attachFiles([{
+        attachment: '/app/json.sqlite',
+        name: '../../json.sqlite'
+      }])
+      .setDescription(`wew.. gotta put something here
+**${users.length}** player datas saved!`)
+      message.channel.send(embed)
+      break;
+    }
+    default: {
+      message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`, `reload`, `reboot`, `backup`')
+    }
   }
 };
 
 function find(client, name) {
   if(client.tools.Tools[name]) return 'tools'
-  if(client.items.food[name]) return 'food'
+  if(client.items.Food[name]) return 'food'
   if(client.items.Materials[name]) return 'materials'
   if(client.tools.Armor[name]) return 'armor'
   return false

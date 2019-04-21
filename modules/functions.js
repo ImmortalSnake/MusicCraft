@@ -1,27 +1,27 @@
 const discord = require('discord.js');
-const ytdl = require('ytdl-core');
-const request = require("request");
+const ytdl = require('ytdl-core-discord');
+const fetch = require("node-fetch");
 const db = require('quick.db');
 const sort = require('array-sort');
 
 module.exports = (client) => {
 
-client.playMusic= async function(id, message, seek, soundcloud) {
+client.playMusic= async function(id, message, soundcloud) {
 try{
-  if(!parseInt(seek)) seek = 0
-  console.log(seek)
   const guildq = global.guilds[message.guild.id];
     global.guilds[message.guild.id].voiceChannel = message.member.voice.channel;
     global.guilds[message.guild.id].voiceChannel.join().then(async function(connection) {
-      let stream;
-      if(!soundcloud) stream = await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly'});
-      else stream = await request("http://api.soundcloud.com/tracks/" + id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf");
+      if(!soundcloud) guildq.dispatcher = await connection.play(await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly'}), { volume: guildq.volume, bitrate: 'auto', type: 'opus' });
+      else {
+        let stream = await fetch("http://api.soundcloud.com/tracks/" + id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf")
+        console.log(stream.url)
+        guildq.dispatcher = await connection.play(stream.url,  { volume: guildq.volume, bitrate: 'auto' });
+      }
         guildq.skippers = [];
-        guildq.dispatcher = await connection.play(stream, {volume: guildq.volume, bitrate: 192000 });
         guildq.dispatcher.on('end', function() {
             guildq.skippers = [];
             if(guildq.looping) {
-                return message.client.playMusic(id, message);
+                return client.playMusic(id, message);
             }
           else {
                 guildq.queue.shift();
@@ -34,7 +34,7 @@ try{
             }
           else { // queue here
                 setTimeout(function() { 
-                    message.client.playMusic(guildq.queue[0].id, message, guildq.queue[0].seek, guildq.queue[0].soundcloud);
+                    client.playMusic(guildq.queue[0].id, message, guildq.queue[0].soundcloud);
                 }, 500);
             }
         });
@@ -163,3 +163,50 @@ Object.defineProperty(Array.prototype, "random", {
     return embed
   }
 }
+
+const ffmpegArguments = [
+  '-analyzeduration', '0',
+  '-loglevel', '0',
+  '-f', 's16le',
+  '-ar', '48000',
+  '-ac', '2',
+];
+
+function playStream(stream, options) {
+    this.opusEncoder = require('./NodeOpusEngine');
+    const transcoder = this.prism.transcode({
+      type: 'ffmpeg',
+      media: stream,
+      ffmpegArguments: ffmpegArguments.concat(['-ss', String(options.seek || 0)]),
+    });
+    this.destroyCurrentStream();
+    this.currentStream = {
+      transcoder: transcoder,
+      output: transcoder.output,
+      input: stream,
+    };
+    transcoder.on('error', e => {
+      this.destroyCurrentStream();
+      if (this.listenerCount('error') > 0) this.emit('error', e);
+      this.emit('warn', `prism transcoder error - ${e}`);
+    });
+    return this.playPCMStream(transcoder.output, options, true);
+}
+
+  function playPCMStream(stream, options = {}, fromUnknown = false) {
+    this.destroy();
+    this.opusEncoder = require('./NodeOpusEngine'),
+    this.setBitrate(options.bitrate);
+    const dispatcher = this.createDispatcher(stream, options);
+    if (fromUnknown) {
+      this.currentStream.dispatcher = dispatcher;
+    } else {
+      this.destroyCurrentStream();
+      this.currentStream = {
+        dispatcher,
+        input: stream,
+        output: stream,
+      };
+    }
+    return dispatcher;
+  }

@@ -8,8 +8,7 @@ exports.run = async (client, message, args) => {
   if(!f) return message.channel.send('Could not find that food in your inventory. Use `s!eat [food]` to eat food and use `s!inv` to see all the food you have in your inventory')
   let food = client.items.Food[a]
   console.log(food)
-  let embed = client.embed(message)
-  .setTitle('Eat')
+  let embed = client.embed(message, {title: '**Eat**'})
   .setDescription(`You ate a ${a} ${food.emote}.
 You got ${food.energy}+ Energy!`)
   message.channel.send(embed)

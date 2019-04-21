@@ -151,7 +151,7 @@
       }
     },
     "Diamond Pickaxe": {
-      "durability": 50,
+      "durability": 1200,
       "drops": {
         "Stone": [3, 3],
         "Coal": [3, 3],
@@ -247,7 +247,7 @@
       }
     },
     "Gold Axe": {
-      "durability": 50,
+      "durability": 300,
       "type": "Normal",
       "drops": [5, 8],
       "emote": "<:goldaxe:564018320639131659>",
