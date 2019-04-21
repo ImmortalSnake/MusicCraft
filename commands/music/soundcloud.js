@@ -1,25 +1,30 @@
 const discord = require('discord.js');
 const config = process.env
 const request = require("request");
+const ms = require('ms')
 
 exports.run = async (client, message, args) => {
    // comes with the catch
-    const { member, content } = message;
-    const mess = content.toLowerCase();
-    if(!args[0]) return message.channel.send('ello')
-    if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
-		if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+  const { member, content } = message;
+  const mess = content.toLowerCase();
+  if(!args[0]) return message.channel.send('ello')
+  if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
+	if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
   if(!member.voice.channel) return message.channel.send('You are not in any voice channel. Join one to use this command')
   if (!guilds[message.guild.id]) guilds[message.guild.id] = client.defaultQueue;
-    if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
-    if (member.voice.channel || guilds[message.guild.id].voiceChannel != null) {
+  if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
+  if (member.voice.channel || guilds[message.guild.id].voiceChannel != null) {
+    const embed = new discord.MessageEmbed()
+    .setColor('BLUE') 
+    .setAuthor(message.author.username, message.author.displayAvatarURL())
+    .setFooter(guilds[message.guild.id].queue.length + ' song(s) in queue');
+
       let videos = args.join(' ');
       if( videos.indexOf("soundcloud.com") > -1) {
 			request("http://api.soundcloud.com/resolve.json?url=" + videos + "&client_id=71dfa98f05fa01cb3ded3265b9672aaf", function (error, response, body) {
 				if(error) console.log(error)
 				else if (response.statusCode == 200) {
 				  	body = JSON.parse(body);
-            console.log(body)
 				  	if(body.tracks) {
               message.channel.send("More than 1 song was found. Please use !playlist to queue these songs.");
               let cqueue = {
@@ -42,11 +47,15 @@ exports.run = async (client, message, args) => {
                 seek: 0,
                 soundcloud: true
             }
+            embed.setThumbnail(body.artwork_url)
+              .setTitle('**' + body.title + '**')
+              .setURL(body.permalink_url)
+              .addField('Song Duration', ms(body.duration + ' s'), true)
             if(!guilds[message.guild.id].queue[0]) {
             client.playMusic(body.id, message, true)
-            message.channel.send('✅Now playing: **' + body.title + '**');
+            message.channel.send('✅Now playing: **' + body.title + '**', { embed: embed });
             } else {
-              message.channel.send('✅Added to queue: **' + body.title + '**');
+              message.channel.send('✅Added to queue: **' + body.title + '**', { embed: embed });
             }
             guilds[message.guild.id].queue.push(cqueue);
             guilds[message.guild.id].isPlaying = true;
@@ -59,7 +68,7 @@ exports.run = async (client, message, args) => {
       }
      else {
        request("http://api.soundcloud.com/tracks?q="+ args.join(' ') +"&client_id=71dfa98f05fa01cb3ded3265b9672aaf", function (error, response, body){
-         if(error) throw new Error(error)
+        if(error) throw new Error(error)
         body = JSON.parse(body)
               let cqueue = {
                 url: body[0].permalink_url,
@@ -70,11 +79,15 @@ exports.run = async (client, message, args) => {
                 seek: 0,
                 soundcloud: true
             }
+              embed.setThumbnail(body[0].artwork_url)
+              .setTitle('**' + body[0].title + '**')
+              .setURL(body[0].permalink_url)
+              .addField('Song Duration', ms(body[0].duration + ' s'), true)
             if(!guilds[message.guild.id].queue[0]) {
             client.playMusic(body[0].id, message, true)
-            message.channel.send('✅Now playing: **' + body[0].title + '**');
+            message.channel.send('✅Now playing: **' + body[0].title + '**', { embed: embed });
             } else {
-              message.channel.send('✅Added to queue: **' + body[0].title + '**');
+              message.channel.send('✅Added to queue: **' + body[0].title + '**', { embed: embed });
             }
             guilds[message.guild.id].queue.push(cqueue);
             guilds[message.guild.id].isPlaying = true;
