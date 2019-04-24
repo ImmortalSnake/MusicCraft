@@ -10,8 +10,6 @@ module.exports.run = async (client, message, args) => {
     let total = Math.ceil(guildq.queue.length / 9)
     if(page > total) page = total
     const mess = client.embed(message)
-    .setFooter(guildq.queue.length + ' songs in queue');
-
       guildq.looping ? mess.setTitle('Music Queue for ' + message.guild.name + ' *LOOPING*') : mess.setTitle('Music Queue for ' + message.guild.name);
       let message2 = '';
     for (let i = 0; i < guildq.queue.length; i++) {
@@ -19,7 +17,7 @@ module.exports.run = async (client, message, args) => {
         const temp = `\n${(i + 1)} : [${guildq.queue[i].title}](${guildq.queue[i].url})${(i == 0 ? ' **(Current Song)**' : '')}\n~ Requested By: ${client.users.get(guildq.queue[i].requestor)}\n`;
           message2 += temp;
         }
-    mess.setFooter(`Page ${page}/${total}`)
+    mess.setFooter(`Page ${page}/${total} ~ ${guildq.queue.length} songs in queue`)
     mess.setDescription(message2);
     message.channel.send(mess);
 }

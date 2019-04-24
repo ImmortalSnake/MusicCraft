@@ -6,19 +6,18 @@ const youtube = new YouTube(yt_api_key);;
 const request = require("request");
 const getYouTubeID = require("get-youtube-id");
 const fetchVideoInfo = require("youtube-info");
+const db = require('quick.db')
 
 module.exports.run = async (client, message, args) => {
       try{ // comes with the catch
     args = args.join(' ')
-    const { member, content } = message;
-    const mess = content.toLowerCase();
     if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
 		if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
-    
+    const settings = await db.fetch(`settings_${message.guild.id}`)
     let check = await client.checkMusic(message, { vc: true })
     if(check) return message.channel.send(check)
     let guildq = global.guilds[message.guild.id]
-  //  if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
+
            await getID(args, async function(id) {
              if(!id) return message.channel.send('Could not obtain any search results')
              if(id === 'playlist') {
@@ -33,8 +32,8 @@ module.exports.run = async (client, message, args) => {
                   if(t > 50) break;
                     const video2 = await youtube.getVideoByID(video.id)
                     let cqueue = {
-                    url: 'https://youtube.com/watch?v='+video.id,
-                    title: video2.title,
+                      url: 'https://youtube.com/watch?v='+video.id,
+                      title: video2.title,
                     id: video2.id,
                     skippers: [],
                     requestor: message.author.id,
@@ -46,6 +45,7 @@ module.exports.run = async (client, message, args) => {
                   if(!guildq.queue.length > t || guildq.isPlaying) {
                     await message.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);
                   }else{
+                    guildq.volume = settings.defVolume
                     await client.playMusic(guildq.queue[0].id, message)
                     guildq.isPlaying = true;
                     await message.channel.send(`✅ Now Playing! Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);

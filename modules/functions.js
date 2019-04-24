@@ -8,24 +8,22 @@ module.exports = (client) => {
 
 client.playMusic= async function(id, message, soundcloud) {
 try{
+  const settings = await db.fetch(`settings_${message.guild.id}`)
   const guildq = global.guilds[message.guild.id];
-    global.guilds[message.guild.id].voiceChannel = message.member.voice.channel;
-    global.guilds[message.guild.id].voiceChannel.join().then(async function(connection) {
+    guildq.voiceChannel = message.member.voice.channel;
+    guildq.voiceChannel.join().then(async function(connection) {
       if(!soundcloud) guildq.dispatcher = await connection.play(await ytdl('https://www.youtube.com/watch?v=' + id, { filter: 'audioonly'}), { volume: guildq.volume, bitrate: 'auto', type: 'opus' });
       else {
         let stream = await fetch("http://api.soundcloud.com/tracks/" + id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf")
         console.log(stream.url)
         guildq.dispatcher = await connection.play(stream.url,  { volume: guildq.volume, bitrate: 'auto' });
       }
+      if(settings.announceSongs === 'on') message.channel.send(`Now playing **${guildq.queue[0].title}**`)
         guildq.skippers = [];
         guildq.dispatcher.on('end', function() {
             guildq.skippers = [];
-            if(guildq.looping) {
-                return client.playMusic(id, message);
-            }
-          else {
-                guildq.queue.shift();
-            }
+          if(guildq.looping) return client.playMusic(id, message);
+          else guildq.queue.shift();
             if (guildq.queue.length === 0) {
                 guildq.queue = [];
                 guildq.isPlaying = false;
