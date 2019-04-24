@@ -1,15 +1,14 @@
 const discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
-  if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
-    let guildq = global.guilds[message.guild.id];
-    if (!guildq) guildq = client.defaultQueue;
-		if (!guildq.queue[0]) return message.reply('There is nothing playing.');
-      let old = guildq.queue.length
-      global.guilds[message.guild.id].queue = rd(guildq.queue);
-      let nq = global.guilds[message.guild.id].queue.length
-      message.reply(`The queue dupes has been cleared by ${message.author}. \`${old-nq}\` songs removed `);
-    }
+  let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true })
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
+  let old = guildq.queue.length
+  guildq.queue = rd(guildq.queue);
+  let nq = guildq.queue.length
+  message.reply(`The queue dupes has been cleared by ${message.author}. \`${old-nq}\` songs removed `);
+}
 
 
 exports.conf = {

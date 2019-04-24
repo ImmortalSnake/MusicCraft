@@ -47,7 +47,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'dimension',
-  description: 'Evaluates a JS code.',
+  description: 'Travel to different dimensions with this command!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'dimension [dimension name]'
 }

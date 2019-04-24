@@ -41,7 +41,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'inventory',
-  description: 'Evaluates a JS code.',
+  description: 'Displays your inventory',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'inventory'
 }

@@ -22,7 +22,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'start',
-  description: 'Evaluates a JS code.',
+  description: 'Start your new minecraft adventure with this command!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'start'
 }

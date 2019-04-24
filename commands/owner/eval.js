@@ -4,6 +4,7 @@ const discord = require('discord.js');
 const ms = require('ms');
 const pastebin = require('pastebin-js');
 const paste = new pastebin(process.env.pastekey)
+const request = require('request')
 
 module.exports.run = async (client, message, args) => {
   if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command')
@@ -42,6 +43,6 @@ exports.conf = {
 exports.help = {
   name: 'eval',
   description: 'Evaluates a JS code.',
-  usage: 'eval',
+  usage: 'eval [code]',
   group: 'owner'
 }

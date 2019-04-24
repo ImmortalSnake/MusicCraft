@@ -9,12 +9,13 @@ exports.run = async (client, message, args) => {
   let hoe = inventory.equipped.hoe
   if(!hoe) return message.channel.send('You do not have an hoe. Use `s!craft wooden hoe` to get a hoe');
   if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100')
-  
+  if(inventory.tools[hoe].durability < 1) return message.channel.send(`You cannot use this hoe anymore as it is broken, please use \`s!repair ${hoe}\` to repair it`)
   inventory = await client.checkInventory(message.author)
   if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
   if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
   inventory.lastactivity = Date.now()
   inventory.hunger -= 2
+  inventory.tools[hoe].durability--
   let ehoe = client.tools.Tools[hoe]
   let drops = Math.floor(Math.random() * ehoe.drops[1]) + ehoe.drops[0]
   let rand = ['Potato', 'Carrot', 'Wheat'].random()
@@ -41,8 +42,7 @@ exports.conf = {
   
 exports.help = {
     name: "farm",
-    description: "Fish and try to turn your credits into a fortune!",
+    description: "Farm for food!",
     group: 'economy',
-    usage: "",
-    extendedHelp: "Spend 10 credits to fish and catch yourself a fortune!"
+    usage: "farm",
 };

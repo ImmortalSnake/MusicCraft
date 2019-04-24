@@ -32,7 +32,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'tweet',
-  description: 'Evaluates a JS code.',
+  description: 'A nice twitter post',
   group: 'fun',
-  usage: 'tweet [command]'
+  usage: 'tweet [text]'
 }

@@ -40,6 +40,6 @@ exports.conf = {
 exports.help = {
   name: "channel",
   group: "fun",
-  description: "Displays all the available commands for your permission level.",
-  usage: "channel [command]"
+  description: "Shows current statistics of a youtube channel",
+  usage: "channel [channel name]"
 };

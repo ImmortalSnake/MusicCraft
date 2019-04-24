@@ -54,7 +54,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'slots',
-  description: 'Evaluates a JS code.',
+  description: 'Play a game of slots. You recieve 10x the bet if you win!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'slots [bet]'
 }

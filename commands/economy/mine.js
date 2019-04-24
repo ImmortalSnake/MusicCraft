@@ -11,11 +11,11 @@ exports.run = async (client, message, args) => {
   inventory = await client.checkInventory(message.author)
   if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
   if(inventory.hunger %2 === 0 && inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
-
+  if(inventory.tools[pickaxe].durability < 1) return message.channel.send(`You cannot use this pickaxe anymore as it is broken, please use \`s!repair ${pickaxe}\` to repair it`)
   inventory.hunger-= 0.25
   inventory.lastactivity = Date.now()
   let mines = client.items.Materials
-  let p = pickaxe = client.tools.Tools[pickaxe]
+  let p = client.tools.Tools[pickaxe]
   let result = {}
   let m = `**${message.author.username} mined with a ${p.emote} and found`
   let drops = p.drops;
@@ -28,6 +28,8 @@ exports.run = async (client, message, args) => {
       result[mat] = Math.floor(Math.random() * drops[mat][1]) + drops[mat][0]
       inventory.materials[mat] ? inventory.materials[mat] += result[mat] : inventory.materials[mat] = result[mat]
   }
+  
+  inventory.tools[pickaxe].durability--
   for(const r in result) {
     let emote = mines[r].emote
     m += `\n ${emote} ${r} x${result[r]}`
@@ -53,8 +55,7 @@ exports.conf = {
   
 exports.help = {
     name: "mine",
-    description: "Fish and try to turn your credits into a fortune!",
+    description: "Mine for materials and diamonds!",
     group: 'economy',
-    usage: "",
-    extendedHelp: "Spend 10 credits to fish and catch yourself a fortune!"
+    usage: "mine"
 };

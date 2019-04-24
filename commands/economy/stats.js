@@ -59,9 +59,9 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'stats',
-  description: 'Evaluates a JS code.',
+  description: 'View all details of any food, armor, tool',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'stats [item]'
 }
 
 function gen(client, tool, type) {

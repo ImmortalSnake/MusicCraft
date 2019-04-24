@@ -101,7 +101,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'craft',
-  description: 'Evaluates a JS code.',
+  description: 'Craft tools, armor and other items that help you on your adventure!',
   group: 'economy',
-  usage: 'craft'
+  usage: 'craft [item name]'
 }

@@ -24,7 +24,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'profile',
-  description: 'Evaluates a JS code.',
+  description: 'Displays your current stats',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'profile'
 }

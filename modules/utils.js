@@ -54,32 +54,44 @@ module.exports = (client) => {
     give: {}
   }
   client.settings = {
-    announcesongs: {
-      value: false, // default values
-      options: ['on', 'off'], // options choose these for easy settings
-      description: 'Toggles the bot announcing each song as it plays them.' // description
-    },
-    maxqueuelength: {
-      value: 'disabled',
-      options: ['number', 'disabled'],
-      description: 'Limits how many songs the queue can hold at one time, can be disabled by typing *disable* instead of a number.'
+    announceSongs: {
+      description: 'Toggles the bot announcing each song in the channel as it plays them', 
+      name: 'Announce Songs',
+      usage: 'announcesongs [on / off]',
+      value: 'announceSongs'
     },
     DJRole: {
-      value: 'DJ',
-      options: ['role'],
-      description: 'Changes which role is considered DJ.'
+      description: 'Sets a Dj Role. Any member with the DJ Role has access to most of the music commands',
+      name: 'DJ Role',
+      usage: 'djrole [@role]',
+      value: 'djRole',
+      type: 'role'
     },
-    Prefix: {
-      value: 's!',
-      options: ['text'],
-      description: 'Changes the prefix used to address Rythm bot.'
+    prefix: {
+      description: 'Changes the prefix for the guild!',
+      name: 'Prefix',
+      usage: 'prefix [new prefix]',
+      value: 'prefix'
+    },
+    defVolume: {
+      description: 'Sets the default volume for the guild!',
+      name: 'Default Volume',
+      usage: 'defvolume [Volume (in numbers)]',
+      value: 'defVolume'
+    },
+    musicChannel: {
+      description: 'Restricts all musics commands to be used in a certain channel',
+      name: 'Music Channel',
+      usage: 'musicchannel [#textchannel]',
+      value: 'musicChannel',
+      type: 'channel'
     }
   }
   client.defSettings = {
     prefix: 's!',
-    DJRole: '',
-    defaultVolume: 5,
-    announceSongs: '',
+    djRole: '',
+    defVolume: 5,
+    announceSongs: 'off',
     musicChannel: ''
   }
   client.utils = {

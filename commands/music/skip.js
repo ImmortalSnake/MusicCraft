@@ -1,9 +1,8 @@
 
 module.exports.run = async (client, message, args) => {
- if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
-   let guildq = global.guilds[message.guild.id];
-   if (!guildq) guildq = client.defaultQueue;
-      if(!guildq.queue[0]) return message.reply('There is no music playing right now');
+  let check = await client.checkMusic(message, { vc: true, playing: true})
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
         if (guildq.queue[0].skippers.indexOf(message.author.id) == -1) {
             guildq.queue[0].skippers.push(message.author.id);
             if ((Math.ceil((guildq.voiceChannel.members.size - 1) / 2) - guildq.queue[0].skippers.length) === 0) {
@@ -28,9 +27,9 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'skip',
-  description: 'Evaluates a JS code.',
+  description: 'Skips the current playing music',
   group: 'music',
-  usage: 'skip [command]'
+  usage: 'skip'
 }
 
 

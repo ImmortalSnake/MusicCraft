@@ -5,21 +5,19 @@ const yt_api_key = config.yt_api_key;
 const youtube = new YouTube(yt_api_key);
 
 module.exports.run = async (client, message, args) => {
-   let queue = global.guilds[message.guild.id];
-      if (!global.guilds[message.guild.id]) global.guilds[message.guild.id] = client.defaultQueue;
-      queue = global.guilds[message.guild.id];
-           const voiceChannel = message.member.voice.channel;
-	         const url = args ? args.join(' ').replace(/<(.+)>/g, '$1') : ''
+    let check = await client.checkMusic(message, { vc: true })
+    if(check) return message.channel.send(check)
+    let guildq = global.guilds[message.guild.id]
+    
+    const voiceChannel = message.member.voice.channel;
+	  const url = args ? args.join(' ').replace(/<(.+)>/g, '$1') : ''
 
-            if (!voiceChannel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
-                try {
-                    let video = await youtube.getVideo(url);
-                }
-              catch (error) {
-                    try {
-                        let videos = await youtube.searchVideos(url, 10);
-                        let index = 0;
-                        let m = await message.channel.send(`
+    try { var video = await youtube.getVideo(url) }
+     catch (error) {
+        try {
+            let videos = await youtube.searchVideos(url, 10);
+            let index = 0;
+            let m = await message.channel.send(`
 __**Song selection:**__
 ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
 
@@ -39,9 +37,9 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
                           requestor: message.author.id,
                           seek: 0
                         }
-                        global.guilds[message.guild.id].queue.push(cqueue);
-                        global.guilds[message.guild.id].isPlaying = true;
-                        if(!queue.queue[1]) {
+                        guildq.queue.push(cqueue);
+                        guildq.isPlaying = true;
+                        if(!guildq.queue[1]) {
                           await message.channel.send('✅ Now playing: **' + video.title + '**');
                           client.playMusic(video.id, message);
                         } else {
@@ -67,7 +65,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'search',
-  description: 'Evaluates a JS code.',
+  description: 'Searches for a song in youtube with the given query and lists out 10 searches from which you can select and play music',
   group: 'music',
-  usage: 'search [command]'
+  usage: 'search [query]'
 }

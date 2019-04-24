@@ -1,9 +1,8 @@
 
 module.exports.run = async (client, message, args) => {
-if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
-   let guildq = global.guilds[message.guild.id];
-      if (!guildq) guildq = client.defaultQueue;
-      if(!guildq.queue[0]) return message.reply('There is no music playing right now');
+  let check = await client.checkMusic(message, { vc: true, playing: true})
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
       guildq.isPlaying = true;
 			guildq.dispatcher.resume();
 			return message.channel.send('▶ Resumed the music for you!');
@@ -18,7 +17,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'resume',
-  description: 'Evaluates a JS code.',
+  description: 'Resumes the music when paused',
   group: 'music',
-  usage: 'resume [command]'
+  usage: 'resume'
 }

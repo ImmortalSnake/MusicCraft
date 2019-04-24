@@ -32,8 +32,8 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'youtube',
-  description: 'Evaluates a JS code.',
+  description: 'A nice youtube comment',
   group: 'fun',
-  usage: 'youtube [command]'
+  usage: 'youtube [text]'
 }
 

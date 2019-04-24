@@ -134,7 +134,8 @@ async function win(stats, user, message, collector) {
         inv.xp += xp;
         let drops = Math.random() < stats.mob.drops[1] ? stats.mob.drops[0] : ''
         if(drops) inv.crates.push(stats.mob.drops[0])
-        console.log(inv)
+        if(inv.tools[inv.equipped.sword]) inv.tools[inv.equipped.sword].durability--
+        if(inv.tools[inv.equipped.chestplate]) inv.tools[inv.equipped.chestplate].durability--
         await db.set(`inventory_${user.id}`, inv)
         let winEmbed = new discord.MessageEmbed()
         .setTitle('You Win')
@@ -163,7 +164,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'explore',
-  description: 'Evaluates a JS code.',
+  description: 'Fight mobs to get xp and rewards, find crates and much more',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'explore'
 }

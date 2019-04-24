@@ -37,8 +37,7 @@ exports.conf = {
   
 exports.help = {
     name: "fish",
-    description: "Fish and try to turn your credits into a fortune!",
+    description: "Catch fish which you can eat after cooking!",
     group: 'economy',
-    usage: "",
-    extendedHelp: "Spend 10 credits to fish and catch yourself a fortune!"
+    usage: "fish",
 };

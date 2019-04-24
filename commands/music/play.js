@@ -14,9 +14,11 @@ module.exports.run = async (client, message, args) => {
     const mess = content.toLowerCase();
     if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
 		if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
-    if (!guilds[message.guild.id]) guilds[message.guild.id] = client.defaultQueue;
-    if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
-    if (member.voice.channel || guilds[message.guild.id].voiceChannel != null) {
+    
+    let check = await client.checkMusic(message, { vc: true })
+    if(check) return message.channel.send(check)
+    let guildq = global.guilds[message.guild.id]
+  //  if(guilds[message.guild.id].isPlaying && guilds[message.guild.id].voiceChannel !== message.member.voice.channel) return message.channel.send('Currently playing something in another voice channel');
            await getID(args, async function(id) {
              if(!id) return message.channel.send('Could not obtain any search results')
              if(id === 'playlist') {
@@ -38,14 +40,14 @@ module.exports.run = async (client, message, args) => {
                     requestor: message.author.id,
                     seek: 0
                     }
-                    global.guilds[message.guild.id].queue.push(cqueue);
+                    guildq.queue.push(cqueue);
                     t++;
                 }
-                  if(!guilds[message.guild.id].queue.length > t || guilds[message.guild.id].isPlaying) {
+                  if(!guildq.queue.length > t || guildq.isPlaying) {
                     await message.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);
                   }else{
-                    await client.playMusic(global.guilds[message.guild.id].queue[0].id, message)
-                    global.guilds[message.guild.id].isPlaying = true;
+                    await client.playMusic(guildq.queue[0].id, message)
+                    guildq.isPlaying = true;
                     await message.channel.send(`✅ Now Playing! Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);
                   }
                 }
@@ -59,7 +61,7 @@ module.exports.run = async (client, message, args) => {
                     .setURL(videoInfo.url)
                     .setAuthor(message.author.username, message.author.displayAvatarURL())
                     .addField('Song Duration', [videoInfo.duration + ' s'], true)
-                    .setFooter(guilds[message.guild.id].queue.length + ' song(s) in queue');
+                    .setFooter(guildq.queue.length + ' song(s) in queue');
                     message.channel.send(embed);
                     let cqueue = {
                       url: videoInfo.url,
@@ -69,21 +71,17 @@ module.exports.run = async (client, message, args) => {
                       requestor: message.author.id,
                       seek: 0
                     }
-                    guilds[message.guild.id].queue.push(cqueue);
-                  if (guilds[message.guild.id].queue.length > 1 || guilds[message.guild.id].isPlaying) {
+                    guildq.queue.push(cqueue);
+                  if (guildq.queue.length > 1 || guildq.isPlaying) {
                     message.channel.send('✅Added to queue: **' + videoInfo.title + '**');
                   } else {
                     client.playMusic(id, message);
-                    guilds[message.guild.id].isPlaying = true;
+                    guildq.isPlaying = true;
                     message.channel.send('✅Now playing: **' + videoInfo.title + '**');
                   }
                 });
              }
           });
-    }
-     else {
-        message.reply('You need to be in a voice channel!');
-    }
       }
       catch(e) {
         console.log(e);
@@ -129,7 +127,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'play',
-  description: 'Evaluates a JS code.',
+  description: 'Plays a song from youtube with the given query or url, Supports youtube playlists',
   group: 'music',
-  usage: 'play [command]'
+  usage: 'play [query / url]'
 }

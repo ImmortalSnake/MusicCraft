@@ -29,7 +29,7 @@ exports.conf = {
 
 exports.help = {
   name: 'info',
-  description: 'Shows API / Latency ping.',
+  description: 'Shows the stats and information of the bot!',
   group: 'general',
   usage: 'info'
 }
