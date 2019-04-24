@@ -37,7 +37,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'leaderboard',
-  description: 'Evaluates a JS code.',
+  description: 'Shows the richest and highest level players!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'leaderboard'
 }

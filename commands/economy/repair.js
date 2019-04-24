@@ -7,13 +7,15 @@ exports.run = async (client, message, args) => {
   let l = locate(inventory, t);
   if(!l) return message.channel.send('Could not find that item in your inventory')
   let tool = client.tools[l.toProperCase()][t]
-  console.log(tool)
   inventory[l][t].durability = tool.durability
   if(!check(inventory, tool)) return message.channel.send('You do not have enough materials')
   for(const mat in tool.repair) {
     inventory.materials[mat.toProperCase()] -= tool.repair[mat]
   }
-  console.log(inventory)
+  await db.set(`inventory_${message.author.id}`, inventory);
+  let embed = client.embed(message, { title: '**Repair**'})
+  .setDescription(`**You successfully repaired your ${t} ${tool.emote}**`)
+  return message.channel.send(embed)
 }
 
 function locate(inventory, t) {
@@ -43,7 +45,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'repair',
-  description: 'Evaluates a JS code.',
+  description: 'Repair the tools so you can reuse them',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'repair [tool name]'
 }

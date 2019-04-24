@@ -11,13 +11,14 @@ exports.run = async (client, message, args) => {
   inventory = await client.checkInventory(message.author);
   if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25
   if(inventory.hunger %2 == 0 && inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food')
-  
-  inventory.hunger -= 0.25
   let eaxe = inventory.equipped.axe;
+  if(inventory.tools[eaxe].durability < 1) return message.channel.send(`You cannot use this axe anymore as it is broken, please use \`s!repair ${eaxe}\` to repair it`)
+  inventory.hunger -= 0.25
   let axe = client.tools.Tools[eaxe]
   let drops = Math.floor(Math.random() * axe.drops[1]) + axe.drops[0] 
   let wood = client.items.Materials.Wood;
   inventory.materials.Wood = inventory.materials.Wood + drops
+  inventory.tools[eaxe].durability--
   
   let apple = false;
   let m = ''
@@ -47,8 +48,7 @@ exports.conf = {
   
 exports.help = {
     name: "chop",
-    description: "Fish and try to turn your credits into a fortune!",
+    description: "Chop trees to get wood! Apple drops ocassionaly",
     group: 'economy',
-    usage: "",
-    extendedHelp: "Spend 10 credits to fish and catch yourself a fortune!"
+    usage: "chop",
 };

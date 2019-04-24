@@ -2,13 +2,13 @@ const discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
   if(!parseInt(args)) return client.formatError(this, message);
-  if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
-   let guildq = global.guilds[message.guild.id];
-      if (!guildq) guildq = client.defaultQueue;
-      if(!guildq.queue[0]) return message.reply('There is no music playing right now');
-      if(!guildq.queue[args - 1]) return message.reply('Could not find a music in that id');
-      global.guilds[message.guild.id].queue.splice(0, args - 1);
-			return message.channel.send('▶ Removed the music for you!');
+  let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true })
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
+  
+  if(!guildq.queue[args - 1]) return message.reply('Could not find a music in that id');
+  guildq.queue.splice(0, args - 1);
+	return message.channel.send('▶ Removed the music for you!');
   }
 
 
@@ -21,7 +21,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'remove',
-  description: 'Evaluates a JS code.',
+  description: 'Removes a song from the queue',
   group: 'music',
-  usage: 'remove [command]'
+  usage: 'remove [position number in queue]'
 }

@@ -64,7 +64,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'crate',
-  description: 'Evaluates a JS code.',
+  description: 'Shows all crates that you own and opens them!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'coin [crate type]'
 }

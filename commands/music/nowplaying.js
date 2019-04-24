@@ -4,12 +4,10 @@ const ms = require('ms')
 const request = require("request");
 
 module.exports.run = async (client, message, args) => {
-   let guildq = global.guilds[message.guild.id];
-    if (!guildq) guildq = client.defaultQueue;
-    if(!guildq.queue[0]) return message.reply('There is no music playing right now');
-    const mess = new discord.MessageEmbed()
-    .setAuthor(message.author.username, message.author.displayAvatarURL())
-    .setColor('BLUE')
+  let check = await client.checkMusic(message, { playing: true })
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
+  const mess = client.embed(message)
     .setFooter(`${guildq.queue.length} songs in queue`)
     .addField('Requested By', client.users.get(guildq.queue[0].requestor))
     fetchVideoInfo(guildq.queue[0].id, async function(err, videoInfo) {
@@ -43,10 +41,10 @@ exports.conf = {
   guildOnly: true
 };
 
-// Name is the only necessary one.
+
 exports.help = {
   name: 'nowplaying',
-  description: 'Evaluates a JS code.',
+  description: 'Displays some information about the current playing music',
   group: 'music',
   usage: 'np [command]'
 }

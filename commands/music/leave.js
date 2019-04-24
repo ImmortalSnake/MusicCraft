@@ -1,13 +1,15 @@
 module.exports.run = async (client, message, args) => {
-   if(message.guild.voiceConnection) {
-            global.guilds[message.guild.id].queue = [];
-            message.guild.voiceConnection.disconnect();
-            message.channel.send('Left the voice channel');
-        }
-        else {
-            message.channel.send('I am not in any voice channel..');
-        }
-    }
+  let check = await client.checkMusic(message, { vc: true, djRole: true})
+  if(check) return message.channel.send(check)
+  if(message.guild.voiceConnection) {
+     global.guilds[message.guild.id].queue = [];
+     message.guild.voiceConnection.disconnect();
+     message.channel.send('Left the voice channel');
+   }
+  else {
+    message.channel.send('I am not in any voice channel..');
+  }
+}
 
 exports.conf = {
   aliases: [],
@@ -18,7 +20,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'leave',
-  description: 'Evaluates a JS code.',
+  description: 'Clears the queue and leaves the voice channel',
   group: 'music',
-  usage: 'leave [command]'
+  usage: 'leave'
 }

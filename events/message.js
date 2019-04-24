@@ -3,16 +3,16 @@ const tips = [
   '',
   ''
 ]
-
 const ms = require('ms')
+const db = require('quick.db')
+
 exports.run = async (client, message) => {
   if (message.author.bot) return;
   let prefix = client.prefix;
   if(message.guild){
-    if(!message.guild.prefix) {
-    message.guild.prefix = client.prefix
-    }
-    prefix = message.guild.prefix;
+    let settings = await db.fetch(`settings_${message.guild.id}`)
+    if(!settings) settings = await db.set(`settings_${message.guild.id}`, client.defSettings)
+    prefix = settings.prefix
   }
   let args, cmd, command;
   if (message.content.startsWith(prefix)) {

@@ -29,9 +29,9 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'equip',
-  description: 'Evaluates a JS code.',
+  description: 'Equip a tool so you can use them',
   group: 'economy',
-  usage: 'craft'
+  usage: 'equip [tool name]'
 }
 
 /*exports.run = async (client, message, args) => {

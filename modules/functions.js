@@ -162,51 +162,29 @@ Object.defineProperty(Array.prototype, "random", {
     if(options && options.title) embed.setTitle(options.title)
     return embed
   }
-}
-
-const ffmpegArguments = [
-  '-analyzeduration', '0',
-  '-loglevel', '0',
-  '-f', 's16le',
-  '-ar', '48000',
-  '-ac', '2',
-];
-
-function playStream(stream, options) {
-    this.opusEncoder = require('./NodeOpusEngine');
-    const transcoder = this.prism.transcode({
-      type: 'ffmpeg',
-      media: stream,
-      ffmpegArguments: ffmpegArguments.concat(['-ss', String(options.seek || 0)]),
-    });
-    this.destroyCurrentStream();
-    this.currentStream = {
-      transcoder: transcoder,
-      output: transcoder.output,
-      input: stream,
-    };
-    transcoder.on('error', e => {
-      this.destroyCurrentStream();
-      if (this.listenerCount('error') > 0) this.emit('error', e);
-      this.emit('warn', `prism transcoder error - ${e}`);
-    });
-    return this.playPCMStream(transcoder.output, options, true);
-}
-
-  function playPCMStream(stream, options = {}, fromUnknown = false) {
-    this.destroy();
-    this.opusEncoder = require('./NodeOpusEngine'),
-    this.setBitrate(options.bitrate);
-    const dispatcher = this.createDispatcher(stream, options);
-    if (fromUnknown) {
-      this.currentStream.dispatcher = dispatcher;
-    } else {
-      this.destroyCurrentStream();
-      this.currentStream = {
-        dispatcher,
-        input: stream,
-        output: stream,
-      };
+  
+  client.checkMusic = async function(message, options) {
+    let guildq = global.guilds[message.guild.id];
+    if (!guildq) guildq = global.guilds[message.guild.id] = client.defaultQueue;
+    let settings = await db.fetch(`settings_${message.guild.id}`)
+    if(settings.musicChannel && !message.guild.channels.get(settings.musicChannel)) settings.musicChannel = ''
+    if(settings.djRole && !message.guild.roles.get(settings.djRole)) settings.djRole = ''
+    let res = [
+      `Sorry, only members with the **DJ Role** \`${message.guild.roles.get(settings.djRole) ?  message.guild.roles.get(settings.djRole).name : ''}\` can use this command`,
+      `Sorry, all music commands can be used only in **${message.guild.channels.get(settings.musicChannel)}**`,
+      'You need to be in a voice channel to use this command!',
+      'Currently playing something in another voice channel',
+      'There is nothing playing'
+    ]
+    if(settings.musicChannel && message.channel.id !== settings.musicChannel) return res[1]
+    if(options.vc && !message.member.voice.channel) return res[2]
+    if(guildq.isPlaying && guildq.voiceChannel !== message.member.voice.channel) return res[3]
+    if (options.playing && !guildq.queue[0]) return res[4]
+    if(settings.djRole && options.djrole && !message.member.roles.has(settings.djRole) && !message.member.hasPermission('ADMINISTRATOR')) {
+      if(options.vc && message.member.voice.channel.members.size > 2) return res[0]
+      else if(!options.vc) return res[0]
     }
-    return dispatcher;
+    
+    return false
   }
+}

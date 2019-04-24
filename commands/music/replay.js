@@ -1,12 +1,11 @@
 
 module.exports.run = async (client, message, args) => {
-if (!message.member.voice.channel) return message.reply('You are not in a voice channel!');
-   let guildq = global.guilds[message.guild.id];
-      if (!guildq) guildq = client.defaultQueue;
-      if(!guildq.queue[0]) return message.reply('There is no music playing right now');
+  let check = await client.checkMusic(message, { vc: true, playing: true })
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
       guildq.isPlaying = true;
-      global.guilds[message.guild.id].queue.splice(1, 0, guildq.queue[0]);
-      global.guilds[message.guild.id].dispatcher.end();
+      guildq.queue.splice(1, 0, guildq.queue[0]);
+      guildq.dispatcher.end();
 			return message.channel.send('▶ Replaying the music for you!');
 };
 
@@ -19,7 +18,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'replay',
-  description: 'Evaluates a JS code.',
+  description: 'Replays the current playing music',
   group: 'music',
-  usage: 'replay [command]'
+  usage: 'replay'
 }

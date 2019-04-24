@@ -54,7 +54,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'coin',
-  description: 'Evaluates a JS code.',
+  description: 'Flips a coin, gives 2x cash if you win the bet!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'coin [heads / tails] [bet]'
 }

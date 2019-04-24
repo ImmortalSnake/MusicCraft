@@ -38,10 +38,8 @@ Trade deals reset in ${ms(villager.time + client.utils.villageTime - Date.now(),
     inventory.materials[item] += ((villager.store[item][1] > 1) ? amount / villager.store[item][1] : amount) * villager.store[item][0] 
     await db.set(`inventory_${message.author.id}`, inventory)
     let e = client.items.Materials[item]
-    let embed = new discord.MessageEmbed()
+    let embed = client.embed(message)
     .setTitle('Villager')   
-    .setColor('#206694')
-    .setFooter(message.author.username, message.author.displayAvatarURL())
     .setDescription(`You brought ${((villager.store[item][1] > 1) ? amount / villager.store[item][1] : amount) * villager.store[item][0] } ${item} ${e.emote} for ${amount} Emeralds ${em}`)
     message.channel.send(embed)
   }
@@ -56,7 +54,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'villager',
-  description: 'Evaluates a JS code.',
+  description: 'Displays trade deals with the villager, trade emeralds for materials with the villager. Trade deals reset every 3 hours',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'villager'
 }

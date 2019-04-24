@@ -299,7 +299,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'trade',
-  description: 'Evaluates a JS code.',
+  description: 'Trade materials and money with other users!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'trade [@user]'
 }

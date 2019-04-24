@@ -141,7 +141,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'pvp',
-  description: 'Evaluates a JS code.',
+  description: 'Challenge another user to a battle!',
   group: 'economy',
-  usage: 'coin [command]'
+  usage: 'pvp [@user]'
 }

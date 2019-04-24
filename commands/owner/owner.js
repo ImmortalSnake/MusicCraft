@@ -1,10 +1,11 @@
 const db = require('quick.db');
 const sort = require('array-sort');
 const discord = require('discord.js');
+const fetch = require('node-superfetch')
 
 module.exports.run = async (client, message, args, color, prefix) => {
   if(!client.admins.includes(message.author.id)) return message.reply ('you are not allowed to use this command')
-  if(!args[0]) return message.channel.send('Correct format is `s!dbset [option] [user]`')
+  if(!args[0]) return message.channel.send('Correct format is `s!owner [option]`')
   let user = client.users.get(args[1]) || message.mentions.users.first()
   
   switch(args[0].toLowerCase()){
@@ -115,8 +116,47 @@ module.exports.run = async (client, message, args, color, prefix) => {
       message.channel.send(embed)
       break;
     }
+    case 'username': {
+      if(!args[1]) return message.channel.send(`Specify a username for ${client.user.username}`)
+      await client.user.setUsername(args[1])
+      message.channel.send(`Successfully set the username to \`${args[1]}\`!`)
+      break;
+    }
+    case 'avatar': {
+      if(!args[1]) return message.channel.send(`Specify a url to set the avatar for ${client.user.username}`)
+      await client.user.setAvatar(args[1])
+      message.channel.send(`Successfully changed the avatar!`)
+      break;
+    }
+    case 'dadjoke': {
+    const url = `https://icanhazdadjoke.com/`;
+      fetch.get(url, {
+        headers: {Accept: "application/json"},
+      }).then(async res => {
+        console.log(res.text)
+        res = JSON.parse(res.text)
+        let embed = new discord.MessageEmbed()
+        .setAuthor(message.author.username, message.author.displayAvatarURL())
+        .setTitle('Dad Joke')
+        .setDescription(res.joke)
+        .setColor('GREEN')
+        .setTimestamp()
+        
+        message.channel.send(embed)
+      })
+      break;
+    }
+    case 'createguild': {
+      let title = args[1] || 'test'
+      let g = await client.guilds.create(title)
+      let chan = await g.channels.create('talk')
+      let invite = await chan.createInvite({ maxAge: 0 })
+      message.channel.send(`Welp i joined a guild called ${title}\nHere is the invite!\n ${invite.url}`)
+      break;
+    }
     default: {
-      message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`, `reload`, `reboot`, `backup`')
+      message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
+`reload`, `reboot`, `backup`, `username`, `avatar`, `dadjoke`')
     }
   }
 };
@@ -157,7 +197,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'owner',
-  description: 'Evaluates a JS code.',
-  usage: 'eval',
-  group: 'owner'
+  group: 'owner',
+  description: 'Secret command only availible to the bot admins... how did you get to know about this command? xD',
+  usage: 'owner [option] [value]',
 }

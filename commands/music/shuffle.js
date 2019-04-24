@@ -1,10 +1,10 @@
 const discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
-      let guildq = global.guilds[message.guild.id];
-        if (!guildq) guildq = client.defaultQueue;
-        if(guildq.queue.length == 0) return message.channel.send('no music queue right now..');
-        global.guilds[message.guild.id].queue = shuffle(guildq.queue);
+  let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true})
+  if(check) return message.channel.send(check)
+  let guildq = global.guilds[message.guild.id]
+        guildq.queue = shuffle(guildq.queue);
         message.channel.send('**Shuffled The Queue**')
     }
 
@@ -29,7 +29,7 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
   name: 'shuffle',
-  description: 'Evaluates a JS code.',
+  description: 'Shuffles the queue',
   group: 'music',
-  usage: 'shuffle [command]'
+  usage: 'shuffle'
 }
