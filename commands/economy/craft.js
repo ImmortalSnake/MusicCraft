@@ -1,35 +1,32 @@
 const db = require('quick.db');
-const discord = require('discord.js');
 
 exports.run = async (client, message, args) => {
-  let inventory = await db.fetch(`inventory_${message.author.id}`)
-  if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command to get a pickaxe')
-  if(!args[0]) return message.channel.send('Correct format is s!craft [tool]')
-  let t = args.join(' ').toProperCase()
-  let tool = ok(t, client)
-  if(!tool) return message.channel.send('That tool is not craftable right now!')
-  inventory = await client.checkInventory(message.author)
-  if(!check(inventory, tool)) return message.channel.send('You do not have enough materials')
-  let embed = client.embed(message).setTitle('Craft')
+  let inventory = await db.fetch(`inventory_${message.author.id}`);
+  if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command to get a pickaxe');
+  if(!args[0]) return message.channel.send('Correct format is s!craft [tool]');
+  let t = args.join(' ').toProperCase();
+  let tool = ok(t, client);
+  if(!tool) return message.channel.send('That tool is not craftable right now!');
+  inventory = await client.checkInventory(message.author);
+  if(!check(inventory, tool)) return message.channel.send('You do not have enough materials');
+  let embed = client.embed(message).setTitle('Craft');
   switch(tool.type) {
 
-    case 'Armor': {
+  case 'Armor': {
     if(inventory.armor[t]) return message.channel.send('You already own this tool');
     for(const mat in client.tools.Armor[t].materials) {
-    inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
+      inventory.materials[mat.toProperCase()] -= client.tools.Armor[t].materials[mat]
     }
-   inventory.armor[t] = { durability : tool.durability, enchant: ''}
+    inventory.armor[t] = { durability : tool.durability, enchant: ''}
     embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
 Use \`s!equip ${t}\` to equip it!`)
-   await db.set(`inventory_${message.author.id}`, inventory)
-  message.channel.send(embed)
-    return;
-    break;
+    await db.set(`inventory_${message.author.id}`, inventory)
+    return message.channel.send(embed);
+  }
+  case 'Other': {
+    for(const mat in tool.materials) {
+      inventory.materials[mat.toProperCase()] -= tool.materials[mat]
     }
-    case 'Other': {
-      for(const mat in tool.materials) {
-       inventory.materials[mat.toProperCase()] -= tool.materials[mat]
-      }
       for(const oth in tool.other) {
        inventory.other[oth.toProperCase()] -= tool.other[oth]
        }
@@ -86,8 +83,8 @@ async function generate(inventory, tool, name, message) {
   inventory.tools[name] = { durability : tool.durability, enchant: ''}
   await db.set(`inventory_${message.author.id}`, inventory)
   let embed = message.client.embed(message)
-  .setTitle('Craft')
-  .setDescription(`Successfully crafted a ${name} ${tool.emote}.
+    .setTitle('Craft')
+    .setDescription(`Successfully crafted a ${name} ${tool.emote}.
 Use \`s!equip ${name}\` to equip it`)
   message.channel.send(embed)
 }

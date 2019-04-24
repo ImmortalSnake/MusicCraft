@@ -1,10 +1,10 @@
 module.exports = (client) => {
-  client.tools = require('../assets/tools')
-  client.items = require('../assets/items')
-  client.mobs = require('../assets/mobs')
-  client.shop = require('../assets/shop')
-  client.owner = '410806297580011520'
-  client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840']
+  client.tools = require('../assets/tools');
+  client.items = require('../assets/items');
+  client.mobs = require('../assets/mobs');
+  client.shop = require('../assets/shop');
+  client.owner = '410806297580011520';
+  client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840'];
   client.defaultQueue= {
     queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
     isPlaying: false,
@@ -12,7 +12,7 @@ module.exports = (client) => {
     voiceChannel: null,
     looping: false,
     volume: 5, // default volume
-  }
+  };
   client.defaultInventory = {
     health: 100,
     attack: 10,
@@ -47,15 +47,15 @@ module.exports = (client) => {
     armor: {},
     other: {},
     trade: {}
-  }
+  };
   client.deftrade = {
     user: '',
     recieved: {},
     give: {}
-  }
+  };
   client.settings = {
     announceSongs: {
-      description: 'Toggles the bot announcing each song in the channel as it plays them', 
+      description: 'Toggles the bot announcing each song in the channel as it plays them',
       name: 'Announce Songs',
       usage: 'announcesongs [on / off]',
       value: 'announceSongs'
@@ -86,14 +86,14 @@ module.exports = (client) => {
       value: 'musicChannel',
       type: 'channel'
     }
-  }
+  };
   client.defSettings = {
     prefix: 's!',
     djRole: '',
     defVolume: 5,
     announceSongs: 'off',
     musicChannel: ''
-  }
+  };
   client.utils = {
     heads: client.emojis.find(emoji => emoji.name === 'heads'),
     tails: client.emojis.find(emoji => emoji.name === 'tails'),
@@ -112,5 +112,5 @@ module.exports = (client) => {
       work: 5 * 1000,
       rob: 5 * 60 * 1000
     }
-  }
-}
+  };
+};
