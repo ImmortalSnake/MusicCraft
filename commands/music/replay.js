@@ -1,12 +1,11 @@
-
 module.exports.run = async (client, message, args) => {
   let check = await client.checkMusic(message, { vc: true, playing: true })
   if(check) return message.channel.send(check)
   let guildq = global.guilds[message.guild.id]
-      guildq.isPlaying = true;
-      guildq.queue.splice(1, 0, guildq.queue[0]);
-      guildq.dispatcher.end();
-			return message.channel.send('▶ Replaying the music for you!');
+  guildq.isPlaying = true;
+  guildq.queue.splice(1, 0, guildq.queue[0]);
+  guildq.dispatcher.end();
+  return message.channel.send('▶ Replaying the music for you!');
 };
 
 exports.conf = {

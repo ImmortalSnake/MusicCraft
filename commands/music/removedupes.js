@@ -1,6 +1,4 @@
-const discord = require('discord.js');
-
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message) => {
   let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true })
   if(check) return message.channel.send(check)
   let guildq = global.guilds[message.guild.id]

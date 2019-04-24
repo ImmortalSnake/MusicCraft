@@ -17,10 +17,8 @@
         "no-empty-function": "error",
         "no-trailing-spaces": ["error"],
         "no-unused-vars": "warn",
-        "indent": [
-            "error",
-            2
-        ],
+        "yoda": "error",
+        "indent": ["error", 2],
         "quotes": [
             "warn",
             "single"

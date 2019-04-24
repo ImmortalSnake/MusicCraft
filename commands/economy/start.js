@@ -19,7 +19,6 @@ exports.conf = {
   guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
   name: 'start',
   description: 'Start your new minecraft adventure with this command!',
