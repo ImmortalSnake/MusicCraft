@@ -1,20 +1,17 @@
 dependencies:
-  array-sort: 1.0.0
   axios: 0.18.0
   cheerio: 1.0.0-rc.2
   comma-number: 2.0.0
-  common-tags: 1.8.0
+  dblapi.js: 2.3.0
   discord.js: github.com/discordjs/discord.js/89e27e507144dd3c32d644e0f298207eb538ff65
   eslint: 5.16.0
   express: 4.16.4
-  ffmpeg: 0.0.4
-  ffmpeg-binaries: 3.2.2
   fs: 0.0.2
   get-artist-title: 1.1.1
   get-youtube-id: 1.0.1
   libsodium-wrappers: 0.7.4
   moment: 2.24.0
-  node-fetch: 2.3.0
+  node-fetch: 2.4.1
   node-opus: 0.3.1
   node-superfetch: 0.1.9
   pastebin-js: 1.0.1
@@ -24,7 +21,6 @@ dependencies:
   simple-youtube-api: 5.1.1
   twitch-api: 0.5.0
   youtube-info: 1.3.2
-  ytdl-core: 0.29.1
   ytdl-core-discord: 1.0.3
 packages:
   /@babel/code-frame/7.0.0:
@@ -122,16 +118,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
-  /array-sort/1.0.0:
-    dependencies:
-      default-compare: 1.0.0
-      get-value: 2.0.6
-      kind-of: 5.1.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-ihLeJkonmdiAsD7vpgN3CRcx2J2S0TiYW+IS/5zHBI7mKUq3ySvBdzzBfD236ubDBQFiiyG3SWCPc+msQ9KoYg==
   /asn1/0.2.4:
     dependencies:
       safer-buffer: 2.1.2
@@ -363,12 +349,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
-  /common-tags/1.8.0:
-    dev: false
-    engines:
-      node: '>=4.0.0'
-    resolution:
-      integrity: sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw==
   /concat-map/0.0.1:
     dev: false
     resolution:
@@ -454,6 +434,10 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
+  /dblapi.js/2.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-8uZQMBg1coJsL5SEN1oPj2dgjgfm0DW7FhP8XWnG2V/xcOJnQNM2kCId1g/pyqm8PYH9346olL1IrLJQ6m0wOg==
   /debug/2.6.9:
     dependencies:
       ms: 2.0.0
@@ -476,14 +460,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
-  /default-compare/1.0.0:
-    dependencies:
-      kind-of: 5.1.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-QWfXlM0EkAbqOCbD/6HjdwT19j7WCkMyiRhWilc4H9/5h/RzTF9gv5LYh1+CmDV5d1rki6KAWLtQale0xt20eQ==
   /delayed-stream/1.0.0:
     dev: false
     engines:
@@ -781,16 +757,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
-  /ffmpeg-binaries/3.2.2:
-    dev: false
-    resolution:
-      integrity: sha1-Nw8wIO9rTbpipVGkJcY01sdaOiE=
-  /ffmpeg/0.0.4:
-    dependencies:
-      when: 3.7.8
-    dev: false
-    resolution:
-      integrity: sha1-HEYN+OfaUSf2LO70v6BsWciWMMs=
   /figures/2.0.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -910,12 +876,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-1s7qt55IJzaMwfklPIj4lZu75YhylkJuD8+l0VuxvzJ63xE+MS91zs5TcPvYalF3Q59+oMEY2U08Ub6w2hNyPQ==
-  /get-value/2.0.6:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-3BXKHGcjh8p2vTesCjlbogQqLCg=
   /get-youtube-id/1.0.1:
     dev: false
     resolution:
@@ -1223,12 +1183,6 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
-  /kind-of/5.1.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
   /levn/0.3.0:
     dependencies:
       prelude-ls: 1.1.2
@@ -1398,6 +1352,12 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-MOd8pV3fxENbryESLgVIeaGKrdl+uaYhCSSVkjeOb/31/njTpcis5aWfdqgNlHIrKOLRbMnfPINPOML2CIFeXA==
+  /node-fetch/2.4.1:
+    dev: false
+    engines:
+      node: 4.x || >=6.0.0
+    resolution:
+      integrity: sha512-P9UbpFK87NyqBZzUuDBDz4f6Yiys8xm8j7ACDbi6usvFm6KItklQUKjeoqTrYS/S1k6I8oaOC2YLLDr/gg26Mw==
   /node-opus/0.3.1:
     dependencies:
       bindings: 1.2.1
@@ -2163,10 +2123,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-6qhrRfKahTwrhz6djiO1E3Epl9Y=
-  /when/3.7.8:
-    dev: false
-    resolution:
-      integrity: sha1-xxMLan6gRpPoQs3J56Hyqjmjn4I=
   /which/1.3.1:
     dependencies:
       isexe: 2.0.0
@@ -2269,22 +2225,19 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
-  array-sort: ^1.0.0
   axios: ^0.18.0
   cheerio: ^1.0.0-rc.2
   comma-number: ^2.0.0
-  common-tags: ^1.8.0
+  dblapi.js: ^2.3.0
   discord.js: 'github:discordjs/discord.js#master'
   eslint: ^5.16.0
   express: ^4.16.4
-  ffmpeg: ^0.0.4
-  ffmpeg-binaries: ^3.2.2-3
   fs: ^0.0.2
   get-artist-title: ^1.1.1
   get-youtube-id: ^1.0.1
-  libsodium-wrappers: ^0.7.3
+  libsodium-wrappers: ^0.7.4
   moment: ^2.24.0
-  node-fetch: ^2.3.0
+  node-fetch: ^2.4.1
   node-opus: ^0.3.1
   node-superfetch: ^0.1.9
   pastebin-js: ^1.0.1
@@ -2294,5 +2247,4 @@ specifiers:
   simple-youtube-api: ^5.1.1
   twitch-api: ^0.5.0
   youtube-info: ^1.3.2
-  ytdl-core: ^0.29.0
   ytdl-core-discord: ^1.0.3

@@ -2,7 +2,6 @@ const discord = require('discord.js');
 const ytdl = require('ytdl-core-discord');
 const fetch = require('node-fetch');
 const db = require('quick.db');
-const sort = require('array-sort');
 
 module.exports = (client) => {
 
@@ -115,11 +114,6 @@ module.exports = (client) => {
 
   client.formatError = async function(client, message) {
     message.channel.send('Incorrect Format');
-  };
-
-  client.dbSort = function(val) {
-    let sorted = sort(db.all(), 'data', { reverse: true }).filter(a=>a.ID.startsWith(val));
-    return sorted;
   };
 
   client.checkInventory = async function(user) {

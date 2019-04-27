@@ -1,5 +1,4 @@
-const db = require('quick.db')
-
+const db = require('quick.db');
 exports.run = async (client, message, args) => {
 
   let inventory = await db.fetch(`inventory_${message.author.id}`);
@@ -41,4 +40,4 @@ exports.help = {
   description: 'Cook food with the materials you have!',
   group: 'economy',
   usage: 'coin [food name]'
-}
+};

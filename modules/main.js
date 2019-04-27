@@ -16,4 +16,5 @@ module.exports = (client) => {
 
   require('../handlers/commands.js')(client);
   require('../handlers/events.js')(client);
+  require('../handlers/app.js');
 };

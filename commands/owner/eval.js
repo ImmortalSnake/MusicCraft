@@ -1,9 +1,9 @@
 const db = require('quick.db');
-const sort = require('array-sort');
 const discord = require('discord.js');
+const fetch = require('node-superfetch');
 const ms = require('ms');
 const pastebin = require('pastebin-js');
-const paste = new pastebin(process.env.pastekey)
+const paste = new pastebin(process.env.pastekey);
 
 module.exports.run = async (client, message, args) => {
   if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command');

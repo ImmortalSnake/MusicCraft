@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
   let t = args.join(' ').toProperCase();
   let tool = find(client, t);
   if(!tool) return message.channel.send('Could not find that tool');
-  if(!tool.materials) return message.channel.send('That item is not craftable right now');
+  //if(!tool.materials) return message.channel.send('That item is not craftable right now');
   let emo = tool.emote || client.items.Food[t].emote;
   let s = '';
   if(tool.durability) s += `**Durability** ${tool.durability}\n`;
@@ -18,9 +18,9 @@ exports.run = async (client, message, args) => {
   if(tool.health) s += `**Health** ${tool.health}\n`;
   let embed = client.embed(message)
     .setDescription(`**${t} ${emo} Stats\n**`)
-    .addField('**Materials Required**',  gen(client, tool, 'materials'), true)
-    .addField('**Stats**', s, true);
-  if(tool.repair) embed.addField('**Repair**', gen(client, tool, 'repair'), true);
+    .addField('**Materials Required**',  `**${gen(client, tool, 'materials')} ${gen(client, tool, 'other')}**`, true)
+  if(s) embed.addField('**Stats**', s, true);
+  if(tool.repair) embed.addField('**Repair**', `**${gen(client, tool, 'repair')}**`, true);
   if(tool.drops) {
     let x = '**';
     if(Array.isArray(tool.drops)) x += `Wood ${client.items.Materials.Wood.emote} ${tool.drops[0]} - ${tool.drops[1] + tool.drops[0] - 1}`;
@@ -44,24 +44,23 @@ function find(client, name) {
   if(client.tools.Tools[name]) return client.tools.Tools[name];
   if(client.tools.Other[name]) return client.tools.Other[name];
   if(client.tools.Armor[name]) return client.tools.Armor[name];
-  if(client.items.recipes[name]) return client.items.recipes[name];
+  if(client.items.Food[name]) return client.items.Food[name];
 
   return false;
 }
 
 function gen(client, tool, type) {
-  let r = '**';
+  let r = '';
   let foo = {};
   for(const oth in tool[type]) {
     foo[oth] = tool[type][oth];
   }
   for(const t in foo) {
-    let e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.items.Other[t.toProperCase()];
+    let e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.tools.Other[t.toProperCase()];
     r += `${t.toProperCase()} ${e.emote} x${foo[t]}\n`;
   }
-  r += '**';
   return r;
-};
+}
 
 exports.conf = {
   aliases: [],

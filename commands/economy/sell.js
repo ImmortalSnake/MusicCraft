@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
   if(!item) return message.channel.send('Couldnt find that tool in your inventory');
   let locate = ilocate(i, inventory)
   let mbed = client.embed(message)
-  .setDescription(`How many ${i} would you like to sell?
+    .setDescription(`How many ${i} would you like to sell?
 **1${item.emote} = ${item.price}$**`)
   await message.channel.send(mbed)
   let collector = new discord.MessageCollector(message.channel, m => m.author.id == message.author.id, { max: 1})
@@ -21,8 +21,8 @@ exports.run = async (client, message, args) => {
     await db.set(`inventory_${message.author.id}`, inventory)
     await db.add(`balance_${message.author.id}`, price)
     let embed = client.embed(message)
-    .setTitle('Sell')
-    .setDescription(`You sold ${num} ${i}${item.emote} for ${price}$`)
+      .setTitle('Sell')
+      .setDescription(`You sold ${num} ${i}${item.emote} for ${price}$`)
     message.channel.send(embed)
   })
 }
