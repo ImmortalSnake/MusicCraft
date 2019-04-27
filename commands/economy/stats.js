@@ -49,6 +49,20 @@ function find(client, name) {
   return false;
 }
 
+function gen(client, tool, type) {
+  let r = '**';
+  let foo = {};
+  for(const oth in tool[type]) {
+    foo[oth] = tool[type][oth];
+  }
+  for(const t in foo) {
+    let e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.items.Other[t.toProperCase()];
+    r += `${t.toProperCase()} ${e.emote} x${foo[t]}\n`;
+  }
+  r += '**';
+  return r;
+};
+
 exports.conf = {
   aliases: [],
   enabled: true,
@@ -60,18 +74,4 @@ exports.help = {
   description: 'View all details of any food, armor, tool',
   group: 'economy',
   usage: 'stats [item]'
-}
-
-function gen(client, tool, type) {
-  let r = `**`
-  let foo = {}
-  for(const oth in tool[type]) {
-    foo[oth] = tool[type][oth]
-  }
-  for(const t in foo) {
-    let e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.items.Other[t.toProperCase()]
-    r += `${t.toProperCase()} ${e.emote} x${foo[t]}\n`
-  }
-  r += `**`
-  return r;
-}
+};

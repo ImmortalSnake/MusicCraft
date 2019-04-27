@@ -149,15 +149,6 @@ module.exports.run = async (client, message, args) => {
       return message.channel.send(embed)
     })
   }
-  case 'createguild': {
-    let title = args[1] || 'test'
-    let g = await client.guilds.create(title)
-    let chan = await g.channels.create('talk')
-    let invite = await chan.createInvite({ maxAge: 0 })
-
-    return message.channel.send(`Welp i joined a guild called ${title}\nHere is the invite!\n ${invite.url}`)
-    break;
-  }
   default: {
     message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
 `reload`, `reboot`, `backup`, `username`, `avatar`, `dadjoke`');

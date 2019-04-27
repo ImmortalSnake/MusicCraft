@@ -1,0 +1,11 @@
+{
+  quests: {
+    "1": {
+      "name": "First Quest!",
+      "description": "Chop 20 Wood",
+      "requirements": {},
+      "rewards": {
+      }
+    }
+  }
+}

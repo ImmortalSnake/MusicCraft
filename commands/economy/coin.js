@@ -1,5 +1,5 @@
-const db = require('quick.db')
-const Discord = require('discord.js')
+const db = require('quick.db');
+const Discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
   const chance = Math.floor(Math.random() * 2);

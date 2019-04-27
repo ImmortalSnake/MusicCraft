@@ -153,7 +153,7 @@ React with ✅ to confirm the trade**`)
                   await db.subtract(`balance_${trade.user}`, foo[t]);
                   continue;
                 }
-                if(inventory2.materials[t] && inventory2.materials[t] >= foo[t]){ 
+                if(inventory2.materials[t] && inventory2.materials[t] >= foo[t]){
                   inventory2.materials[t] -= foo[t]
                   inventory.materials[t] ? inventory.materials[t] += foo[t] : inventory.materials[t] = foo[t]
                 }
@@ -161,7 +161,7 @@ React with ✅ to confirm the trade**`)
                   inventory2.tools[t] -= foo[t]
                   inventory.tools[t] ? inventory.tools[t] += foo[t] : inventory.tools[t] = foo[t]
                 }
-                if(inventory2.food[t] && inventory2.food[t] >= foo[t]){ 
+                if(inventory2.food[t] && inventory2.food[t] >= foo[t]){
                   inventory2.food[t] -= foo[t]
                   inventory.food[t] ? inventory.food[t] += foo[t] : inventory.food[t] = foo[t]
                 }
@@ -174,7 +174,8 @@ React with ✅ to confirm the trade**`)
            }
            inventory.trade.trades.confirmed = true
            await db.set(`inventory_${message.author.id}`, inventory)
-           return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>`)
+           return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>
+Please use \`s!trade confirm\` again to confirm!`)
          }
        })
         break;
@@ -251,37 +252,37 @@ Use \`s!trade remove [item]\` to remove materials or food to trade
 Use \`s!trade info\` to view the current trade
 Use \`s!trade confirm\` to confirm
 Use \`s!trade cancel\` to cancel the trade`)
-          .setFooter(user.user.tag, user.user.displayAvatarURL())
-        await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`)
-        message.channel.send(cembed)
+          .setFooter(user.user.tag, user.user.displayAvatarURL());
+        await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`);
+        message.channel.send(cembed);
         let deftrade1 = {
           user: user.id,
           give: {},
           confirmed: false
-        }
+        };
         let deftrade2 = {
           user: message.author.id,
           give: {},
           confirmed: false
-        }
-        inventory.trade.trades = deftrade1
-        inventory2.trade.trades = deftrade2
-        await db.set(`inventory_${message.author.id}`, inventory)
-        await db.set(`inventory_${user.id}`, inventory2)
+        };
+        inventory.trade.trades = deftrade1;
+        inventory2.trade.trades = deftrade2;
+        await db.set(`inventory_${message.author.id}`, inventory);
+        await db.set(`inventory_${user.id}`, inventory2);
         collector.stop();
       }
-    })
+    });
   }
-}
+};
 
 async function ifind(client, item, inventory) {
-  let mat = inventory.materials[item]
-  let f = inventory.food[item]
+  let mat = inventory.materials[item];
+  let f = inventory.food[item];
   if(mat && mat > 0) {
-    return [client.items.Materials[item], mat]
+    return [client.items.Materials[item], mat];
   }
   else if(f && f > 0) {
-    return [client.items.Food[item], f]
+    return [client.items.Food[item], f];
   }
   else return false;
 }
@@ -297,4 +298,4 @@ exports.help = {
   description: 'Trade materials and money with other users!',
   group: 'economy',
   usage: 'trade [@user]'
-}
+};
