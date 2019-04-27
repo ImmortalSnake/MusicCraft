@@ -25,21 +25,21 @@ module.exports = (client) => {
     lastactivity: 0,
     size: 100,
     equipped: {
-      axe: "Wooden Axe"
+      axe: 'Wooden Axe'
     },
     tools: {
-      "Wooden Axe": {
+      'Wooden Axe': {
         durability: 60,
         enchant: ''
       }
     },
     materials: {
-      "Wood": 0,
-      "Stone": 0,
-      "Dirt": 0,
-      "Iron": 0,
-      "Gold": 0,
-      "Diamond": 0
+      'Wood': 0,
+      'Stone': 0,
+      'Dirt': 0,
+      'Iron': 0,
+      'Gold': 0,
+      'Diamond': 0
     },
     food: {},
     crates: [],

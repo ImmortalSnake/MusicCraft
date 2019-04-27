@@ -17,6 +17,9 @@
         "no-empty-function": "error",
         "no-trailing-spaces": ["error"],
         "no-unused-vars": "warn",
+        "no-extra-semi": "error",
+        "no-undef": "error",
+        "eqeqeq": "error",
         "yoda": "error",
         "indent": ["error", 2],
         "quotes": [

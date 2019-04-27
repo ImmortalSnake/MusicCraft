@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
     "array-sort": "^1.0.0",
     "axios": "^0.18.0",
