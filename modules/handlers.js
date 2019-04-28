@@ -1,17 +1,17 @@
-const db = require('quick.db')
+const db = require('quick.db');
 
 module.exports = (client) => {
   client.villager = async function() {
-    const villageTime = client.utils.villageTime
-    let villager = await db.fetch('villager')
-    if(!villager || villager.time + villageTime < Date.now()) await generate(client)
-    villager = await db.fetch('villager')
+    const villageTime = client.utils.villageTime;
+    let villager = await db.fetch('villager');
+    if(!villager || villager.time + villageTime < Date.now()) await generate(client);
+    villager = await db.fetch('villager');
     let tleft = villager.time + villageTime - Date.now();
-    setTimeout(async () => { 
-      await generate(client) 
-    }, tleft)
-  }
-}
+    setTimeout(async () => {
+      await generate(client);
+    }, tleft);
+  };
+};
 
 async function generate(client) {
   let n = {
@@ -27,11 +27,11 @@ async function generate(client) {
       "Gold": [1, rand(2, 1)],
       "Diamond": [1, rand(4, 2)]
     }
-  }
-  console.log('Generating villager')
-  await db.set('villager', n)
-}
+  };
+  console.log('Generating villager');
+  await db.set('villager', n);
+};
 
 function rand(num1, num2) {
-  return Math.floor(Math.random() * num1) + num2
+  return Math.floor(Math.random() * num1) + num2;
 }

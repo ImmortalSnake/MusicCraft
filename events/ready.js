@@ -1,7 +1,5 @@
-const db = require('quick.db')
-
 exports.run = async (client) => {
-  client.user.setActivity(client.guilds.size + " Servers | s!help", { type: 'WATCHING' })
+  client.user.setActivity(`${client.guilds.size} Servers | s!help`, { type: 'WATCHING' });
   console.log(client.user.username + ' Has Turned On Successfuly');
-  client.villager()
-}
+  client.villager();
+};

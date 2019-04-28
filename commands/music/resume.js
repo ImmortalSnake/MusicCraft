@@ -1,11 +1,10 @@
-
 module.exports.run = async (client, message, args) => {
-  let check = await client.checkMusic(message, { vc: true, playing: true})
-  if(check) return message.channel.send(check)
-  let guildq = global.guilds[message.guild.id]
-      guildq.isPlaying = true;
-			guildq.dispatcher.resume();
-			return message.channel.send('▶ Resumed the music for you!');
+  let check = await client.checkMusic(message, { vc: true, playing: true});
+  if(check) return message.channel.send(check);
+  let guildq = global.guilds[message.guild.id];
+  guildq.isPlaying = true;
+  guildq.dispatcher.resume();
+  return message.channel.send('▶ Resumed the music for you!');
 };
 
 exports.conf = {
@@ -20,4 +19,4 @@ exports.help = {
   description: 'Resumes the music when paused',
   group: 'music',
   usage: 'resume'
-}
+};

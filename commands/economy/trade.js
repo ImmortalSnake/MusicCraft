@@ -153,7 +153,7 @@ React with ✅ to confirm the trade**`)
                   await db.subtract(`balance_${trade.user}`, foo[t]);
                   continue;
                 }
-                if(inventory2.materials[t] && inventory2.materials[t] >= foo[t]){ 
+                if(inventory2.materials[t] && inventory2.materials[t] >= foo[t]){
                   inventory2.materials[t] -= foo[t]
                   inventory.materials[t] ? inventory.materials[t] += foo[t] : inventory.materials[t] = foo[t]
                 }
@@ -161,7 +161,7 @@ React with ✅ to confirm the trade**`)
                   inventory2.tools[t] -= foo[t]
                   inventory.tools[t] ? inventory.tools[t] += foo[t] : inventory.tools[t] = foo[t]
                 }
-                if(inventory2.food[t] && inventory2.food[t] >= foo[t]){ 
+                if(inventory2.food[t] && inventory2.food[t] >= foo[t]){
                   inventory2.food[t] -= foo[t]
                   inventory.food[t] ? inventory.food[t] += foo[t] : inventory.food[t] = foo[t]
                 }
@@ -174,7 +174,8 @@ React with ✅ to confirm the trade**`)
            }
            inventory.trade.trades.confirmed = true
            await db.set(`inventory_${message.author.id}`, inventory)
-           return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>`)
+           return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>
+Please use \`s!trade confirm\` again to confirm!`)
          }
        })
         break;
@@ -215,77 +216,73 @@ React with ✅ to cancel the trade**`)
       }
     }
   }else{
-  if(inventory.trade.trades) return message.channel.send('You are already in a trade with someone else')
-  if(user.id === message.author.id) return message.channel.send('You cant trade with yourself')
-  let inventory2 = await db.fetch(`inventory_${user.id}`)
-  if(!inventory2) return message.channel.send('That user does not have a player.');
-  await client.checkInventory(user.user)
-  if(inventory2.trade.trades) return message.channel.send(user.user.username+ ' is already in a trade with someone else')
-  let embed = new discord.MessageEmbed()
-  .setTitle('Trade Request')
-  .setColor('#206694')
-  .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`**${user.user.username}, You have recieved a trade request from ${message.author.username}**
+    if(inventory.trade.trades) return message.channel.send('You are already in a trade with someone else')
+    if(user.id === message.author.id) return message.channel.send('You cant trade with yourself')
+    let inventory2 = await db.fetch(`inventory_${user.id}`)
+    if(!inventory2) return message.channel.send('That user does not have a player.');
+    await client.checkInventory(user.user)
+    if(inventory2.trade.trades) return message.channel.send(user.user.username+ ' is already in a trade with someone else')
+    let embed = new discord.MessageEmbed()
+      .setTitle('Trade Request')
+      .setColor('#206694')
+      .setAuthor(message.author.tag, message.author.displayAvatarURL())
+      .setDescription(`**${user.user.username}, You have recieved a trade request from ${message.author.username}**
 React to confirm or deny the trade request`)
-  .setFooter(user.user.tag, user.user.displayAvatarURL())
-  let m = await message.channel.send(embed)
-  await m.react('✅')
-  await m.react('❎')
-  const collector = m.createReactionCollector((reaction, u) => u.id == user.user.id,);
-  collector.on('collect', async (r) => {
-    if(r.emoji.name == '❎'){
+      .setFooter(user.user.tag, user.user.displayAvatarURL())
+    let m = await message.channel.send(embed)
+    await m.react('✅')
+    await m.react('❎')
+    const collector = m.createReactionCollector((reaction, u) => u.id === user.user.id);
+    collector.on('collect', async (r) => {
+      if(r.emoji.name == '❎'){
         message.reply(user.user.username + ' did not accept the trade request');
         collector.stop();
         return;
       }
       else if(r.emoji.name == '✅') {
-  inventory2 = await db.fetch(`inventory_${user.id}`)
-  if(inventory2.trade.trades) return message.channel.send(user.user.username+ ' is already in a trade with someone else')
-  let cembed = new discord.MessageEmbed()
-  .setTitle('Trade Request Confirmed')
-  .setColor('#206694')
-  .setAuthor(message.author.tag, message.author.displayAvatarURL())
-  .setDescription(`**${user.user.username}, confirmed the trade request from ${message.author.username}**
+        inventory2 = await db.fetch(`inventory_${user.id}`)
+        if(inventory2.trade.trades) return message.channel.send(user.user.username+ ' is already in a trade with someone else')
+        let cembed = new discord.MessageEmbed()
+          .setTitle('Trade Request Confirmed')
+          .setColor('#206694')
+          .setAuthor(message.author.tag, message.author.displayAvatarURL())
+          .setDescription(`**${user.user.username}, confirmed the trade request from ${message.author.username}**
 Use \`s!trade add [item] -[amount]\` to add materials or food to the trade
 Use \`s!trade remove [item]\` to remove materials or food to trade
 Use \`s!trade info\` to view the current trade
 Use \`s!trade confirm\` to confirm
 Use \`s!trade cancel\` to cancel the trade`)
-  .setFooter(user.user.tag, user.user.displayAvatarURL())
- await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`)
-    message.channel.send(cembed)
-  let deftrade1 = {
-    user: user.id,
-    give: {},
-    confirmed: false
-  }
-  let deftrade2 = {
-    user: message.author.id,
-    give: {},
-    confirmed: false
-  } 
-  inventory.trade.trades = deftrade1
-  inventory2.trade.trades = deftrade2
-  await db.set(`inventory_${message.author.id}`, inventory)
-  await db.set(`inventory_${user.id}`, inventory2)
-  collector.stop();
+          .setFooter(user.user.tag, user.user.displayAvatarURL());
+        await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`);
+        message.channel.send(cembed);
+        let deftrade1 = {
+          user: user.id,
+          give: {},
+          confirmed: false
+        };
+        let deftrade2 = {
+          user: message.author.id,
+          give: {},
+          confirmed: false
+        };
+        inventory.trade.trades = deftrade1;
+        inventory2.trade.trades = deftrade2;
+        await db.set(`inventory_${message.author.id}`, inventory);
+        await db.set(`inventory_${user.id}`, inventory2);
+        collector.stop();
       }
-  })
- /* let item = args.slice(1).join(' ').split('-')[0].trim()
-  if(!item) return message.channel.send('Please specify what you want to trade')
-  let number = args.slice(1).join(' ').split('-')[1].trim() || 1;
-  console.log(item, number)*/
+    });
   }
-}
+};
 
 async function ifind(client, item, inventory) {
-  let mat = inventory.materials[item]
-  let f = inventory.food[item]
+  let mat = inventory.materials[item];
+  let f = inventory.food[item];
   if(mat && mat > 0) {
-    return [client.items.Materials[item], mat]
+    return [client.items.Materials[item], mat];
   }
   else if(f && f > 0) {
-    return [client.items.Food[item], f]
+    return [client.items.Food[item], f];
   }
   else return false;
 }
@@ -296,10 +293,9 @@ exports.conf = {
   guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
   name: 'trade',
   description: 'Trade materials and money with other users!',
   group: 'economy',
   usage: 'trade [@user]'
-}
+};

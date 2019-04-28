@@ -12,7 +12,7 @@ module.exports.run = async (client, message, args) => {
     const voiceChannel = message.member.voice.channel;
 	  const url = args ? args.join(' ').replace(/<(.+)>/g, '$1') : ''
 
-    try { var video = await youtube.getVideo(url) }
+    try { var video = await youtube.getVideo(url); }
      catch (error) {
         try {
             let videos = await youtube.searchVideos(url, 10);

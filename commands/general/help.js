@@ -2,9 +2,9 @@ const discord = require('discord.js')
 const db = require('quick.db')
 
 exports.run = (client, message, args) => {
-    let embed = new discord.MessageEmbed()
+  let embed = new discord.MessageEmbed()
     .setColor('#206694')
-    let prefix = message.guild ? db.fetch(`settings_${message.guild.id}`).prefix : client.prefix
+  let prefix = message.guild ? db.fetch(`settings_${message.guild.id}`).prefix : client.prefix
   if(args[0]) {
     const t = args[0].toLowerCase()
     const groups = client.groups
@@ -14,11 +14,10 @@ exports.run = (client, message, args) => {
     if(group) {
       let curpage = 1
 
-      message.channel.send(genPage(group, embed, t, curpage, prefix))
-      .then(async mess => {
+      message.channel.send(genPage(group, embed, t, curpage, prefix)).then(async mess => {
         await mess.react('⬅')
         await mess.react('➡')
-        
+
         const collector = mess.createReactionCollector((reaction, u) => u.id === message.author.id, { time: 180000 })
         collector.on('collect', r => {
           if(r.emoji.name === '⬅') {
@@ -33,7 +32,7 @@ exports.run = (client, message, args) => {
       })
     } else if(command) {
       embed.setTitle(`**${command.help.name.toProperCase()}**`)
-      .setDescription(`
+        .setDescription(`
 **Group** ${command.help.group.toProperCase()}
 
 **Description**
@@ -48,21 +47,23 @@ ${command.conf.examples ? '\n**Examples**\n`' + command.conf.examples.join('\n')
     }
   }  else {
     embed.setTitle(`**Commands List ${client.commands.size}**`)
-      .setDescription(`**
+      .setDescription(`
 The prefix for ${message.guild ? message.guild.name : client.user.username} is \`${prefix}\`
 
-Use \`${prefix}help [command]\` to view detailed information about the command
+Availible groups are :
+`)
+      .addField('**Economy**', `\`${prefix}help economy\``, true)
+      .addField('**Music**', `\`${prefix}help music\``, true)
+      .addField('**General**', `\`${prefix}help general\``, true)
+      .addField('**Fun**', `\`${prefix}help fun\``, true)
+      .addField('\u200b', `Use \`${prefix}help [command]\` to view detailed information about the command
 
 Use \`${prefix}help [group]\` to view all the commands in the group
 
-\`${prefix}help fun\` to view all fun commands
-\`${prefix}help economy\` to view all economy commands
-\`${prefix}help music\` to view all music commands
-\`${prefix}help general\` to view all basic commands
-
 Join the support server for further help!
 
-Documentation coming soon!**`)
+Documentation coming soon!
+`)
     return message.channel.send(embed)
   }
 };
@@ -70,13 +71,13 @@ Documentation coming soon!**`)
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ["h", "halp"]
+  aliases: ['h', 'halp']
 };
 
 exports.help = {
-  name: "help",
-  group: "general",
-  description: "Displays all the available commands and details!",
+  name: 'help',
+  group: 'general',
+  description: 'Displays all the available commands and details!',
   usage: "help [command]"
 };
 
@@ -88,13 +89,13 @@ function genPage(group, embed, t, curpage, prefix) {
     if(count < curpage * 10 && count >= (curpage - 1) * 10) {
       m += `\n\n**${count+1}] ${prefix}${c.help.name}**\n${c.help.description}`
     }
-     count ++;
+    count ++;
   })
   embed.setTitle(t.toProperCase())
-      .setDescription(`
+    .setDescription(`
 ${group.size} commands in ${t.toProperCase()}
 
 Use \`${prefix}help [command]\` to view detailed information about a command${m}`)
-      .setFooter(`Page ${curpage}/${pages}`)
-  return embed
+    .setFooter(`Page ${curpage}/${pages}`);
+  return embed;
 }

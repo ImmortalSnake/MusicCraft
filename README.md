@@ -1,3 +1,32 @@
+<a href="https://discord.gg/TutA5bZ">
+    <img src="https://img.shields.io/discord/496584856084545537.svg?colorB=Blue&logo=discord&label=Support&style=for-the-badge" alt="Support">
+</a>
+
+<a href="https://github.com/OmniDiscord/OmniBot">
+    <img src="https://img.shields.io/travis/com/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Travis Build">
+</a>
+
+<a href="https://github.com/OmniDiscord/OmniBot">
+    <img src="https://img.shields.io/codacy/grade/a8c86f1a39e942ef8b03357d2932b03a.svg?style=for-the-badge" alt="Codacy">
+</a>
+<br>
+
+<a href="https://github.com/OmniDiscord/OmniBot">
+    <img src="https://img.shields.io/github/languages/top/OmniDiscord/OmniBot.svg?colorB=Yellow&style=for-the-badge" alt="Languages">
+</a>
+
+<a href="https://github.com/OmniDiscord/OmniBot">
+    <img src="https://img.shields.io/github/package-json/v/OmniDiscord/OmniBot.svg?colorB=Orange&style=for-the-badge" alt="Version">
+</a>
+
+<a href="https://github.com/OmniDiscord/OmniBot/issues">
+    <img src="https://img.shields.io/github/issues/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Issues">
+</a>
+
+<a href="https://github.com/OmniDiscord/OmniBot/pulls">
+    <img src="https://img.shields.io/github/issues-pr/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Pull Request">
+</a>
+
 # MusicBot
 A simple and easy to use music and economy bot. Has many features including queue, skips, lyrics and more. Originally from SnakeBot this has been created due to perfomance reasons.
 

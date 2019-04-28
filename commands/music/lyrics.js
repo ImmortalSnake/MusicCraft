@@ -6,7 +6,7 @@ const settings = process.env
 const baseURL = `https://api.genius.com/search?access_token=${settings.GENIUS}`;
 
 module.exports.run = async (client, message, args) => {
-if(!args && !global.guilds[message.guild.id]) return;
+  if(!args && !global.guilds[message.guild.id]) return;
 let find = args || global.guilds[message.guild.id].queue[0].title
 const query = createQuery(find);
 message.channel.send(':mag_right:**Searching lyrics for** `' + query + '`')
