@@ -14,32 +14,27 @@ module.exports = (client) => {
     volume: 5, // default volume
   };
   client.defaultInventory = {
-    health: 100,
-    attack: 10,
-    speed: 10,
-    luck: 0,
-    dimension: 'Overworld',
-    xp: 0,
-    level: 1,
-    hunger: 100,
-    lastactivity: 0,
+    health: 100, //
+    attack: 10, //
+    speed: 10, //
+    luck: 0, //
+    dimension: 'Overworld', //
+    xp: 0, //
+    level: 1, //
+    hunger: 100, //
+    lastactivity: 0, //
     size: 100,
-    equipped: {
-      axe: 'Wooden Axe'
-    },
+    equipped: {axe: 'Wooden Axe'},
     tools: {
-      'Wooden Axe': {
-        durability: 60,
-        enchant: ''
-      }
+      'Wooden Axe': {durability: 60, enchant: ''}
     },
     materials: {
-      'Wood': 0,
-      'Stone': 0,
-      'Dirt': 0,
-      'Iron': 0,
-      'Gold': 0,
-      'Diamond': 0
+      Wood: 0,
+      Stone: 0,
+      Dirt: 0,
+      Iron: 0,
+      Gold: 0,
+      Diamond: 0
     },
     food: {},
     crates: [],

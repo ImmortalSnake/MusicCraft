@@ -14,16 +14,18 @@ exports.run = async (client, message) => {
     if(!settings) settings = await db.set(`settings_${message.guild.id}`, client.defSettings);
     prefix = settings.prefix;
   }
-  let args, cmd, command;
+  let args, cmd, command, isMentioned = false;
   if (message.content.startsWith(prefix)) {
     args = message.content.split(' ').slice(1);
     cmd = message.content.split(' ')[0].slice(prefix.length).toLowerCase();
-  } else if (message.content.startsWith(`<@${client.user.id}>`)) {
+  } else if (message.content.startsWith(`<@!${client.user.id}>`)) {
     args = message.content.split(' ').slice(2);
-    cmd = message.content.split(' ')[1].toLowerCase();
+    cmd = message.content.split(' ')[1] ? message.content.split(' ')[1].toLowerCase() : '';
+    isMentioned = true;
   }
   command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-  if(!command) return;
+  if(!command && !isMentioned) return;
+  else if(!command && isMentioned) return; // chat bot?
   if(command.conf.guildOnly && !message.guild) return;
   if(command.conf.enabled === false && !client.admins.includes(message.author.id)) return message.channel.send(`\`${command.help.name}\` is disabled right now. Try again later`);
 
@@ -47,5 +49,5 @@ exports.run = async (client, message) => {
     command.run(client, message, args);
   } catch(err) {
     console.log(err);
-  };
+  }
 };

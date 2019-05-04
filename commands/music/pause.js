@@ -1,24 +1,22 @@
-const discord = require('discord.js');
-
-module.exports.run = async (client, message, args) => {
-  let check = await client.checkMusic(message, { vc: true, playing: true })
-  if(check) return message.channel.send(check)
-  let guildq = global.guilds[message.guild.id]
-  guildq.isPlaying = false;
+module.exports.run = async (client, message) => {
+	let check = await client.checkMusic(message, { vc: true, playing: true });
+	if(check) return message.channel.send(check);
+	let guildq = global.guilds[message.guild.id];
+	guildq.isPlaying = false;
 	guildq.dispatcher.pause();
 	return message.channel.send('⏸ Paused the music for you!');
-}
+};
 
 exports.conf = {
-  aliases: [],
-  enabled: true,
-  guildOnly: true
+	aliases: [],
+	enabled: true,
+	guildOnly: true
 };
 
 // Name is the only necessary one.
 exports.help = {
-  name: 'pause',
-  description: 'Pauses the current playing music',
-  group: 'music',
-  usage: 'pause'
-}
+	name: 'pause',
+	description: 'Pauses the current playing music',
+	group: 'music',
+	usage: 'pause'
+};

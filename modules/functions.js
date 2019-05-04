@@ -40,7 +40,7 @@ module.exports = (client) => {
     }
   };
 
-  client.error= async function(bot, error, message) { // error handler
+  client.error= async function(error, message) { // error handler
 
   };
 
@@ -51,7 +51,7 @@ module.exports = (client) => {
       v = v - m*60;
     }
     m = m ? m : '00';
-    m = (m>10) ? m :(m != '00' ? '0' + m : m);
+    m = (m>10) ? m :(m !== '00' ? '0' + m : m);
     v = (v>10) ? v : ('0' + v);
     m = m +':' +v;
     return m;
@@ -117,11 +117,13 @@ module.exports = (client) => {
   };
 
   client.checkInventory = async function(user) {
-    let inventory = await db.fetch(`inventory_${user.id}`);
+    let inv = await client.db.getInv(client, user.id);
+    let inventory = inv.inventory;
+    if(!inventory) return {err: true};
     let def = client.defaultInventory;
     let keys = Object.keys(def);
     let values = Object.values(def);
-    for(let i =0; i<keys.length; i++) {
+    for(let i =0; i < keys.length; i++) {
       if(!inventory[keys[i]]) {
         inventory[keys[i]] = values[i];
       }
@@ -131,8 +133,7 @@ module.exports = (client) => {
     }
     for(const t in inventory.tools) { if(!inventory.tools[t]) delete inventory.tools[t]; }
     for(const f in inventory.food) { if(!inventory.food[f]) delete inventory.food[f]; }
-    await db.set(`inventory_${user.id}`, inventory);
-    return inventory;
+    return inv;
   };
 
   client.level = async function(inventory, channel, user){
