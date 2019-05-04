@@ -13,7 +13,7 @@ module.exports.run = async (client, message, args) => {
   case 'inv': {
 
     if(!user) return message.channel.send('Could not find that user');
-    let inventory = await db.fetch(`inventory_${user.id}`);
+    let inventory = await client.inv.findOne({id: message.author.id});
     if(!inventory) return message.channel.send('That user does not have a player');
     let embed = new discord.MessageEmbed()
       .setTitle('Inventory')
@@ -37,13 +37,15 @@ module.exports.run = async (client, message, args) => {
     if(!locate) return message.channel.send('Could not find that item');
 
     let amount = parseInt(args.join('').split('-')[1]) || 1;
-    let inventory = await db.fetch(`inventory_${user.id}`);
+    let inventory = await client.db.getInv(client, message.author.id);
     if(!inventory) return message.channel.send('That user does not have a player');
-    if(locate === 'tools' && inventory[locate][t]) return message.channel.send('The player already owns this tool');
+    const it = inventory[locate].find(x=>x.name===t)
+    if(locate === 'tools' && it) return message.channel.send('The player already owns this tool');
 
-    else if(locate === 'tools' || locate === 'armor') inventory[locate][t] = { durability: client.tools[locate.toProperCase()][t].durability, enchant: ''}
-    else (inventory[locate][t]) ? inventory[locate][t] += amount : inventory[locate][t] = amount;
-    await db.set(`inventory_${user.id}`, inventory)
+    else if(locate === 'tools' || locate === 'armor') inventory[locate].push({ name: t, value: {durability: client.tools[locate.toProperCase()][t].durability, enchant: ''}})
+    else (it) ? it.value += amount : inventory[locate].push({name: t, value: amount});
+
+    await client.db.setInv(inventory, [locate]);
     return message.channel.send(`Successfully added ${amount} ${t} to ${user.tag}`)
   }
   case 'invrem': {
@@ -69,32 +71,24 @@ module.exports.run = async (client, message, args) => {
 
     let t = args.slice(2).join(' ').toProperCase();
     if(!client.tools.crates[t]) return message.channel.send('Could not find that crate');
-    let inventory = await db.fetch(`inventory_${user.id}`);
+    let inventory = await client.db.getInv(client, message.author.id);
     if(!inventory) return message.channel.send('That user does not have a player');
 
-    inventory.crates.push(t)
-    await db.set(`inventory_${user.id}`, inventory)
+    inventory.crates.push(t);
+    await client.db.setInv(inventory, ['crates']);
 
-    return message.channel.send(`Successfully added a ${t} Crate to ${user.tag}`)
+    return message.channel.send(`Successfully added a ${t} Crate to ${user.tag}`);
   }
   case 'reset': {
     if(!user) return message.channel.send('Could not find that user');
-    if(!args[2]) return message.channel.send('Please specify the type');
-
-    let t = args.slice(2).join(' ').toLowerCase();
-    let inventory = await db.fetch(`inventory_${user.id}`);
-    if(!inventory) return message.channel.send('That user does not have a player');
-    if(!inventory[t]) return message.channel.send('Incorrect type');
-
-    inventory[t] = client.defaultInventory[t]
-    inventory.equipped = client.defaultInventory.equipped
-    await db.set(`inventory_${user.id}`, inventory)
-
-    return message.channel.send(`Successfully reset ${t} from ${user.tag}`)
-
+    let inventory = await client.inv.findOne({id: message.author.id});
+    if(inventory) return message.channel.send('That user already has a profile.');
+    let actualinv = await db.fetch(`inventory_${message.author.id}`);
+    client.db.createInv(client, message, actualinv);
+    return message.channel.send(`Successfully restored data of ${user.tag}`);
   }
   case 'shutdown': {
-    await message.reply("Bot is shutting down.");
+    await message.reply('Bot is shutting down.');
     return client.destroy();
   }
   case 'reload': {
@@ -108,49 +102,55 @@ module.exports.run = async (client, message, args) => {
     return message.channel.send(`The command \`${args[1]}\` has been reloaded`);
   }
   case 'reboot':{
-    await message.reply("Bot is shutting down and reconnecting");
+    await message.reply('Bot is shutting down and reconnecting');
     client.destroy();
-    process.exit(1)
-    break;
+    process.exit(1);
+    return;
   }
   case 'backup': {
-    let users = db.all().filter(d => d.ID.startsWith('inventory'))
+    let users = db.all().filter(d => d.ID.startsWith('inventory'));
     let embed = client.embed(message, {title: '**Backup Success**'})
       .attachFiles([{
         attachment: '/app/json.sqlite',
         name: '../../json.sqlite'
       }])
       .setDescription(`wew.. gotta put something here
-**${users.length}** player datas saved!`)
-    return message.channel.send(embed)
+**${users.length}** player datas saved!`);
+    return message.channel.send(embed);
   }
   case 'username': {
-    if(!args[1]) return message.channel.send(`Specify a username for ${client.user.username}`)
-    await client.user.setUsername(args[1])
-    return message.channel.send(`Successfully set the username to \`${args[1]}\`!`)
+    if(!args[1]) return message.channel.send(`Specify a username for ${client.user.username}`);
+    await client.user.setUsername(args[1]);
+    return message.channel.send(`Successfully set the username to \`${args[1]}\`!`);
   }
   case 'avatar': {
-    if(!args[1]) return message.channel.send(`Specify a url to set the avatar for ${client.user.username}`)
-    await client.user.setAvatar(args[1])
-    return message.channel.send('Successfully changed the avatar!')
+    if(!args[1]) return message.channel.send(`Specify a url to set the avatar for ${client.user.username}`);
+    await client.user.setAvatar(args[1]);
+    return message.channel.send('Successfully changed the avatar!');
   }
   case 'dadjoke': {
     fetch.get(url, {
-      headers: {Accept: "application/json"},
+      headers: {Accept: 'application/json'},
     }).then(async res => {
-      res = JSON.parse(res.text)
+      res = JSON.parse(res.text);
       let embed = new discord.MessageEmbed()
         .setAuthor(message.author.username, message.author.displayAvatarURL())
         .setTitle('Dad Joke')
         .setDescription(res.joke)
         .setColor('GREEN')
-        .setTimestamp()
+        .setTimestamp();
 
-      return message.channel.send(embed)
-    })
+      return message.channel.send(embed);
+    });
   }
+    case 'createrole': {
+      let perms = args[1].toUpperCase();
+      let roleName = args.slice(2).join(' ');
+      console.log(perms, roleName);
+      return;
+    }
   default: {
-    message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
+    return message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
 `reload`, `reboot`, `backup`, `username`, `avatar`, `dadjoke`');
   }
   }
@@ -161,16 +161,16 @@ function find(client, name) {
   if(client.items.Food[name]) return 'food';
   if(client.items.Materials[name]) return 'materials';
   if(client.tools.Armor[name]) return 'armor';
-
+  if(client.tools.Other[name]) return 'other';
   return false;
 }
 
 function getinv(inventory, type, client) {
   let res = {};
   let m = '**';
-  for(const mat in inventory[type.toLowerCase()]) {
-    res[mat] = inventory[type.toLowerCase()][mat] || 0;
-  }
+ inventory[type.toLowerCase()].forEach(mat => {
+    res[mat.name] = mat.value || 0;
+ });
   for(const v in res) {
     let e;
     if(client.items[type]) e = client.items[type][v] ;

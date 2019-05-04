@@ -21,7 +21,7 @@
         "no-undef": "error",
         "eqeqeq": "error",
         "yoda": "error",
-        "indent": ["error", 2],
+        "indent": ["off", 2],
         "quotes": [
             "warn",
             "single"

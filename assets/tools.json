@@ -4,8 +4,7 @@
       "durability": 60,
       "dmg": 5,
       "repair": {
-        "wood": 20,
-        "coal": 20
+        "wood": 20
       },
       "type": "Normal",
       "emote": "<:woodensword:562706322467061760>",
@@ -86,14 +85,13 @@
     "Wooden Pickaxe": {
       "durability": 60,
       "drops": {
-        "Dirt": [2, 5],
-        "Stone": [0, 2]
+        "Dirt": [2, 3],
+        "Stone": [1, 1]
       },
       "type": "Normal",
       "emote": "<:woodenpickaxe:560738424576016405>",
       "repair": {
-        "wood": 20,
-        "coal": 20
+        "wood": 20
       },
       "materials": {
         "wood": 30
@@ -250,8 +248,7 @@
       "price": 10,
       "emote": "<:woodenaxe:560778791643774976>",
       "repair": {
-        "wood": 20,
-        "coal": 20
+        "wood": 20
       },
       "materials": {
         "wood": 20
@@ -327,8 +324,7 @@
       "drops": [0, 2],
       "emote": "<:woodenhoe:562246996178632707>",
       "repair": {
-        "wood": 20,
-        "coal": 20
+        "wood": 20
       },
       "materials": {
         "wood": 20
@@ -500,25 +496,35 @@
   },
   "crates": {
     "Common": {
-      "items": { "Cash": [50, 100], "Wood": [30, 50], "Coal": [10, 20], "Apple": [1, 3] }
+      "items": { "Cash": [50, 100], "Wood": [30, 50], "Coal": [10, 20], "Apple": [1, 3] },
+      "chance": 0.01
     },
     "Voter": {
       "items": {}
     },
     "Normal": {
-      "items": {}
+      "items": {},
+      "chance": 0.40
     },
     "Uncommon": {
-      "items": { "Cash": [100, 50], "Wood": [50, 100], "Iron": [5, 10], "Apple": [2, 5], "Redstone": [1, 2], "Lapis": [0, 2] }
+      "items": { "Cash": [100, 50], "Wood": [50, 100], "Iron": [5, 10], "Apple": [2, 5], "Redstone": [1, 2], "Lapis": [0, 2] },
+      "chance": 0.65
     },
     "Rare": {
-      "items": { "Cash": [500, 700], "Wood": [100, 200], "Iron": [20, 50], "Milk": [6, 4], "Redstone": [3, 6], "Lapis": [3, 6], "Gold": [2, 5], "Diamond": [0, 2], "Emerald": [1, 4] }
+      "items": { "Cash": [500, 700], "Wood": [100, 200], "Iron": [20, 50], "Milk": [6, 4], "Redstone": [3, 6], "Lapis": [3, 6], "Gold": [2, 5], "Diamond": [0, 2], "Emerald": [1, 4] },
+      "chance": 0.85
     },
     "Epic": {
-      "items": { "Cash": [1000, 500], "Wood": [100, 300], "Iron": [10, 60], "Redstone": [10, 14], "Lapis": [10, 13], "Diamond": [1, 3], "Gold": [4, 10], "Emerald": [2, 6], "Milk": [2, 7], "Cooked Chicken": [2, 10]}
+      "items": { "Cash": [1000, 500], "Wood": [100, 300], "Iron": [10, 60], "Redstone": [10, 14], "Lapis": [10, 13], "Diamond": [1, 3], "Gold": [4, 10], "Emerald": [2, 6], "Milk": [2, 7], "Cooked Chicken": [2, 10]},
+      "chance": 0.94
+    },
+    "elite": {
+      "items": {},
+      "chance": 0.97
     },
     "Mythic": {
-      "items": {}
+      "items": {},
+      "chance": 0.995
     },
     "Legendary": {
       "items": {}

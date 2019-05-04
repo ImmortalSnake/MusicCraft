@@ -12,9 +12,12 @@ module.exports = (client) => {
   require('./functions.js')(client);
   require('./utils.js')(client);
   require('./handlers.js')(client);
+  require('./mongoose.js');
   global.guilds = {};
 
   require('../handlers/commands.js')(client);
   require('../handlers/events.js')(client);
   require('../handlers/app.js');
+  client.inv = require('../models/player.js');
+  client.db = require('./db.js');
 };
