@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
 	let arr = t.split(' ');
 	let type = arr[arr.length - 1];
 	let tool = client.tools.Tools[t] || client.tools.Armor[t];
-  let check = inventory.equipped.find(x=>x.name===type.toLowerCase());
+	let check = inventory.equipped.find(x=>x.name===type.toLowerCase());
 	check? check.value = t: inventory.equipped.push({name: type.toLowerCase(), value: t});
 	await client.db.setInv(inventory, ['equipped']);
 	let embed = client.embed(message, {title:'**Equip**'})

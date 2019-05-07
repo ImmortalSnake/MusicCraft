@@ -1,31 +1,33 @@
-<a href="https://discord.gg/TutA5bZ">
-    <img src="https://img.shields.io/discord/496584856084545537.svg?colorB=Blue&logo=discord&label=Support&style=for-the-badge" alt="Support">
+<div align="center">
+<a href="https://discord.gg/q2ZpFG4">
+    <img src="https://img.shields.io/discord/569872125301751808.svg?colorB=Blue&logo=discord&label=Support&style=for-the-badge" alt="Support">
 </a>
 
-<a href="https://github.com/OmniDiscord/OmniBot">
-    <img src="https://img.shields.io/travis/com/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Travis Build">
+<a href="https://github.com/ImmortalSnake/MusicBot">
+    <img src="https://img.shields.io/travis/com/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Travis Build">
 </a>
 
-<a href="https://github.com/OmniDiscord/OmniBot">
+<a href="https://github.com/ImmortalSnake/MusicBot">
     <img src="https://img.shields.io/codacy/grade/a8c86f1a39e942ef8b03357d2932b03a.svg?style=for-the-badge" alt="Codacy">
 </a>
 <br>
 
-<a href="https://github.com/OmniDiscord/OmniBot">
-    <img src="https://img.shields.io/github/languages/top/OmniDiscord/OmniBot.svg?colorB=Yellow&style=for-the-badge" alt="Languages">
+<a href="https://github.com/ImmortalSnake/MusicBot">
+    <img src="https://img.shields.io/github/languages/top/ImmortalSnake/MusicBot.svg?colorB=Yellow&style=for-the-badge" alt="Languages">
 </a>
 
-<a href="https://github.com/OmniDiscord/OmniBot">
-    <img src="https://img.shields.io/github/package-json/v/OmniDiscord/OmniBot.svg?colorB=Orange&style=for-the-badge" alt="Version">
+<a href="https://github.com/ImmortalSnake/MusicBot">
+    <img src="https://img.shields.io/github/package-json/v/ImmortalSnake/MusicBot.svg?colorB=Orange&style=for-the-badge" alt="Version">
 </a>
 
-<a href="https://github.com/OmniDiscord/OmniBot/issues">
-    <img src="https://img.shields.io/github/issues/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Issues">
+<a href="https://github.com/ImmortalSnake/MusicBot/issues">
+    <img src="https://img.shields.io/github/issues/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Issues">
 </a>
 
-<a href="https://github.com/OmniDiscord/OmniBot/pulls">
-    <img src="https://img.shields.io/github/issues-pr/OmniDiscord/OmniBot.svg?style=for-the-badge" alt="Pull Request">
+<a href="https://github.com/ImmortalSnake/MusicBot/pulls">
+    <img src="https://img.shields.io/github/issues-pr/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Pull Request">
 </a>
+</div>
 
 # MusicBot
 A simple and easy to use music and economy bot. Has many features including queue, skips, lyrics and more. Originally from SnakeBot this has been created due to perfomance reasons.

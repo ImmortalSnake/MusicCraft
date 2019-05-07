@@ -1,3 +1,3 @@
 exports.run = () => {
-    console.error;
+	console.error;
 };

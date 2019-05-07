@@ -6,7 +6,7 @@
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module",
-        "ecmaVersion": 2019
+        "ecmaVersion": 2018
     },
     "rules": {
         "no-console": "off",
@@ -21,7 +21,7 @@
         "no-undef": "error",
         "eqeqeq": "error",
         "yoda": "error",
-        "indent": ["error", 4],
+        "indent": ["off", "tab"],
         "quotes": [
             "warn",
             "single"

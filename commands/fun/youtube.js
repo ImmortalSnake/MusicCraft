@@ -29,7 +29,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'youtube',
 	description: 'A nice youtube comment',

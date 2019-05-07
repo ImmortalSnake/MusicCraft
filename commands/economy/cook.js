@@ -1,5 +1,5 @@
 exports.run = async (client, message, args) => {
-  let inventory = await client.db.getInv(client, message.author.id);
+	let inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to cook');
 	if(!inventory.other.find(x=>x.name==='Furnace')) return message.channel.send('You do not have a furnace. Use `s!craft furnace` to craft one');
 	let c = args.join(' ').toProperCase();
@@ -8,11 +8,11 @@ exports.run = async (client, message, args) => {
 	if(!food) return message.channel.send('You cant cook that now');
 	if(!check(inventory, food)) return message.channel.send('You do not have enough materials');
 	for(const mat in food.materials) {
-    let m = inventory.materials.find(x=>x.name===mat.toProperCase());
-    let f = inventory.food.find(x=>x.name===mat.toProperCase());
-    m ? m.value -= food.materials[mat] : f.value -= food.materials[mat];
+		let m = inventory.materials.find(x=>x.name===mat.toProperCase());
+		let f = inventory.food.find(x=>x.name===mat.toProperCase());
+		m ? m.value -= food.materials[mat] : f.value -= food.materials[mat];
 	}
-  const foo = inventory.food.find(x=>x.name===c);
+	const foo = inventory.food.find(x=>x.name===c);
 	foo ? foo.value++ : inventory.food.push({name: c, value: 1});
 	let embed = client.embed(message, { title: '**Cook**' })
 		.setDescription(`**Successfully cooked a ${c} ${client.items.Food[c].emote}.
@@ -23,8 +23,8 @@ Use \`s!eat ${c}\` to eat it**`);
 
 function check(inventory, food) {
 	for(const mat in food.materials) {
-    let m = inventory.materials.find(x=>x.name===mat.toProperCase());
-    let f = inventory.food.find(x=>x.name===mat.toProperCase());
+		let m = inventory.materials.find(x=>x.name===mat.toProperCase());
+		let f = inventory.food.find(x=>x.name===mat.toProperCase());
 		if(m && food.materials[mat] > m.value) return false;
 		if(f && food.materials[mat] > f.value) return false;
 	}

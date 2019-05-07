@@ -1,5 +1,3 @@
-const db = require('quick.db');
-
 exports.run = async (client, message, args) => {
 	if(!args[0]) return message.channel.send('Correct format is `s!craft [item]`');
 	let inventory = await client.db.getInv(client, message.author.id);
@@ -31,10 +29,10 @@ Use \`s!equip ${t}\` to equip it!`);
 		for(const oth in tool.other) {
 			inventory.other.find(m=>m.name===oth.toProperCase()).value -= tool.other[oth];
 		}
-    let ot = inventory.other.find(x=>x.name===t);
+		let ot = inventory.other.find(x=>x.name===t);
 		if(tool.onetime){
 			if(ot) return message.channel.send(`You already have a ${t}`);
-      inventory.other.push({name: t, value: 1});
+			inventory.other.push({name: t, value: 1});
 		} else {
 			ot ? ot.value++ : inventory.other.push({name: t, value: 1});
 		}
@@ -76,7 +74,7 @@ function ok(tool, client) {
 	return false;
 }
 
-async function generate(inventory, tool, name, message, type) {
+async function generate(inventory, tool, name, message) {
 	let itool = inventory.tools.find(x=>x.name===name);
 	if(itool) return message.channel.send('You already own this tool');
 	for(const mat in tool.materials) {

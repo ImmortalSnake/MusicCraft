@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args) => {
 	if(vol <= 0 || vol > 50) return message.channel.send(':mute: Cannot set the volume below 1 or above 50');
 	guildq.dispatcher.setVolumeLogarithmic(vol / 5);
 	guildq.volume = vol;
-	 return message.channel.send(`:loud_sound: I set the volume to: **${vol}**`);
+	return message.channel.send(`:loud_sound: I set the volume to: **${vol}**`);
 };
 
 exports.conf = {

@@ -9,9 +9,9 @@ exports.run = async (client, message) => {
 		if(Math.random() > rod.drops[drops]) result = drops;
 	}
 	if(result) {
-    let r = inventory.food.find(x=>x.name===result);
-    r ? r.value++ : inventory.food.push({name: result, value: 1});
-  }
+		let r = inventory.food.find(x=>x.name===result);
+		r ? r.value++ : inventory.food.push({name: result, value: 1});
+	}
 	else result = 'Nothing';
 	let fish = client.items.Food[result] || { emote: ''};
 	let embed = client.embed(message).setDescription(`**:fishing_pole_and_fish: Fish
