@@ -5,8 +5,8 @@ const guildSchema = mongoose.Schema({
     prefix: String,
     djrole: String,
     musicchannel: String,
-    defvolume: 5,
-    announcesongs: 'off'
+    defvolume: Number,
+    announcesongs: String
 });
 
 module.exports = mongoose.model('Guild', guildSchema);

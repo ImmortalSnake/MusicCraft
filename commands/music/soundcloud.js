@@ -1,4 +1,3 @@
-const discord = require('discord.js');
 const request = require('request');
 const ms = require('ms');
 
@@ -57,19 +56,19 @@ exports.run = async (client, message, args) => {
 		  else message.channel.send('Error: ' + response.statusCode + ' - ' + response.statusMessage);
 	  });
 	  return;
-  } else {
-    request(`http://api.soundcloud.com/tracks?q=${query}&client_id=${process.env.soundcloud}`, async function (error, response, body){
-		  if(error) throw new Error(error);
+    } else {
+        request(`http://api.soundcloud.com/tracks?q=${query}&client_id=${process.env.soundcloud}`, async function (error, response, body){
+		      if(error) throw new Error(error);
 		  body = JSON.parse(body);
 	    embed.setThumbnail(body[0].artwork_url)
 			  .setTitle('**' + body[0].title + '**')
 			  .setURL(body[0].permalink_url)
 			  .addField('Song Duration', ms(body[0].duration + ' s'), true);
-      addtoqueue(message, body[0]);
+            addtoqueue(message, body[0]);
 		  if(guildq.queue.length === 1) {
 			  await client.music.play(client, message);
-        message.channel.send('✅Now playing: **' + body[0].title + '**', { embed: embed });
-      } else {
+                message.channel.send('✅Now playing: **' + body[0].title + '**', { embed: embed });
+            } else {
 			  message.channel.send('✅Added to queue: **' + body[0].title + '**', { embed: embed });
 		  }
     });
@@ -84,17 +83,17 @@ function timeFormat(time) {
 }
 
 function addtoqueue(message, video) {
-  let guildq = global.guilds[message.guild.id];
-  guildq.queue.push({
-    url: video.permalink_url,
-	  title: video.title,
-	  id: video.permalink_url,
-	  skippers: [],
-	  requestor: message.author.id,
-	  seek: 0,
-	  type: 'soundcloud'
-  });
-  guildq.isPlaying = true;
+    let guildq = global.guilds[message.guild.id];
+    guildq.queue.push({
+        url: video.permalink_url,
+	      title: video.title,
+	      id: video.permalink_url,
+	      skippers: [],
+	      requestor: message.author.id,
+	      seek: 0,
+	      type: 'soundcloud'
+    });
+    guildq.isPlaying = true;
 }
 
 exports.conf = {

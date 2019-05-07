@@ -174,41 +174,39 @@ module.exports.run = async (client, message, args) => {
 };
 
 function find(client, name) {
-  if(client.tools.Tools[name]) return 'tools';
-  if(client.items.Food[name]) return 'food';
-  if(client.items.Materials[name]) return 'materials';
-  if(client.tools.Armor[name]) return 'armor';
-  if(client.tools.Other[name]) return 'other';
-  return false;
+    if(client.tools.Tools[name]) return 'tools';
+    if(client.items.Food[name]) return 'food';
+    if(client.items.Materials[name]) return 'materials';
+    if(client.tools.Armor[name]) return 'armor';
+    if(client.tools.Other[name]) return 'other';
+    return false;
 }
 
 function getinv(inventory, type, client) {
-  let res = {};
-  let m = '**';
- inventory[type.toLowerCase()].forEach(mat => {
-    res[mat.name] = mat.value || 0;
- });
-  for(const v in res) {
-    let e;
-    if(client.items[type]) e = client.items[type][v] ;
-    else if(client.tools[type]) e = client.tools[type][v];
-    if(!e) e = { emote: ''  };
-    let x = `x${res[v]}\n`;
-    if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
-    else if( typeof res[v] === 'object') x = 'x1\n'; // []
-    m += `${v}${e.emote} ${x}`;
-  }
-  m += '**';
-  return m;
+    let res = {},
+        m = '**';
+    inventory[type.toLowerCase()].forEach(mat => { res[mat.name] = mat.value || 0});
+    for(const v in res) {
+        let e = { emote: ''  };
+        if(client.items[type]) e = client.items[type][v] ;
+        else if(client.tools[type]) e = client.tools[type][v];
+        let x = `x${res[v]}\n`;
+        if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
+        else if( typeof res[v] === 'object') x = 'x1\n'; // []
+        m += `${v}${e.emote} ${x}`;
+    }
+    m += '**';
+    return m;
 }
 
 exports.conf = {
-  aliases: [],
+    aliases: [],
+    permLevel: 9
 };
 
 exports.help = {
-  name: 'owner',
-  group: 'owner',
-  description: 'Secret command only availible to the bot admins... how did you get to know about this command? xD',
-  usage: 'owner [option] [value]',
+    name: 'owner',
+    group: 'owner',
+    description: 'Secret command only availible to the bot admins... how did you get to know about this command? xD',
+    usage: 'owner [option] [value]',
 };

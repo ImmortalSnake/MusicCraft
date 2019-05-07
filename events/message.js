@@ -36,7 +36,7 @@ exports.run = async (client, message) => {
         if(!message.member.hasPermission(command.conf.perms[i])) return message.channel.send(`You do not have the required permission. Permission Required: ${command.conf.perms[i]}`);
     }
   }
-    if(command.conf.permLevel > permLevel) return message.channel.send(client.perms.get[`${command.conf.permLevel}`])
+    if(command.conf.permLevel && command.conf.permLevel > permLevel) return message.channel.send(client.perms.get(command.conf.permLevel))
 
   if(cooldown[`${message.author.id}_${command.help.name}`]) {
     message.channel.send(`Woah there! you gotta wait ${ms(Math.abs(Date.now() - cooldown[`${message.author.id}_${command.help.name}`] - command.conf.cooldown), {long:true})} before you use this command`);
