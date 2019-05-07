@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const config = process.env;
 const yt_api_key = config.yt_api_key;

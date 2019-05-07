@@ -1,49 +1,64 @@
-const fetchVideoInfo = require('youtube-info');
-const ms = require('ms');
-const request = require('request');
+const YouTube = require('simple-youtube-api');
+const config = process.env;
+const yt_api_key = config.yt_api_key;
+const youtube = new YouTube(yt_api_key);
+const youtubedl = require('youtube-dl');
 
 module.exports.run = async (client, message) => {
-	let check = await client.checkMusic(message, { playing: true });
-	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
-	const mess = client.embed(message)
-		.setFooter(`${guildq.queue.length} songs in queue`)
-		.addField('Requested By', client.users.get(guildq.queue[0].requestor));
-	fetchVideoInfo(guildq.queue[0].id, async function(err, videoInfo) {
-		if (err) {
-			await request('http://api.soundcloud.com/resolve.json?url=' + guildq.queue[0].url + '&client_id=71dfa98f05fa01cb3ded3265b9672aaf', async function (error, response, body) {
-				if(error) throw new Error(error);
-				body = JSON.parse( body );
-				mess.setThumbnail(body.artwork_url)
-					.setTitle('**' + guildq.queue[0].title + '**')
-					.setURL(guildq.queue[0].url)
-					.addField('Song Duration', ms(body.duration), true)
-					.addField('Times Played', body.playback_count, true)
-					.addField('Owner', body.user.username, true);
-				return message.channel.send(mess);
-			});
-		} else {
-			mess.setThumbnail(videoInfo.thumbnailUrl)
-				.setTitle('**' + guildq.queue[0].title + '**')
-				.setURL(videoInfo.url)
-				.addField('Song Duration', ms(videoInfo.duration * 1000), true)
-				.addField('Views', videoInfo.views, true)
-				.addField('Channel', videoInfo.owner, true);
-			return message.channel.send(mess);
-		}
-	});
+  let check = await client.checkMusic(message, { playing: true });
+  if(check) return message.channel.send(check);
+  let guildq = global.guilds[message.guild.id];
+  const video = guildq.queue[0];
+  const embed = client.embed(message)
+    .setTitle(`**${video.title}**`)
+    .setURL(video.url)
+    .setFooter(`${guildq.queue.length} songs in queue`)
+	  .addField('**Requested By**', client.users.get(guildq.queue[0].requestor), true);
+  if(video.type === 'youtube'){
+    youtube.getVideo(video.url, { part: 'contentDetails,snippet' }).then(video => {
+      const dur = properFormat(video.duration);
+      embed.setDescription(video.description.slice(0, 500))
+        .setThumbnail(video.thumbnails.default.url)
+        .addField('**Channel**', `**${video.raw.snippet.channelTitle}**`, true)
+        .addField('**Duration**', `**${dur}**`, true)
+        .addField('**Playing For**', `**${msToTime(guildq.dispatcher.streamTime)}**`, true);
+      return message.channel.send(embed);
+    });
+  }
+  else {
+    youtubedl.getInfo(video.id, function(err, data) {
+      if (err) console.log(err);
+      console.log(data);
+    });
+  }
 };
 
 exports.conf = {
-	aliases: ['np'],
-	enabled: true,
-	guildOnly: true
+  aliases: ['np'],
+  enabled: true,
+  guildOnly: true
 };
 
 
 exports.help = {
-	name: 'nowplaying',
-	description: 'Displays some information about the current playing music',
-	group: 'music',
-	usage: 'np [command]'
+  name: 'nowplaying',
+  description: 'Displays some information about the current playing music',
+  group: 'music',
+  usage: 'np [command]'
 };
+
+function msToTime(duration) {
+  let seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  hours = (hours < 10) ? '0' + hours : hours;
+  minutes = (minutes < 10) ? '0' + minutes : minutes;
+  seconds = (seconds < 10) ? '0' + seconds : seconds;
+
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+function properFormat(duration) {
+  return msToTime((duration.seconds + (duration.minutes * 60) + (duration.hours * 3600)) * 1000);
+}

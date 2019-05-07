@@ -1,3 +1,3 @@
-exports.run = async () => {
-  console.error;
+exports.run = () => {
+    console.error;
 };

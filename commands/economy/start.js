@@ -2,9 +2,9 @@ const db = require('quick.db');
 
 exports.run = async (client, message) => {
 	let inventory = await client.inv.findOne({id: message.author.id});
-	if(inventory) return message.channel.send('You already have a profile.');
+	if(inventory) return message.channel.send('You already have a profile');
 	let actualinv = await db.fetch(`inventory_${message.author.id}`);
-	client.db.createInv(client, message, actualinv);
+	client.db.createInv(client, message.author.id, actualinv);
 	let embed = client.embed(message).setDescription(`Welcome ${message.author.username}!
 You received your <:woodenaxe:560778791643774976>
 You can now type \`s!chop\` to collect some wood`);

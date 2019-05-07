@@ -10,21 +10,25 @@ module.exports.run = async (client, message, args) => {
 	if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command');
 	if (!args) return message.channel.send('Incorrect usage. Please use Java Script.');
 	let embed = client.embed(message, { color: 'BLACK', title: '**Evaluation**' });
+  let t1 = message.createdAt
 	try {
 		let codein = args.join(' ');
 		let code = eval(codein);
 		if (typeof code !== 'string') code = require('util').inspect(code, { depth: 0 });
 		if(code.includes(client.token)) code = code.replace(client.token, '--TOKEN--');
+    const t2 = t1- Date.now();
 		if(code.length > 1024) {
 			const data = await paste.createPaste(code);
 			embed.setURL(data)
 				.addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
 				.addField(':outbox_tray: Output', `\`\`\`js\n${code.slice(0, 1000)}\n\`\`\``)
+        .addField('Time Taken', `${t2} ms`)
 				.setDescription('**Output was too long, uploaded to pastebin!**');
 			return message.channel.send(embed);
 		} else {
 			embed.addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
-				.addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``);
+				.addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
+        .addField('Time Taken', `${t2} ms`);
 			return message.channel.send(embed);
 		}
 	} catch(e) {

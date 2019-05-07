@@ -1,6 +1,7 @@
 const db = require('quick.db');
 const discord = require('discord.js');
 const fetch = require('node-superfetch');
+const youtubedl = require('youtube-dl');
 const url = 'https://icanhazdadjoke.com/';
 
 module.exports.run = async (client, message, args) => {
@@ -13,11 +14,9 @@ module.exports.run = async (client, message, args) => {
   case 'inv': {
 
     if(!user) return message.channel.send('Could not find that user');
-    let inventory = await client.inv.findOne({id: message.author.id});
+    let inventory = await client.inv.findOne({id: user.id});
     if(!inventory) return message.channel.send('That user does not have a player');
-    let embed = new discord.MessageEmbed()
-      .setTitle('Inventory')
-      .setColor('GREEN')
+    let embed = client.embed(message, {title: '**Inventory**'})
       .setFooter(user.username, user.displayAvatarURL())
       .addField('Materials', getinv(inventory, 'Materials', client), true)
       .addField('Tools', getinv(inventory, 'Tools', client), true)
@@ -79,12 +78,12 @@ module.exports.run = async (client, message, args) => {
 
     return message.channel.send(`Successfully added a ${t} Crate to ${user.tag}`);
   }
-  case 'reset': {
+  case 'restore': {
     if(!user) return message.channel.send('Could not find that user');
-    let inventory = await client.inv.findOne({id: message.author.id});
+    let inventory = await client.inv.findOne({id: user.id});
     if(inventory) return message.channel.send('That user already has a profile.');
-    let actualinv = await db.fetch(`inventory_${message.author.id}`);
-    client.db.createInv(client, message, actualinv);
+    let actualinv = await db.fetch(`inventory_${user.id}`);
+    await client.db.createInv(client, user.id, actualinv);
     return message.channel.send(`Successfully restored data of ${user.tag}`);
   }
   case 'shutdown': {
@@ -143,11 +142,29 @@ module.exports.run = async (client, message, args) => {
       return message.channel.send(embed);
     });
   }
-    case 'createrole': {
+    case 'addrole': {
       let perms = args[1].toUpperCase();
-      let roleName = args.slice(2).join(' ');
+      let color = args[2].toUpperCase();
+      let roleName = args.slice(3).join(' ');
       console.log(perms, roleName);
+      message.guild.roles.create({ data: {
+        name: roleName,
+        color: color,
+        permissions: perms,
+        hoist: true
+      }}).then(role=> {
+        message.member.roles.add(role).then(() => message.channel.send(`Successfully created the role ${role} and added it to you!`));
+      });
       return;
+    }
+    case 'test':{
+      youtubedl.getInfo('https://vimeo.com/6586873', function(err, info) {
+        if (err) throw err;
+        console.log(info);
+        message.member.voice.channel.join().then(connection => {
+          connection.play(info.url)
+        })
+      })
     }
   default: {
     return message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
@@ -157,41 +174,39 @@ module.exports.run = async (client, message, args) => {
 };
 
 function find(client, name) {
-  if(client.tools.Tools[name]) return 'tools';
-  if(client.items.Food[name]) return 'food';
-  if(client.items.Materials[name]) return 'materials';
-  if(client.tools.Armor[name]) return 'armor';
-  if(client.tools.Other[name]) return 'other';
-  return false;
+    if(client.tools.Tools[name]) return 'tools';
+    if(client.items.Food[name]) return 'food';
+    if(client.items.Materials[name]) return 'materials';
+    if(client.tools.Armor[name]) return 'armor';
+    if(client.tools.Other[name]) return 'other';
+    return false;
 }
 
 function getinv(inventory, type, client) {
-  let res = {};
-  let m = '**';
- inventory[type.toLowerCase()].forEach(mat => {
-    res[mat.name] = mat.value || 0;
- });
-  for(const v in res) {
-    let e;
-    if(client.items[type]) e = client.items[type][v] ;
-    else if(client.tools[type]) e = client.tools[type][v];
-    if(!e) e = { emote: ''  };
-    let x = `x${res[v]}\n`;
-    if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
-    else if( typeof res[v] === 'object') x = 'x1\n'; // []
-    m += `${v}${e.emote} ${x}`;
-  }
-  m += '**';
-  return m;
+    let res = {},
+        m = '**';
+    inventory[type.toLowerCase()].forEach(mat => { res[mat.name] = mat.value || 0});
+    for(const v in res) {
+        let e = { emote: ''  };
+        if(client.items[type]) e = client.items[type][v] ;
+        else if(client.tools[type]) e = client.tools[type][v];
+        let x = `x${res[v]}\n`;
+        if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
+        else if( typeof res[v] === 'object') x = 'x1\n'; // []
+        m += `${v}${e.emote} ${x}`;
+    }
+    m += '**';
+    return m;
 }
 
 exports.conf = {
-  aliases: [],
+    aliases: [],
+    permLevel: 9
 };
 
 exports.help = {
-  name: 'owner',
-  group: 'owner',
-  description: 'Secret command only availible to the bot admins... how did you get to know about this command? xD',
-  usage: 'owner [option] [value]',
+    name: 'owner',
+    group: 'owner',
+    description: 'Secret command only availible to the bot admins... how did you get to know about this command? xD',
+    usage: 'owner [option] [value]',
 };
