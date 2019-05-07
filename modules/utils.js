@@ -1,53 +1,26 @@
 module.exports = (client) => {
-  client.tools = require('../assets/tools');
-  client.items = require('../assets/items');
-  client.mobs = require('../assets/mobs');
-  client.shop = require('../assets/shop');
-  client.owner = '410806297580011520';
-  client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840'];
-  client.defaultQueue= {
-    queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
-    isPlaying: false,
-    dispatcher: null,
-    voiceChannel: null,
-    looping: false,
-    volume: 5, // default volume
-  };
-  client.defaultInventory = {
-    health: 100, //
-    attack: 10, //
-    speed: 10, //
-    luck: 0, //
-    dimension: 'Overworld', //
-    xp: 0, //
-    level: 1, //
-    hunger: 100, //
-    lastactivity: 0, //
-    size: 100,
-    equipped: {axe: 'Wooden Axe'},
-    tools: {
-      'Wooden Axe': {durability: 60, enchant: ''}
-    },
-    materials: {
-      Wood: 0,
-      Stone: 0,
-      Dirt: 0,
-      Iron: 0,
-      Gold: 0,
-      Diamond: 0
-    },
-    food: {},
-    crates: [],
-    animals: {},
-    armor: {},
-    other: {},
-    trade: {}
-  };
-  client.deftrade = {
-    user: '',
-    recieved: {},
-    give: {}
-  };
+    client.tools = require('../assets/tools');
+    client.items = require('../assets/items');
+    client.mobs = require('../assets/mobs');
+    client.shop = require('../assets/shop');
+    client.owner = '410806297580011520';
+    client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840'];
+    client.blacklisted = [];
+    client.perms = require('../utils/permissions.js');
+    client.defaultQueue= {
+        queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
+        isPlaying: false,
+        dispatcher: null,
+        voiceChannel: null,
+        looping: false,
+        volume: 5, // default volume
+    };
+
+    client.deftrade = {
+        user: '',
+        recieved: {},
+        give: {}
+    };
   client.settings = {
     announceSongs: {
       description: 'Toggles the bot announcing each song in the channel as it plays them',
@@ -58,7 +31,7 @@ module.exports = (client) => {
     DJRole: {
       description: 'Sets a Dj Role. Any member with the DJ Role has access to most of the music commands',
       name: 'DJ Role',
-      usage: 'djrole [@role]',
+      usage: 'djrole [@role] or djrole off',
       value: 'djRole',
       type: 'role'
     },
@@ -77,7 +50,7 @@ module.exports = (client) => {
     musicChannel: {
       description: 'Restricts all musics commands to be used in a certain channel',
       name: 'Music Channel',
-      usage: 'musicchannel [#textchannel]',
+      usage: 'musicchannel [#textchannel] or musicchannel off',
       value: 'musicChannel',
       type: 'channel'
     }

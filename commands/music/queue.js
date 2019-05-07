@@ -12,7 +12,7 @@ module.exports.run = async (client, message, args) => {
 		if(i > 9 * page || i < (9 * page) - 9) continue;
 		message2 += `\n${(i + 1)} : [${guildq.queue[i].title}](${guildq.queue[i].url})${(i === 0 ? ' **(Current Song)**' : '')}\n~ Requested By: ${client.users.get(guildq.queue[i].requestor)}\n`;
 	}
-	mess.setFooter(`Page ${page}/${total} ~ ${guildq.queue.length} songs in queue`);
+	mess.setFooter(`Page ${page}/${total} | ${guildq.queue.length} songs in queue`);
 	mess.setDescription(message2);
 	message.channel.send(mess);
 };

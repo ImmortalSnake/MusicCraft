@@ -18,9 +18,9 @@ exports.conf = {
 // Name is the only necessary one.
 exports.help = {
 	name: 'removedupes',
-	description: 'Evaluates a JS code.',
+	description: 'Removes duplicate songs from the queue.',
 	group: 'music',
-	usage: 'removedupes [command]'
+	usage: 'removedupes'
 };
 
 function rd(q) {

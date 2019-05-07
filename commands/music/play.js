@@ -1,132 +1,102 @@
-const discord = require('discord.js');
 const YouTube = require('simple-youtube-api');
 const config = process.env;
 const yt_api_key = config.yt_api_key;
 const youtube = new YouTube(yt_api_key);
-const request = require('request');
-const getYouTubeID = require('get-youtube-id');
-const fetchVideoInfo = require('youtube-info');
 const db = require('quick.db');
+const youtubedl = require('youtube-dl');
 
 module.exports.run = async (client, message, args) => {
-	try{ // comes with the catch
-		args = args.join(' ');
-		if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
-		if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
-		const settings = await db.fetch(`settings_${message.guild.id}`);
-		let check = await client.checkMusic(message, { vc: true });
-		if(check) return message.channel.send(check);
-		let guildq = global.guilds[message.guild.id];
-
-		await getID(args, async function(id) {
-			if(!id) return message.channel.send('Could not obtain any search results');
-			if(id === 'playlist') {
-				let match = args.match(/[?&]list=([^#\&\?]+)/);
-				if (match) {
-					message.channel.send('Searching :mag_right: `' + args + '`'); // this gonna take time so lets give them something
-					const playlist = await youtube.getPlaylistByID(match[1]);
-					const videos = await playlist.getVideos();
-					let t = 0;
-					for (const video of Object.values(videos)) {
-						if(t > 50) break;
-						const video2 = await youtube.getVideoByID(video.id);
-						let cqueue = {
-							url: 'https://youtube.com/watch?v='+video.id,
-							title: video2.title,
-							id: video2.id,
-							skippers: [],
-							requestor: message.author.id,
-							seek: 0
-						};
-						guildq.queue.push(cqueue);
-						t++;
-					}
-					if(!guildq.queue.length > t || guildq.isPlaying) await message.channel.send(`✅ Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);
-					else{
-						guildq.volume = settings.defVolume;
-						await client.playMusic(guildq.queue[0].id, message);
-						guildq.isPlaying = true;
-						await message.channel.send(`✅ Now Playing! Playlist: **${playlist.title}** has been added to the queue! \`${t}\` songs added`);
-					}
-				}
-			} else {
-				fetchVideoInfo(id, function(err, videoInfo) {
-					if (err) throw new Error(err);
-					const embed = new discord.MessageEmbed()
-						.setThumbnail(videoInfo.thumbnailUrl)
-						.setColor('BLUE')
-						.setTitle('**' + videoInfo.title + '**')
-						.setURL(videoInfo.url)
-						.setAuthor(message.author.username, message.author.displayAvatarURL())
-						.addField('Song Duration', [videoInfo.duration + ' s'], true)
-						.setFooter(guildq.queue.length + ' song(s) in queue');
-
-					message.channel.send(embed);
-					let cqueue = {
-						url: videoInfo.url,
-						title: videoInfo.title,
-						id: getYouTubeID(id) || id,
-						skippers: [],
-						requestor: message.author.id,
-						seek: 0
-					};
-					guildq.queue.push(cqueue);
-					if (guildq.queue.length > 1 || guildq.isPlaying) {
-						message.channel.send('✅Added to queue: **' + videoInfo.title + '**');
-					} else {
-						client.playMusic(id, message);
-						guildq.isPlaying = true;
-						message.channel.send('✅Now playing: **' + videoInfo.title + '**');
-					}
-				});
-			}
-		});
-	}
-	catch(e) {
-		console.log(e);
-		message.reply('Uh oh, something went wrong please try again later');
-	}
+  try{
+    args = args.join(' ');
+    if (!message.guild.me.hasPermission('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
+    if (!message.guild.me.hasPermission('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+    let check = await client.checkMusic(message, { vc: true });
+    if(check) return message.channel.send(check);
+    const settings = await db.fetch(`settings_${message.guild.id}`);
+    let guildq = global.guilds[message.guild.id];
+    guildq.volume = settings.defVolume;
+    message.channel.send(`Searching :mag_right: \`${args}\``).then(async () => {
+      if(!args.toLowerCase().startsWith('http')) { // basic searches
+        youtube.searchVideos(args, 1).then(async videos => {
+          let video = videos[0];
+          console.log(video);
+          addtoqueue(client, video, message, { type: 'youtube'});
+          if(guildq.queue.length > 1) return message.channel.send(`Added to queue **${video.title}**`);
+          else {
+            message.channel.send(`Now Playing **${video.title}**`);
+            return await client.music.play(client, message);
+          }
+        });
+      }
+      else if(args.toLowerCase().indexOf('youtube.com') > -1){ // yt links
+        let match = args.match(/[?&]list=([^#\&\?]+)/);
+        if(match){ // playlists
+          const playlist = await youtube.getPlaylistByID(match[1]);
+          const videos = await playlist.getVideos();
+          const vids = Object.values(videos);
+          for (const video of vids) {
+            const video2 = await youtube.getVideoByID(video.id);
+            addtoqueue(client, video2, message, { type: 'youtube' });
+          }
+          if(guildq.queue.length > 1) return message.channel.send(`Playlist: **${playlist.title}** has been added to the queue, **${vids.length}** songs added`);
+          else {
+            message.channel.send(`Playlist: **${playlist.title}** has been added to the queue, **${vids.length}** songs added\nNow Playing **${vids[0].title}**`);
+            return await client.music.play(client, message);
+          }
+        }
+        else{ // normal vid
+          youtube.getVideo(args).then(async video => {
+            addtoqueue(client, video, message, { type: 'youtube' });
+            if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${video.title}`);
+            else {
+              message.channel.send(`Now Playing ${video.title}`);
+              return await client.music.play(client, message);
+            }
+          });
+        }
+      }
+      else{ // other sources, vimeo
+        youtubedl.getInfo(args, async function(err, data) {
+          if (err) console.log(err);
+          addtoqueue(client, data, message, { type: data.extractor});
+          console.log(data);
+          if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${data.title}`);
+          else {
+            message.channel.send(`Now Playing ${data.title}`);
+            return await client.music.play(client, message);
+          }
+        });
+      }
+    });
+  } catch(e) {
+    console.log(e);
+    return message.reply('Uh oh, something went wrong please try again later');
+  }
 };
 
-async function getID(str, cb) {
-	if(isYoutube(str)) {
-		if(getYouTubeID(str)) cb(getYouTubeID(str));
-		else {
-			cb('playlist');
-		}
-	}
-	else {
-		search_video(str, function(id) {
-			cb(id);
-		});
-	}
-}
-
-async function search_video(query, callback) {
-	await request('https://www.googleapis.com/youtube/v3/search?part=id&type=video&q=' + encodeURIComponent(query) + '&key=' + yt_api_key, function(error, response, body) {
-		const json = JSON.parse(body);
-		if(!json.items[0]) {
-			callback('3_-a9nVZYjk');
-		} else {
-			callback(json.items[0].id.videoId);
-		}
-	});
-}
-
-function isYoutube(str) {
-	return str.toLowerCase().indexOf('youtube.com') > -1;
+async function addtoqueue(client, data, message, options){
+  let guildq = global.guilds[message.guild.id];
+  guildq.queue.push({
+    skippers: [],
+    requestor: message.author.id,
+    url: options.type === 'youtube' ? data.url : data.webpage_url,
+    title: data.title,
+    seek: 0,
+    type: options.type,
+    id: options.type === 'youtube' ? data.id : data.url
+  });
 }
 
 exports.conf = {
-	aliases: ['p'],
-	enabled: true,
-	guildOnly: true
+  aliases: ['p'],
+  enabled: true,
+  guildOnly: true
 };
 
 // Name is the only necessary one.
 exports.help = {
-	name: 'play',
-	description: 'Plays a song from youtube with the given query or url, Supports youtube playlists',
-	group: 'music',
-	usage: 'play [query / url]'
+  name: 'play',
+  description: 'Plays a song from youtube with the given query or url, Supports youtube playlists',
+  group: 'music',
+  usage: 'play [query / url]'
 };
