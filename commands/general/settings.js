@@ -25,15 +25,15 @@ exports.run = async (client, message, args) => {
 		case 'djrole': {
 			if(!args[1]) return message.channel.send(genEmbed(client, message, settings, 'DJRole'));
 			let role = message.mentions.roles.first() || message.guild.roles.find(r => r.name === args[1]);
-      let toggle = false;
-      if(args[1].toLowerCase() === 'off') toggle = true;
+			let toggle = false;
+			if(args[1].toLowerCase() === 'off') toggle = true;
 			if(!role && !toggle) return message.channel.send('Could not find the specified role. Please mention the role or provide the role name with correct spelling and capitalization');
 			else if(!role && toggle) {
-        settings.djRole = '';
-        await db.set(`settings_${message.guild.id}`, settings);
-        return message.channel.send('The DJ Role has successfully been disabled');
-      }
-      settings.djRole = role.id;
+				settings.djRole = '';
+				await db.set(`settings_${message.guild.id}`, settings);
+				return message.channel.send('The DJ Role has successfully been disabled');
+			}
+			settings.djRole = role.id;
 			await db.set(`settings_${message.guild.id}`, settings);
 			return message.channel.send(`The DJ Role has successfuly been set to **${role.name}**`);
 		}
@@ -48,15 +48,15 @@ exports.run = async (client, message, args) => {
 		case 'musicchannel': {
 			if(!args[1]) return message.channel.send(genEmbed(client, message, settings, 'musicChannel'));
 			let chan = message.mentions.channels.first();
-      let toggle = false;
-      if(args[1].toLowerCase() === 'off') toggle = true;
+			let toggle = false;
+			if(args[1].toLowerCase() === 'off') toggle = true;
 			if(!chan && !toggle) return message.channel.send('Could not find the specified channel. Please use `#channel`. Also make sure that i have permissions to view the channel');
 			else if(!chan && toggle) {
-        settings.musicChannel = '';
-        await db.set(`settings_${message.guild.id}`, settings);
-        return message.channel.send('The Music Channel has successfully been disabled');
-      }
-      if(chan.type !== 'text') return message.channel.send('Please mention a `Text Channel`');
+				settings.musicChannel = '';
+				await db.set(`settings_${message.guild.id}`, settings);
+				return message.channel.send('The Music Channel has successfully been disabled');
+			}
+			if(chan.type !== 'text') return message.channel.send('Please mention a `Text Channel`');
 			settings.musicChannel = chan.id;
 			await db.set(`settings_${message.guild.id}`, settings);
 			return message.channel.send(`The Music Channel has successfuly been set to **${chan}**`);
@@ -74,29 +74,29 @@ exports.run = async (client, message, args) => {
 };
 
 function genEmbed(client, message, settings, type) {
-	  let info = client.settings[type];
-	  let mbed = client.embed(message);
-	  let value = settings[info.value] || 'None';
-	  if (info.type === 'channel' && value !== 'None') value = message.guild.channels.get(value);
-	  if (info.type === 'role' && value !== 'None') value = message.guild.roles.get(value);
-	  mbed.setTitle(`Settings - **${info.name}**`)
-		  .setDescription(info.description)
-		  .addField('Current Setting', `\`${value}\``)
-		  .addField('Usage', `\`${settings.prefix}settings ${info.usage}\``);
-	 return mbed;
+	let info = client.settings[type],
+		mbed = client.embed(message),
+		value = settings[info.value] || 'None';
+	if (info.type === 'channel' && value !== 'None') value = message.guild.channels.get(value);
+	if (info.type === 'role' && value !== 'None') value = message.guild.roles.get(value);
+	mbed.setTitle(`Settings - **${info.name}**`)
+		.setDescription(info.description)
+		.addField('Current Setting', `\`${value}\``)
+		.addField('Usage', `\`${settings.prefix}settings ${info.usage}\``);
+	return mbed;
 }
 
 exports.conf = {
-	 aliases: ['setting'],
-	 enabled: true,
-	 guildOnly: true,
-	 permLevel: 7
+	aliases: ['setting'],
+	enabled: true,
+	guildOnly: true,
+	permLevel: 7
 };
 
 // Name is the only necessary one.
 exports.help = {
-	 name: 'settings',
-	 description: 'Shows and changes the settings for the bot in the guild!',
-	 group: 'general',
-	 usage: 'settings [option] [value]'
+	name: 'settings',
+	description: 'Shows and changes the settings for the bot in the guild!',
+	group: 'general',
+	usage: 'settings [option] [value]'
 };

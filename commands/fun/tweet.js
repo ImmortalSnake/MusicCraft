@@ -29,7 +29,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'tweet',
 	description: 'A nice twitter post',

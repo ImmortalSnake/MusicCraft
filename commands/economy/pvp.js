@@ -124,7 +124,7 @@ async function calc(client, player1, player2) {
 }
 
 function inv(inventory, n){
-  return inventory.equipped.find(x=>x.name===n);
+	return inventory.equipped.find(x=>x.name===n);
 }
 
 exports.conf = {

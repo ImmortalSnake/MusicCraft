@@ -1,6 +1,4 @@
 const db = require('quick.db');
-const discord = require('discord.js');
-const ms = require('ms');
 
 exports.run = async (client, message, args) => {
 	let inventory = await db.fetch(`inventory_${message.author.id}`);
@@ -41,14 +39,14 @@ exports.run = async (client, message, args) => {
 
 function getItem(id, shop) {
 	for(const s in shop) {
-		if(shop[s].id == id) return shop[s];
+		if(shop[s].id === id) return shop[s];
 	}
 	return false;
 }
 
 exports.conf = {
 	aliases: [],
-	enabled: true,
+	enabled: false,
 	guildOnly: true
 };
 
