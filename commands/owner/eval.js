@@ -6,7 +6,7 @@ const pastebin = require('pastebin-js');
 const mongoose = require('mongoose');
 const paste = new pastebin(process.env.pastekey);
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message, args, {settings}) => {
 	if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command');
 	if (!args) return message.channel.send('Incorrect usage. Please use Java Script.');
 	let embed = client.embed(message, { color: 'BLACK', title: '**Evaluation**' });
@@ -16,7 +16,7 @@ module.exports.run = async (client, message, args) => {
 		let code = eval(codein);
 		if (typeof code !== 'string') code = require('util').inspect(code, { depth: 0 });
 		if(code.includes(client.token)) code = code.replace(client.token, '--TOKEN--');
-		const t2 = t1- Date.now();
+		const t2 = Date.now() - t1;
 		if(code.length > 1024) {
 			const data = await paste.createPaste(code);
 			embed.setURL(data)

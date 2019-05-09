@@ -1,11 +1,9 @@
-const discord = require('discord.js');
 const ms = require('ms');
 
 module.exports.run = async (client, message) => {
 	const uptime = client.uptime;
 	const bimage = client.user.displayAvatarURL();
-	const myinfo = new discord.MessageEmbed()
-		.setAuthor(client.user.tag, bimage)
+	const myinfo = client.embed(message)
 		.addField('⚙️ Version', client.version, true)
 		.addField('👑 Creator', 'ImmortalSnake#9836', true)
 		.addField('⌛ Uptime', ms(uptime), true)
@@ -13,9 +11,8 @@ module.exports.run = async (client, message) => {
 		.addField('👥 Members', client.guilds.reduce((p, c) => p + c.memberCount, 0), true)
 		.addField('💬 Commands', client.commands.size, true)
 		.addField('🔋 Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-		.addField('🔗 Invite', '[Click here](https://discordapp.com/api/oauth2/authorize?client_id=557831541653241857&permissions=8&scope=bot)', true)
+		.addField('🔗 Invite', `[Click here](https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)`, true)
 		.addField('🤝 Support', '[Click here](https://discord.gg/b8S3HAw)', true)
-		.setColor('GREEN')
 		.setThumbnail(bimage);
 
 	message.channel.send(myinfo);

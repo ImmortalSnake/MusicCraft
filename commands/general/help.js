@@ -1,16 +1,14 @@
 const discord = require('discord.js');
-const db = require('quick.db');
 
-exports.run = (client, message, args) => {
+exports.run = (client, message, args, {settings}) => {
 	let embed = new discord.MessageEmbed()
 		.setColor('#206694');
-	let prefix = message.guild ? db.fetch(`settings_${message.guild.id}`).prefix : client.prefix;
+	let prefix = settings ? settings.prefix : client.prefix;
 	if(args[0]) {
 		const t = args[0].toLowerCase();
 		const groups = client.groups;
 		let command = client.commands.get(t) || client.commands.get(client.aliases.get(t));
 		let group = groups.get(t);
-		//= group.map(c => '\n\n**s!' + c.help.name + '**\n' + c.help.description)
 		if(group) {
 			let curpage = 1;
 

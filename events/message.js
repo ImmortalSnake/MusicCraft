@@ -1,18 +1,19 @@
 let cooldown = {};
 const tips = [
-	'',
+	'Use the `s!trade` command to trade with other players!',
 	''
 ];
+
 const ms = require('ms');
-const db = require('quick.db');
 
 exports.run = async (client, message) => {
 	if(message.author.id === client.user.id && message.content.includes(client.token)) return message.delete();
 	if (message.author.bot) return;
 	let prefix = client.prefix;
+  const options = {tips: tips};
 	if(message.guild){
-		let settings = await db.fetch(`settings_${message.guild.id}`);
-		if(!settings) settings = await db.set(`settings_${message.guild.id}`, client.defSettings);
+		let settings = await client.guilddb.findOne({id: message.guild.id});
+    options.settings = settings;
 		prefix = settings.prefix;
 	}
 	let args, cmd, command, isMentioned = false;
@@ -49,7 +50,7 @@ exports.run = async (client, message) => {
 		}, command.conf.cooldown);
 	}
 	try {
-		command.run(client, message, args);
+		command.run(client, message, args, options);
 	} catch(err) {
 		console.log(err);
 	}

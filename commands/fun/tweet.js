@@ -5,11 +5,7 @@ module.exports.run = async (client, message, args) => {
 	const url = `https://dankmemer.services/api/tweet?avatar1=${message.author.avatarURL()}&username1=${message.author.username}&text=${text}`;
 
 	message.channel.startTyping();
-	fetch.get(url, {
-		headers: {
-			'Authorization': process.env.dank,
-		},
-	}).then(async res => {
+	fetch.get(url, { headers: { 'Authorization': process.env.dank }}).then(async res => {
 		await message.channel.send({
 			files: [{
 				attachment: res.body,

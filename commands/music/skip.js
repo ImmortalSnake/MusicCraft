@@ -1,11 +1,9 @@
-const db = require('quick.db');
-module.exports.run = async (client, message) => {
-	let check = await client.checkMusic(message, { vc: true, playing: true});
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = client.music.check(message, settings, { vc: true, playing: true});
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 	if (guildq.queue[0].skippers.indexOf(message.author.id) === -1) {
 		guildq.queue[0].skippers.push(message.author.id);
-		let settings = await db.fetch(`settings_${message.guild.id}`);
 		if(message.member.roles.has(settings.djRole) || message.member.hasPermission('ADMINISTRATOR')){
 			guildq.dispatcher.end();
 			return message.reply('✅ Your skip has been acknowledged. Skipping now!');

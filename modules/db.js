@@ -38,6 +38,21 @@ module.exports.reset = async(client, id) => {
 		.then(() => console.log(`${id} was successfully remove from the database`));
 };
 
+module.exports.createguildsdb = async(client) => {
+  client.guilds.forEach(g => {
+    if(g.ownerID !== client.user.id) {
+      	const data = new client.guilddb({
+          id: g.id,
+          prefix: client.prefix,
+          defvolume: 5,
+          announcesongs: 'off'
+        });
+      data.save();
+      console.log(`New guild added ${g.name}`);
+    }
+  });
+};
+
 function convert(data) {
 	const arr = [];
 	for( const k in data) {

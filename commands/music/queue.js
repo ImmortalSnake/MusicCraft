@@ -1,5 +1,5 @@
-module.exports.run = async (client, message, args) => {
-	let check = await client.checkMusic(message, { playing: true });
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = client.music.check(message, settings, { playing: true });
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 	let page = parseInt(args[0]) || 1;
@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args) => {
 	}
 	mess.setFooter(`Page ${page}/${total} | ${guildq.queue.length} songs in queue`);
 	mess.setDescription(message2);
-	message.channel.send(mess);
+	return message.channel.send(mess);
 };
 
 exports.conf = {

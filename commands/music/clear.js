@@ -1,10 +1,9 @@
-module.exports.run = async (client, message) => {
-	let guildq = global.guilds[message.guild.id];
-	if(!guildq) guildq = client.defaultQueue;
-	let check = await client.checkMusic(message, { vc: true, djRole: true, playing: true });
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = client.music.check(message, settings, { vc: true, djrole: true, playing: true });
 	if(check) return message.channel.send(check);
+  let guildq = global.guilds[message.guild.id];
 	guildq.queue = guildq.queue.slice(0, 1);
-	message.channel.send('The queue has been cleared by ' + message.author);
+	return message.channel.send('The queue has been cleared by ' + message.author);
 };
 
 exports.conf = {

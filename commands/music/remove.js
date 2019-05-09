@@ -1,6 +1,6 @@
-module.exports.run = async (client, message, args) => {
-	if(!parseInt(args)) return client.formatError(this, message);
-	let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true });
+module.exports.run = async (client, message, args, {settings}) => {
+	if(!parseInt(args)) return message.channel.send('That was not a valid number');
+	let check = client.music.check(message, settings, { vc: true, playing: true, djrole: true });
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 
