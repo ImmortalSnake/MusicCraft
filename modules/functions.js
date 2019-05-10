@@ -5,12 +5,12 @@ module.exports = (client) => {
 
 	client.loadCommand = (commandName) => {
 		try {
-      let command;
+			let command;
 			if (client.commands.has(commandName)) command = client.commands.get(commandName);
-      else if (client.aliases.has(commandName)) command = client.commands.get(client.aliases.get(commandName));
-      if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
+			else if (client.aliases.has(commandName)) command = client.commands.get(client.aliases.get(commandName));
+			if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
 			let group = command.help.group;
-      console.log(`Loading Command: ${command.help.name}`);
+			console.log(`Loading Command: ${command.help.name}`);
 			const props = require(`../commands/${group}/${command.help.name}`);
 			if (props.init) props.init(client);
 			client.commands.set(props.help.name, props);
@@ -96,7 +96,7 @@ module.exports = (client) => {
 		if(options && options.title) embed.setTitle(options.title);
 		return embed;
 	};
-  client.comma = function (num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-};
+	client.comma = function (num) {
+		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+	};
 };

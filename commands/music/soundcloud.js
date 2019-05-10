@@ -18,11 +18,11 @@ exports.run = async (client, message, args, {settings}) => {
 			else if (response.statusCode === 200) {
 				body = JSON.parse(body);
 				if(body.tracks){
-          let i = 0;
+					let i = 0;
 					for(i = 0; i < body.tracks.length; i++){
-            addtoqueue(message, body.tracks[i]);
-          }
-          if(guildq.queue.length === i) {
+						addtoqueue(message, body.tracks[i]);
+					}
+					if(guildq.queue.length === i) {
 						await client.music.play(client, message, settings);
 						message.channel.send(`✅Now playing: **${body.tracks[0].title}**, Added ${i} songs to the queue`);
 					} else {
@@ -33,7 +33,7 @@ exports.run = async (client, message, args, {settings}) => {
 						.setTitle('**' + body.title + '**')
 						.setURL(body.permalink_url)
 						.addField('Song Duration', body.duration, true);
-          addtoqueue(message, body);
+					addtoqueue(message, body);
 					if(guildq.queue.length === 1) {
 						client.music.play(client, message, settings);
 						message.channel.send('✅Now playing: **' + body.title + '**', { embed: embed });

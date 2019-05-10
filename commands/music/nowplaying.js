@@ -25,10 +25,10 @@ module.exports.run = async (client, message, args, {settings}) => {
 		youtubedl.getInfo(video.id, function(err, data) {
 			if (err) console.log(err);
 			if (data.description) embed.setDescription(data.description.slice(0, 500));
-      if (data.thumbnail) embed.setThumbnail(data.thumbnail);
-      if (data._duration_hms) embed.addField('**Duration**', `**${data._duration_hms}**`, true);
-      embed.addField('**Playing For**', `**${client.time.msToTime(guildq.dispatcher.streamTime)}**`, true);
-      return message.channel.send(embed);
+			if (data.thumbnail) embed.setThumbnail(data.thumbnail);
+			if (data._duration_hms) embed.addField('**Duration**', `**${data._duration_hms}**`, true);
+			embed.addField('**Playing For**', `**${client.time.msToTime(guildq.dispatcher.streamTime)}**`, true);
+			return message.channel.send(embed);
 		});
 	}
 };
