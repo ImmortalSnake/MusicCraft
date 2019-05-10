@@ -8,10 +8,10 @@ app.get('/', (request, response) => {
 	response.sendStatus(200);
 });
 
-const port = app.listen(process.env.PORT);
-setInterval(() => {
+const port = app.listen(3000);
+/*setInterval(() => {
 	http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+}, 280000);*/
 
 process
 	.on('uncaughtException', err => console.error(err.stack))

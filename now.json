@@ -1,0 +1,5 @@
+{
+    "alias": "musicbot.now.sh",
+    "dotenv": ".env.production",
+    "name": "MusicCraft"
+  }
