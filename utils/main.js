@@ -6,7 +6,8 @@ module.exports = (client) => {
 	client.owner = '410806297580011520';
 	client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840'];
 	client.blacklisted = [];
-	client.perms = require('../utils/permissions.js');
+	client.perms = require('./permissions.js');
+  client.time = require('./time.js');
 	client.defaultQueue= {
 		queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
 		isPlaying: false,

@@ -1,5 +1,5 @@
 module.exports.run = async (client, message) => {
-	message.channel.send(`🏓 API: \`${Math.round(client.ws.ping)}\`, Latency: \`${Date.now() - message.createdTimestamp}\``);
+	return message.channel.send(`🏓 API: \`${Math.round(client.ws.ping)}\`, Latency: \`${Date.now() - message.createdTimestamp}\``);
 };
 
 exports.conf = {

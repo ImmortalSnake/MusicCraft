@@ -1,5 +1,5 @@
-module.exports.run = async (client, message) => {
-	let check = await client.checkMusic(message, { vc: true, djRole: true, playing: true});
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = client.music.check(message, settings, { vc: true, djrole: true, playing: true});
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 	if(!guildq.looping) {

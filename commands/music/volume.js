@@ -1,5 +1,5 @@
-module.exports.run = async (client, message, args) => {
-	let check = await client.checkMusic(message, { vc: true, playing: true, djRole: true});
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = await client.music.check(message, settings, { vc: true, playing: true, djrole: true});
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 	let vol = parseInt(args[0]);

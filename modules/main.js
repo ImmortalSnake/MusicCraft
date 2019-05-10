@@ -9,9 +9,9 @@ module.exports = (client) => {
 	client.prefix = 's!';
 	client.version = '0.9.9 Stable';
 
-	require('./functions.js')(client);
-	require('./utils.js')(client);
-	require('./handlers.js')(client);
+	require('./functions.js')(client); // some cool functions
+	require('../utils/main.js')(client); // basic client utils
+	require('./handlers.js')(client); // command and event handler
 	require('./mongoose.js')(client); // database stuff here
 	global.guilds = {};
 

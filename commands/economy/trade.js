@@ -1,6 +1,3 @@
-const db = require('quick.db');
-const discord = require('discord.js');
-
 exports.run = async (client, message, args) => {
 	let inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to start');

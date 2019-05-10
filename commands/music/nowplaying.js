@@ -1,34 +1,34 @@
-const YouTube = require('simple-youtube-api');
-const config = process.env;
-const yt_api_key = config.yt_api_key;
-const youtube = new YouTube(yt_api_key);
 const youtubedl = require('youtube-dl');
 
-module.exports.run = async (client, message) => {
-	let check = await client.checkMusic(message, { playing: true });
+module.exports.run = async (client, message, args, {settings}) => {
+	let check = client.music.check(message, settings, { playing: true });
 	if(check) return message.channel.send(check);
 	let guildq = global.guilds[message.guild.id];
 	const video = guildq.queue[0];
 	const embed = client.embed(message)
 		.setTitle(`**${video.title}**`)
 		.setURL(video.url)
-		.setFooter(`${guildq.queue.length} songs in queue`)
+		.setFooter(`${guildq.queue.length} song(s) in queue`)
 		.addField('**Requested By**', client.users.get(guildq.queue[0].requestor), true);
 	if(video.type === 'youtube'){
-		youtube.getVideo(video.url, { part: 'contentDetails,snippet' }).then(video => {
-			const dur = properFormat(video.duration);
+		client.music.yt.getVideo(video.url, { part: 'contentDetails,snippet' }).then(video => {
+			const dur = client.time.properFormat(video.duration);
 			embed.setDescription(video.description.slice(0, 500))
 				.setThumbnail(video.thumbnails.default.url)
 				.addField('**Channel**', `**${video.raw.snippet.channelTitle}**`, true)
 				.addField('**Duration**', `**${dur}**`, true)
-				.addField('**Playing For**', `**${msToTime(guildq.dispatcher.streamTime)}**`, true);
+				.addField('**Playing For**', `**${client.time.msToTime(guildq.dispatcher.streamTime)}**`, true);
 			return message.channel.send(embed);
 		});
 	}
 	else {
 		youtubedl.getInfo(video.id, function(err, data) {
 			if (err) console.log(err);
-			console.log(data);
+			if (data.description) embed.setDescription(data.description.slice(0, 500));
+			if (data.thumbnail) embed.setThumbnail(data.thumbnail);
+			if (data._duration_hms) embed.addField('**Duration**', `**${data._duration_hms}**`, true);
+			embed.addField('**Playing For**', `**${client.time.msToTime(guildq.dispatcher.streamTime)}**`, true);
+			return message.channel.send(embed);
 		});
 	}
 };
@@ -47,18 +47,3 @@ exports.help = {
 	usage: 'np [command]'
 };
 
-function msToTime(duration) {
-	let seconds = Math.floor((duration / 1000) % 60),
-		minutes = Math.floor((duration / (1000 * 60)) % 60),
-		hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-
-	hours = (hours < 10) ? '0' + hours : hours;
-	minutes = (minutes < 10) ? '0' + minutes : minutes;
-	seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-	return hours + ':' + minutes + ':' + seconds;
-}
-
-function properFormat(duration) {
-	return msToTime((duration.seconds + (duration.minutes * 60) + (duration.hours * 3600)) * 1000);
-}
