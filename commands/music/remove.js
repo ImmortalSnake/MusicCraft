@@ -1,8 +1,8 @@
-module.exports.run = async (client, message, args, {settings}) => {
+module.exports.run = async (client, message, args, { settings }) => {
 	if(!parseInt(args)) return message.channel.send('That was not a valid number');
-	let check = client.music.check(message, settings, { vc: true, playing: true, djrole: true });
+	const check = client.music.check(message, settings, { vc: true, playing: true, djrole: true });
 	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
+	const guildq = global.guilds[message.guild.id];
 
 	if(!guildq.queue[args - 1]) return message.reply('Could not find a music in that id');
 	guildq.queue.splice(0, args - 1);

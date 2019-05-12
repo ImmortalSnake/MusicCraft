@@ -1,33 +1,33 @@
 const discord = require('discord.js');
 exports.run = async (client, message, args) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get a player');
-	let i = args.join(' ').toProperCase();
-	let item = ifind(client, i, inventory);
+	const i = args.join(' ').toProperCase();
+	const item = ifind(client, i, inventory);
 	if(!item) return message.channel.send('Couldnt find that tool in your inventory');
-	let locate = ilocate(i, inventory);
-	let mbed = client.embed(message)
+	const locate = ilocate(i, inventory);
+	const mbed = client.embed(message)
 		.setDescription(`How many ${i} would you like to sell?
 **1${item.emote} = ${item.price}$**`);
 	await message.channel.send(mbed);
-	let collector = new discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { max: 1});
+	const collector = new discord.MessageCollector(message.channel, m => m.author.id === message.author.id, { max: 1 });
 	collector.on('collect', async m => {
-		let num = parseInt(m.content);
+		const num = parseInt(m.content);
 		if(!num) return message.channel.send('That was not a number. Please try again');
-		const it = inventory[locate].find(n=>n.name===i);
+		const it = inventory[locate].find(n=>n.name === i);
 		if(num > it.value) return message.channel.send('Looks like you dont have that many');
 		it.value -= num;
 		inventory.money -= item.price * num;
 		await message.client.db.setInv(inventory, [locate]);
-		let embed = client.embed(message, { title: '**Sell**'})
+		const embed = client.embed(message, { title: '**Sell**' })
 			.setDescription(`**You sold ${num} ${i}${item.emote} for ${item.price * num}$**`);
 		message.channel.send(embed);
 	});
 };
 
-function ifind(client, item, inventory){
-	let mat = inventory.materials.find(n=>n.name===item);
-	let t = inventory.food.find(n=>n.name===item);
+function ifind(client, item, inventory) {
+	const mat = inventory.materials.find(n=>n.name === item);
+	const t = inventory.food.find(n=>n.name === item);
 	if(mat && mat.value > 0) {
 		return client.items.Materials[item];
 	}
@@ -38,8 +38,8 @@ function ifind(client, item, inventory){
 }
 
 function ilocate(item, inventory) {
-	let mat = inventory.materials.find(n=>n.name===item);
-	let t = inventory.food.find(n=>n.name===item);
+	const mat = inventory.materials.find(n=>n.name === item);
+	const t = inventory.food.find(n=>n.name === item);
 	if(mat) {
 		return 'materials';
 	}

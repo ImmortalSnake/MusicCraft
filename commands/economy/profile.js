@@ -1,7 +1,7 @@
 exports.run = async (client, message) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
-	let embed = client.embed(message, {title: '**Profile**'})
+	const embed = client.embed(message, { title: '**Profile**' })
 		.addField('Money', inventory.money, true)
 		.addField('XP', inventory.xp + ' / ' + inventory.level * 20, true)
 		.addField('Level', inventory.level, true)

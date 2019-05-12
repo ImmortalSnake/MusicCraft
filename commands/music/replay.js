@@ -1,7 +1,7 @@
-exports.run = async (client, message, args, {settings}) => {
-	let check = client.music.check(message, settings, { vc: true, playing: true });
+exports.run = async (client, message, args, { settings }) => {
+	const check = client.music.check(message, settings, { vc: true, playing: true });
 	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
+	const guildq = global.guilds[message.guild.id];
 	guildq.isPlaying = true;
 	guildq.queue.splice(1, 0, guildq.queue[0]);
 	guildq.dispatcher.end();

@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports.run = async (client, message, args) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
 
 	const chance = Math.floor(Math.random() * 2);
@@ -9,8 +9,8 @@ module.exports.run = async (client, message, args) => {
 	const heads = client.emojis.find(emoji => emoji.name === 'heads');
 	const tails = client.emojis.find(emoji => emoji.name === 'tails');
 
-	let choice = args.slice(0, 1).join('').toLowerCase() || 'heads';
-	let bet = parseInt(args.slice(1).join('')) || 10;
+	const choice = args.slice(0, 1).join('').toLowerCase() || 'heads';
+	const bet = parseInt(args.slice(1).join('')) || 10;
 
 	embed.setFooter(message.author.username, message.author.displayAvatarURL());
 	let result = false;
@@ -27,7 +27,7 @@ module.exports.run = async (client, message, args) => {
 		}
 	}
 	if(choice && choice === 'tails' || choice === 'tail' || choice === 'heads' || choice === 'head') {
-		let coin = inventory.money;
+		const coin = inventory.money;
 		if(coin >= bet) {
 			if(result === false) {
 				embed.setDescription('You lost ' + bet + ' coins')

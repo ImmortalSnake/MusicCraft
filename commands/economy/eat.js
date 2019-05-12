@@ -1,11 +1,11 @@
 exports.run = async (client, message, args) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have food. Use the `s!start` command to get food');
-	let a = args.join(' ').toProperCase();
-	let f = inventory.food.find(x=>x.name===a);
+	const a = args.join(' ').toProperCase();
+	const f = inventory.food.find(x=>x.name === a);
 	if(!f) return message.channel.send('Could not find that food in your inventory. Use `s!eat [food]` to eat food and use `s!inv` to see all the food you have in your inventory');
-	let food = client.items.Food[a];
-	let embed = client.embed(message, {title: '**Eat**'})
+	const food = client.items.Food[a];
+	const embed = client.embed(message, { title: '**Eat**' })
 		.setDescription(`You ate a **${a}** ${food.emote}
 You got **${food.energy}+** Energy!`);
 	message.channel.send(embed);

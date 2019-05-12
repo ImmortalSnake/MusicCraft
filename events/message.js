@@ -1,4 +1,4 @@
-let cooldown = {};
+const cooldown = {};
 const tips = [
 	'Use the `s!trade` command to trade with other players!',
 	''
@@ -10,14 +10,14 @@ exports.run = async (client, message) => {
 	if(message.author.id === client.user.id && message.content.includes(client.token)) return message.delete();
 	if (message.author.bot) return;
 	let prefix = client.prefix;
-	const options = {tips: tips};
-	if(message.guild){
-		let settings = await client.guilddb.findOne({id: message.guild.id});
-   	options.settings = settings;
+	const options = { tips: tips };
+	if(message.guild) {
+		const settings = await client.guilddb.findOne({ id: message.guild.id });
+		options.settings = settings;
 		prefix = settings.prefix;
 	}
-  options.prefix = prefix
-	let args, cmd, command, isMentioned = false;
+	options.prefix = prefix;
+	let args, cmd, isMentioned = false;
 	if (message.content.startsWith(prefix)) {
 		args = message.content.split(' ').slice(1);
 		cmd = message.content.split(' ')[0].slice(prefix.length).toLowerCase();
@@ -26,7 +26,7 @@ exports.run = async (client, message) => {
 		cmd = message.content.split(' ')[1] ? message.content.split(' ')[1].toLowerCase() : '';
 		isMentioned = true;
 	}
-	command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
+	const command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
 	if(!command && !isMentioned) return;
 	else if(!command && isMentioned) return; // chat bot?
 	if(command.conf.guildOnly && !message.guild) return;
@@ -41,10 +41,10 @@ exports.run = async (client, message) => {
 	if(command.conf.permLevel && command.conf.permLevel > permLevel) return message.channel.send(client.perms.get(command.conf.permLevel));
 
 	if(cooldown[`${message.author.id}_${command.help.name}`]) {
-		message.channel.send(`Woah there! you gotta wait ${ms(Math.abs(Date.now() - cooldown[`${message.author.id}_${command.help.name}`] - command.conf.cooldown), {long:true})} before you use this command`);
+		message.channel.send(`Woah there! you gotta wait ${ms(Math.abs(Date.now() - cooldown[`${message.author.id}_${command.help.name}`] - command.conf.cooldown), { long:true })} before you use this command`);
 		return;
 	}
-  options.name = command.help.name;
+	options.name = command.help.name;
 	if(command.conf.cooldown) {
 		cooldown[`${message.author.id}_${command.help.name}`] = Date.now();
 		setTimeout(() => {

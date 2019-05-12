@@ -1,8 +1,8 @@
 exports.run = async (client, message) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 
-	let embed = client.embed(message)
+	const embed = client.embed(message)
 		.setTitle('**Inventory**')
 		.addField('Materials', getinv(inventory, 'Materials', client), true)
 		.addField('Tools', getinv(inventory, 'Tools', client), true)
@@ -13,7 +13,7 @@ exports.run = async (client, message) => {
 };
 
 function getinv(inventory, type, client) {
-	let res = {};
+	const res = {};
 	let m = '**';
 	inventory[type.toLowerCase()].forEach(mat => {
 		res[mat.name] = mat.value || 0;
@@ -22,10 +22,10 @@ function getinv(inventory, type, client) {
 		let e;
 		if(client.items[type]) e = client.items[type][v] ;
 		else if(client.tools[type]) e = client.tools[type][v];
-		if(!e) e = { emote: ''  };
+		if(!e) e = { emote: '' };
 		let x = `x${res[v]}\n`;
 		if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
-		else if( typeof res[v] === 'object') x = 'x1\n'; // []
+		else if(typeof res[v] === 'object') x = 'x1\n'; // []
 		m += `${v}${e.emote} ${x}`;
 	}
 	m += '**';

@@ -65,4 +65,3 @@ Start your minecraft adventure with the `s!start` command after which you would 
 
 [invite](https://discordapp.com/api/oauth2/authorize?client_id=557831541653241857&permissions=8&scope=bot)<br>
 [support](https://discord.gg/Dv9p3mN)
-

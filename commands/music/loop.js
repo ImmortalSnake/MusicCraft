@@ -1,10 +1,10 @@
-module.exports.run = async (client, message, args, {settings}) => {
-	let check = client.music.check(message, settings, { vc: true, djrole: true, playing: true});
+module.exports.run = async (client, message, args, { settings }) => {
+	const check = client.music.check(message, settings, { vc: true, djrole: true, playing: true });
 	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
+	const guildq = global.guilds[message.guild.id];
 	if(!guildq.looping) {
 		guildq.looping = true;
-	  message.channel.send(':repeat: Looping `ON`');
+		message.channel.send(':repeat: Looping `ON`');
 	} else {
 		guildq.looping = false;
 		message.channel.send(':repeat: Looping `OFF`');
