@@ -1,10 +1,9 @@
 const discord = require('discord.js');
 const moment = require('moment');
-const commaNumber = require('comma-number');
 
 module.exports.run = async (client, message, args) => {
 	const query = args.join(' ');
-	if(!query) return;
+	if(!query) return message.channel.send('specify query boi');
 	message.channel.send(`:mag_right: Searching for \`${query}\``);
 	let embed = new discord.MessageEmbed()
 		.setColor('RED')

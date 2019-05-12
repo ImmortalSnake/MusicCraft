@@ -10,7 +10,7 @@ mongoose.connect(uri, {
 	autoIndex: false
 });
 mongoose.set('useFindAndModify', false);
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 
 const conn = mongoose.connection;
 

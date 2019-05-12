@@ -69,6 +69,19 @@ module.exports.check = function(message, settings, options) {
 	return false;
 };
 
+exports.add = (client, data, message, options) => {
+	let guildq = global.guilds[message.guild.id];
+	guildq.queue.push({
+		skippers: [],
+		requestor: message.author.id,
+		url: options.url,
+		title: data.title,
+		seek: 0,
+		type: options.type,
+		id: options.id
+	});
+};
+
 const checkSpotify = (hits) => {
 	return hits[0].result.primary_artist.name === 'Spotify' ? hits[1].result.url : hits[0].result.url;
 };

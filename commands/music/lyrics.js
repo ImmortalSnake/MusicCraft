@@ -1,11 +1,11 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message, args, {prefix}) => {
 	if(!args && !global.guilds[message.guild.id]) return;
 	let query = args || global.guilds[message.guild.id].queue[0].title;
+  if(!query) return message.channel.send(`Please use \`${prefix}lyrics [song]\` to search for lyrics or \`${prefix}lyrics\` to get the lyrics of the current playing song`)
 	message.channel.send(':mag_right:**Searching lyrics for** `' + query + '`');
-	let songData = await client.music.lyrics(query)
-	.catch(err => {
+	let songData = await client.music.lyrics(query).catch(err => {
 			message.channel.send(`No lyrics found for: ${query} 🙁`, {code:'asciidoc'});
 			return console.warn(err);
 		});

@@ -53,6 +53,16 @@ module.exports.createguildsdb = async(client) => {
 	});
 };
 
+module.exports.createguilddb = async(client, id) => {
+	let g = client.guilds.get(id);
+	const data = new client.guilddb({
+		id: g.id,
+		prefix: client.prefix
+	});
+	data.save();
+	console.log(`New guild added ${g.name}`);
+};
+
 function convert(data) {
 	const arr = [];
 	for( const k in data) {

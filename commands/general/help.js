@@ -1,9 +1,7 @@
 const discord = require('discord.js');
 
-exports.run = (client, message, args, {settings}) => {
-	let embed = new discord.MessageEmbed()
-		.setColor('#206694');
-	let prefix = settings ? settings.prefix : client.prefix;
+exports.run = (client, message, args, {prefix}) => {
+	let embed = new discord.MessageEmbed().setColor('#206694');
 	if(args[0]) {
 		const t = args[0].toLowerCase();
 		const groups = client.groups;
@@ -58,8 +56,8 @@ Availible groups are :
 
 Use \`${prefix}help [group]\` to view all the commands in the group
 
-Join the support server for further help!
-
+Join the [Support Server](${client.config.support}) for further help!
+[Invite](${client.config.invite})
 Documentation coming soon!
 `);
 		return message.channel.send(embed);
