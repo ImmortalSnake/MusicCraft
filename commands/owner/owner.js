@@ -3,6 +3,7 @@ const discord = require('discord.js');
 const fetch = require('node-superfetch');
 const youtubedl = require('youtube-dl');
 const url = 'https://icanhazdadjoke.com/';
+const fs = require('fs');
 
 module.exports.run = async (client, message, args) => {
 	if(!client.admins.includes(message.author.id)) return message.reply ('you are not allowed to use this command');
@@ -107,15 +108,23 @@ module.exports.run = async (client, message, args) => {
 		return;
 	}
 	case 'backup': {
-		let users = db.all().filter(d => d.ID.startsWith('inventory'));
+		let users = await client.inv.find()
+    fs.writeFile('backup.js', users, async function (err) {
+    if (err) throw err;
 		let embed = client.embed(message, {title: '**Backup Success**'})
 			.attachFiles([{
-				attachment: '/app/json.sqlite',
-				name: '../../json.sqlite'
+				attachment: 'backup.js',
+				name: 'backups'
 			}])
 			.setDescription(`wew.. gotta put something here
 **${users.length}** player datas saved!`);
-		return message.channel.send(embed);
+     await message.channel.send(embed);
+      fs.unlink('backup.js', function (err) { // Delete the file
+       if (err) throw err;
+       console.log('File deleted!');
+     })
+    })
+    break;
 	}
 	case 'username': {
 		if(!args[1]) return message.channel.send(`Specify a username for ${client.user.username}`);

@@ -1,20 +1,20 @@
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, {prefix}) => {
 	let inventory = await client.db.getInv(client, message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to start');
-	if(!args[0]) return message.channel.send('Mention the user you want to trade with or if you already in a trade use `s!trade [option]`');
+	if(!inventory) return message.channel.send(`You do not have a player. Use the \`${prefix}start\` command to start`);
+	if(!args[0]) return message.channel.send(`Mention the user you want to trade with or if you already in a trade use \`${prefix}trade [option]\``);
 	let user = message.mentions.members.first();
 	if(!user){
 		const trade = inventory.trade[0];
-		if(!trade) return message.channel.send('You are not in a trade with anyone. Use `s!trade [@user]` to start trading!');
+		if(!trade) return message.channel.send(`You are not in a trade with anyone. Use \`${prefix}trade [@user]\` to start trading!`);
 		const user2 = await client.db.getInv(client, trade.user);
 		const trade2 = user2.trade[0];
 
 		switch(args[0].toLowerCase()) {
 		case 'add': {
-			if(trade.confirmed) return message.channel.send('You have already confirmed the trade use `s!trade cancel` to cancel this trade');
+			if(trade.confirmed) return message.channel.send(`You have already confirmed the trade use \`${prefix}trade cancel\` to cancel this trade`);
 			let item = args.slice(1).join(' ').split('-')[0].trim().toProperCase();
 			let amount = parseInt(args.join(' ').split('-')[1]) || 1;
-			if(!item) return message.channel.send('Use `s!trade add [item] -[amount]` to add materials or food to the trade');
+			if(!item) return message.channel.send(`Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade`);
 			let locate = await ifind(client, item, inventory);
 			if(item === 'Money') locate = [{ emote: ':dollar:' }, inventory.money];
 			if(!locate[0]) return message.channel.send('Could not find that item in your inventory');
@@ -27,9 +27,9 @@ exports.run = async (client, message, args) => {
 			return message.channel.send(aembed);
 		}
 		case 'remove': {
-			if(trade.confirmed) return message.channel.send('You have already confirmed the trade use `s!trade cancel` to cancel this trade');
+			if(trade.confirmed) return message.channel.send(`You have already confirmed the trade use \`${prefix}trade cancel\` to cancel this trade`);
 			let item = args.slice(1).join(' ').toProperCase();
-			if(!trade.give[0][item]) return message.channel.send('That item is not in the trade. Use `s!trade add [item] -[amount]` to add materials or food to the trade');
+			if(!trade.give[0][item]) return message.channel.send(`That item is not in the trade. Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade`);
 			delete inventory.trade[0].give[0][item];
 			await client.db.setInv(inventory, ['trade']);
 			let rembed = client.embed(message, {title: '**Trade Remove**'})
@@ -145,7 +145,7 @@ React with ✅ to confirm the trade**`)
 					inventory.trade[0].confirmed = true;
 					await client.db.setInv(inventory, ['trade']);
 					return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>
-Please use \`s!trade confirm\` again to confirm!`);
+Please use \`${prefix}trade confirm\` again to confirm!`);
 				}
 			});
 			break;
@@ -205,11 +205,11 @@ React to confirm or deny the trade request`)
 				if(inventory2.trade[0]) return message.channel.send(user.user.username+ ' is already in a trade with someone else');
 				let cembed = client.embed(message, {title: '**Trade Request Accepted**'})
 					.setDescription(`**${user.user.username}, confirmed the trade request from ${message.author.username}**
-Use \`s!trade add [item] -[amount]\` to add materials or food to the trade
-Use \`s!trade remove [item]\` to remove materials or food to trade
-Use \`s!trade info\` to view the current trade
-Use \`s!trade confirm\` to confirm
-Use \`s!trade cancel\` to cancel the trade`)
+Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade
+Use \`${prefix}trade remove [item]\` to remove materials or food to trade
+Use \`${prefix}trade info\` to view the current trade
+Use \`${prefix}trade confirm\` to confirm
+Use \`${prefix}trade cancel\` to cancel the trade`)
 					.setFooter(user.user.tag, user.user.displayAvatarURL());
 				await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`);
 				message.channel.send(cembed);

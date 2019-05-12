@@ -36,7 +36,6 @@ You got ${drops} ${wood.emote}${m}**`);
 exports.conf = {
 	enabled: true,
 	guildOnly: true,
-	aliases: [],
 	cooldown: 5000
 };
 
@@ -44,5 +43,5 @@ exports.help = {
 	name: 'chop',
 	description: 'Chop trees to get wood! Apple drops ocassionaly',
 	group: 'economy',
-	usage: 'chop',
+	usage: 'chop'
 };

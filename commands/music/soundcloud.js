@@ -20,7 +20,7 @@ exports.run = async (client, message, args, {settings}) => {
 				if(body.tracks){
 					let i = 0;
 					for(i = 0; i < body.tracks.length; i++){
-						addtoqueue(message, body.tracks[i]);
+						client.music.add(client, body.tracks[i], message, {type: 'soundcloud', url: body.tracks[i].permalink_url, id: body.tracks[i].id});
 					}
 					if(guildq.queue.length === i) {
 						await client.music.play(client, message, settings);
@@ -33,7 +33,7 @@ exports.run = async (client, message, args, {settings}) => {
 						.setTitle('**' + body.title + '**')
 						.setURL(body.permalink_url)
 						.addField('Song Duration', body.duration, true);
-					addtoqueue(message, body);
+					client.music.add(client, body, message, {type: 'soundcloud', url: body.permalink_url, id: body.id});
 					if(guildq.queue.length === 1) {
 						client.music.play(client, message, settings);
 						message.channel.send('✅Now playing: **' + body.title + '**', { embed: embed });
@@ -53,7 +53,7 @@ exports.run = async (client, message, args, {settings}) => {
 				.setTitle('**' + body[0].title + '**')
 				.setURL(body[0].permalink_url)
 				.addField('Song Duration', client.time.msToTime(body[0].duration * 1000), true);
-			addtoqueue(message, body[0]);
+			client.music.add(client, body[0], message, {type: 'soundcloud', url: body[0].permalink_url, id: body[0].id});
 			if(guildq.queue.length === 1) {
 				await client.music.play(client, message, settings);
 				message.channel.send('✅Now playing: **' + body[0].title + '**', { embed: embed });
@@ -63,20 +63,6 @@ exports.run = async (client, message, args, {settings}) => {
 		});
 	}
 };
-
-function addtoqueue(message, video) {
-	let guildq = global.guilds[message.guild.id];
-	guildq.queue.push({
-		url: video.permalink_url,
-		title: video.title,
-		id: video.id,
-		skippers: [],
-		requestor: message.author.id,
-		seek: 0,
-		type: 'soundcloud'
-	});
-	guildq.isPlaying = true;
-}
 
 exports.conf = {
 	aliases: ['sc'],

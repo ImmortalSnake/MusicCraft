@@ -18,5 +18,5 @@ process
 	.on('unhandledRejection', err => console.error(err.stack));
 
 module.exports = client => {
-	require('./dbl.js')(client, server);
+	if(client.config.dbl) require('./dbl.js')(client, server);
 };

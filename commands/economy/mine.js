@@ -18,9 +18,7 @@ exports.run = async (client, message) => {
 	let result = {};
 	let m = `**${message.author.username} mined with a ${p.emote} and found`;
 	let drops = p.drops;
-	if(inventory.dimension !== 'Overworld'){
-		drops = p[inventory.dimension];
-	}
+	if(inventory.dimension !== 'Overworld') drops = p[inventory.dimension];
 
 	if(!drops) return message.channel.send(`Cannot mine with this pickaxe in the ${inventory.dimension}`);
 	for(const mat in drops) {

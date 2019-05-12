@@ -10,17 +10,18 @@ exports.run = async (client, message) => {
 	if(message.author.id === client.user.id && message.content.includes(client.token)) return message.delete();
 	if (message.author.bot) return;
 	let prefix = client.prefix;
-  const options = {tips: tips};
+	const options = {tips: tips};
 	if(message.guild){
 		let settings = await client.guilddb.findOne({id: message.guild.id});
-    options.settings = settings;
+   	options.settings = settings;
 		prefix = settings.prefix;
 	}
+  options.prefix = prefix
 	let args, cmd, command, isMentioned = false;
 	if (message.content.startsWith(prefix)) {
 		args = message.content.split(' ').slice(1);
 		cmd = message.content.split(' ')[0].slice(prefix.length).toLowerCase();
-	} else if (message.content.startsWith(`<@!${client.user.id}>`)) {
+	} else if (message.content.startsWith(`<@!${client.user.id}>`) || message.content.startsWith(`<@${client.user.id}>`)) {
 		args = message.content.split(' ').slice(2);
 		cmd = message.content.split(' ')[1] ? message.content.split(' ')[1].toLowerCase() : '';
 		isMentioned = true;
@@ -43,6 +44,7 @@ exports.run = async (client, message) => {
 		message.channel.send(`Woah there! you gotta wait ${ms(Math.abs(Date.now() - cooldown[`${message.author.id}_${command.help.name}`] - command.conf.cooldown), {long:true})} before you use this command`);
 		return;
 	}
+  options.name = command.help.name;
 	if(command.conf.cooldown) {
 		cooldown[`${message.author.id}_${command.help.name}`] = Date.now();
 		setTimeout(() => {

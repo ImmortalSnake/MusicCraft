@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 			if(!args.toLowerCase().startsWith('http')) { // basic searches
 				client.music.yt.searchVideos(args, 1).then(async videos => {
 					let video = videos[0];
-					addtoqueue(client, video, message, { type: 'youtube'});
+					client.music.add(client, video, message, { type: 'youtube', url: video.url, id: video.id});
 					if(guildq.queue.length > 1) return message.channel.send(`Added to queue **${video.title}**`);
 					else {
 						message.channel.send(`Now Playing **${video.title}**`);
@@ -30,7 +30,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 					const vids = Object.values(videos);
 					for (const video of vids) {
 						const video2 = await client.music.yt.getVideoByID(video.id);
-						addtoqueue(client, video2, message, { type: 'youtube' });
+						client.music.add(client, video2, message, { type: 'youtube', url: video.url, id: video.id});
 					}
 					if(guildq.queue.length > 1) return message.channel.send(`Playlist: **${playlist.title}** has been added to the queue, **${vids.length}** songs added`);
 					else {
@@ -40,7 +40,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 				}
 				else{ // normal vid
 					client.music.yt.getVideo(args).then(async video => {
-						addtoqueue(client, video, message, { type: 'youtube' });
+						client.music.add(client, video, message, { type: 'youtube', url: video.url, id: video.id});
 						if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${video.title}`);
 						else {
 							message.channel.send(`Now Playing ${video.title}`);
@@ -52,8 +52,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 			else{ // other sources, vimeo
 				youtubedl.getInfo(args, async function(err, data) {
 					if (err) return console.log(err);
-					addtoqueue(client, data, message, { type: data.extractor});
-					console.log(data);
+					client.music.add(client, data, message, { type: data.extractor, url: data.webpage_url, id: data.url});
 					if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${data.title}`);
 					else {
 						message.channel.send(`Now Playing ${data.title}`);
@@ -67,19 +66,6 @@ module.exports.run = async (client, message, args, { settings }) => {
 		return message.reply('Uh oh, something went wrong please try again later');
 	}
 };
-
-async function addtoqueue(client, data, message, options){
-	let guildq = global.guilds[message.guild.id];
-	guildq.queue.push({
-		skippers: [],
-		requestor: message.author.id,
-		url: options.type === 'youtube' ? data.url : data.webpage_url,
-		title: data.title,
-		seek: 0,
-		type: options.type,
-		id: options.type === 'youtube' ? data.id : data.url
-	});
-}
 
 exports.conf = {
 	aliases: ['p'],

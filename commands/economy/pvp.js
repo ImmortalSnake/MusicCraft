@@ -2,7 +2,7 @@ const discord = require('discord.js');
 
 exports.run = async (client, message) => {
 	let inventory = await client.db.getInv(client, message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get started');
+	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get started');
 	let member = message.mentions.members.first();
 	if(!member) return message.reply('Mention the user you want to fight with');
 

@@ -60,5 +60,16 @@
       "interval": 300000,
       "id": 2
     }
+  },
+  
+  "codes": {
+    "ITSOUT": {
+      "expired": false,
+      "rewards": "Rare"
+    },
+    "SUPERSECRETCODE": {
+      "expired": false,
+      "rewards": "Elite"
+    }
   }
 }

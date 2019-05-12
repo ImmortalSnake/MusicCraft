@@ -11,6 +11,7 @@ const playerSchema = mongoose.Schema({
 	other: [],
 	cooldowns: [],
 	trade: [],
+  codes: [],
 	health: {type: Number, default: 100},
 	attack: {type: Number, default: 10},
 	speed: {type: Number, default: 10},

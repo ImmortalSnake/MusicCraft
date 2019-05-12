@@ -6,7 +6,7 @@ const pastebin = require('pastebin-js');
 const mongoose = require('mongoose');
 const paste = new pastebin(process.env.pastekey);
 
-module.exports.run = async (client, message, args, {settings}) => {
+module.exports.run = async (client, message, args, {settings, prefix}) => {
 	if (message.author.id !== client.owner) return message.reply ('you are not allowed to use this command');
 	if (!args) return message.channel.send('Incorrect usage. Please use Java Script.');
 	let embed = client.embed(message, { color: 'BLACK', title: '**Evaluation**' });
