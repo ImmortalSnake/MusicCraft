@@ -1,7 +1,6 @@
 const db = require('quick.db');
 const discord = require('discord.js');
 const fetch = require('node-superfetch');
-const youtubedl = require('youtube-dl');
 const url = 'https://icanhazdadjoke.com/';
 const fs = require('fs');
 
@@ -152,29 +151,28 @@ module.exports.run = async (client, message, args) => {
 		});
 		break;
 	}
-	case 'addrole': {
-		const perms = args[1].toUpperCase();
-		const color = args[2].toUpperCase();
-		const roleName = args.slice(3).join(' ');
-		console.log(perms, roleName);
-		message.guild.roles.create({ data: {
-			name: roleName,
-			color: color,
-			permissions: perms,
-			hoist: true
-		} }).then(role=> {
-			message.member.roles.add(role).then(() => message.channel.send(`Successfully created the role ${role} and added it to you!`));
-		});
-		return;
-	}
-	case 'test': {
-		youtubedl.getInfo('https://vimeo.com/6586873', function(err, info) {
-			if (err) throw err;
-			console.log(info);
-			message.member.voice.channel.join().then(connection => {
-				return connection.play(info.url);
-			});
-		});
+	case 'code': {
+		const c = args[1].toUpperCase();
+		if(!c) return message.channel.send('Please enter a code to add / edit / delete');
+		const code = await db.fetch(`codes_${c}`);
+		// const embed = client.embed(message, { title: `**${c}**` });
+		switch(args[2].toLowerCase()) {
+		case 'add': {
+			if(code) return message.channel.send('This code already exists');
+			const rewards = args[3].toProperCase();
+			if(!rewards || !client.tools.crates[rewards]) return message.channel.send('Please specify a reward crate');
+			console.log(c, code, rewards);
+			return;
+		} case 'edit': {
+			if(!code) return message.channel.send('This code does not exist');
+			const prop = args[3].toProperCase();
+			const val = args[4].toProperCase();
+			return console.log(prop, val);
+		} case 'remove': {
+			if(!code) return message.channel.send('This code does not exist');
+			console.log(c, code);
+		}
+		}
 		break;
 	}
 	default: {
