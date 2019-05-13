@@ -6,9 +6,7 @@ module.exports = (client) => {
 	client.groups = new discord.Collection();
 	client.aliases = new discord.Collection();
 	client.events = new discord.Collection();
-	client.prefix = 's!';
-	client.version = '0.9.9 Stable';
-
+	require('../config.js')(client);
 	require('./functions.js')(client); // some cool functions
 	require('../utils/main.js')(client); // basic client utils
 	require('./handlers.js')(client); // command and event handler

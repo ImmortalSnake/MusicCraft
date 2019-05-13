@@ -1,14 +1,12 @@
 const discord = require('discord.js');
 
-exports.run = (client, message, args, {settings}) => {
-	let embed = new discord.MessageEmbed()
-		.setColor('#206694');
-	let prefix = settings ? settings.prefix : client.prefix;
+exports.run = (client, message, args, { prefix }) => {
+	const embed = new discord.MessageEmbed().setColor('#206694');
 	if(args[0]) {
 		const t = args[0].toLowerCase();
 		const groups = client.groups;
-		let command = client.commands.get(t) || client.commands.get(client.aliases.get(t));
-		let group = groups.get(t);
+		const command = client.commands.get(t) || client.commands.get(client.aliases.get(t));
+		const group = groups.get(t);
 		if(group) {
 			let curpage = 1;
 
@@ -19,10 +17,10 @@ exports.run = (client, message, args, {settings}) => {
 				const collector = mess.createReactionCollector((reaction, u) => u.id === message.author.id, { time: 180000 });
 				collector.on('collect', r => {
 					if(r.emoji.name === '⬅') {
-						curpage --;
+						curpage--;
 						mess.edit(genPage(group, embed, t, curpage, prefix));
 					} else if (r.emoji.name === '➡') {
-						curpage ++;
+						curpage++;
 						mess.edit(genPage(group, embed, t, curpage, prefix));
 					}
 				});
@@ -43,7 +41,7 @@ ${command.conf.examples ? '\n**Examples**\n`' + command.conf.examples.join('\n')
 `);
 			return message.channel.send(embed);
 		}
-	}  else {
+	} else {
 		embed.setTitle(`**Commands List ${client.commands.size}**`)
 			.setDescription(`
 The prefix for ${message.guild ? message.guild.name : client.user.username} is \`${prefix}\`
@@ -58,8 +56,8 @@ Availible groups are :
 
 Use \`${prefix}help [group]\` to view all the commands in the group
 
-Join the support server for further help!
-
+Join the [Support Server](${client.config.support}) for further help!
+[Invite](${client.config.invite})
 Documentation coming soon!
 `);
 		return message.channel.send(embed);
@@ -81,13 +79,13 @@ exports.help = {
 
 function genPage(group, embed, t, curpage, prefix) {
 	let m = '';
-	let pages = Math.ceil(group.size / 10);
+	const pages = Math.ceil(group.size / 10);
 	let count = 0;
 	group.forEach(c => {
 		if(count < curpage * 10 && count >= (curpage - 1) * 10) {
-			m += `\n\n**${count+1}] ${prefix}${c.help.name}**\n${c.help.description}`;
+			m += `\n\n**${count + 1}] ${prefix}${c.help.name}**\n${c.help.description}`;
 		}
-		count ++;
+		count++;
 	});
 	embed.setTitle(t.toProperCase())
 		.setDescription(`

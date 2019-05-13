@@ -1,10 +1,10 @@
 exports.run = async (client, message, args) => {
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to start');
-	let dim = args.join(' ').toLowerCase();
+	const dim = args.join(' ').toLowerCase();
 	let bal = inventory.money;
 	if(!dim) return message.channel.send('Please use `s!dim [nether/overworld]`');
-	let embed = client.embed(message, {title: '**Dimension**'});
+	const embed = client.embed(message, { title: '**Dimension**' });
 	switch(dim) {
 	case 'overworld': {
 		if(inventory.dimension === 'Overworld') return message.channel.send('You are already in the Overworld');

@@ -9,7 +9,7 @@ module.exports.level = (client, user, settings) => {
 		else if(user.hasPermission('KICK_MEMBERS') || user.hasPermission('BAN_MEMBERS')) return 5;
 		else if(user.hasPermission('MANAGE_MESSAGES')) return 4;
 		else if(settings.djrole && user.roles.has(settings.djrole)) return 3;
-		else return 1; /// normal member
+		else return 1; // normal member
 	}
 	else return 1; // normal user
 };

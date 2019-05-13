@@ -1,21 +1,21 @@
 const db = require('quick.db');
 
 exports.run = async (client, message, args) => {
-	let inventory = await db.fetch(`inventory_${message.author.id}`);
+	const inventory = await db.fetch(`inventory_${message.author.id}`);
 	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` to start playing!');
-	let embed = client.embed(message);
+	const embed = client.embed(message);
 	if(!args[0]) {
-		let m = 'Use `s!shop bonus` or `s!shop enchants` to see all the items in the shop!';
+		const m = 'Use `s!shop bonus` or `s!shop enchants` to see all the items in the shop!';
 		message.channel.send(m);
 	} else {
-		let t = args[0].toProperCase();
-		let shop = client.shop[t];
-		let id = parseInt(args[1]);
+		const t = args[0].toProperCase();
+		const shop = client.shop[t];
+		const id = parseInt(args[1]);
 
 		if (id) {
-			let item = getItem(id, shop);
+			const item = getItem(id, shop);
 			if(!item) return message.channel.send('Could not find an item with that id!');
-			let mat = item.price[0];
+			const mat = item.price[0];
 			if(!inventory.materials[mat] || inventory.materials[mat] < item.price[1]) return message.channel.send('You do not have enough materials');
 			inventory.materials[mat] -= item.price[1];
 			console.log(inventory);

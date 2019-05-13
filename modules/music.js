@@ -36,9 +36,9 @@ module.exports.play = async (client, message, settings) => {
 
 module.exports.lyrics = async (query) => {
 	const url = `${baseURL}&q=${encodeURIComponent(query)}`;
-	let response = await fetch.get(url).catch(err => console.warn(err));
-	let path = checkSpotify(response.body.response.hits);
-	let lyrics = await scrapeLyrics(path);
+	const response = await fetch.get(url).catch(err => console.warn(err));
+	const path = checkSpotify(response.body.response.hits);
+	const lyrics = await scrapeLyrics(path);
 	return lyrics;
 };
 
@@ -50,8 +50,8 @@ module.exports.check = function(message, settings, options) {
 	// let settings = await db.fetch(`settings_${message.guild.id}`);
 	if(settings.musicChannel && !message.guild.channels.get(settings.musicChannel)) settings.musicChannel = '';
 	if(settings.djRole && !message.guild.roles.get(settings.djRole)) settings.djRole = '';
-	let res = [
-		`Sorry, only members with the **DJ Role** \`${message.guild.roles.get(settings.djRole) ?  message.guild.roles.get(settings.djRole).name : ''}\` can use this command`,
+	const res = [
+		`Sorry, only members with the **DJ Role** \`${message.guild.roles.get(settings.djRole) ? message.guild.roles.get(settings.djRole).name : ''}\` can use this command`,
 		`Sorry, all music commands can be used only in **${message.guild.channels.get(settings.musicChannel)}**`,
 		'You need to be in a voice channel to use this command!',
 		'Currently playing something in another voice channel',
@@ -69,29 +69,42 @@ module.exports.check = function(message, settings, options) {
 	return false;
 };
 
+exports.add = (client, data, message, options) => {
+	const guildq = global.guilds[message.guild.id];
+	guildq.queue.push({
+		skippers: [],
+		requestor: message.author.id,
+		url: options.url,
+		title: data.title,
+		seek: 0,
+		type: options.type,
+		id: options.id
+	});
+};
+
 const checkSpotify = (hits) => {
 	return hits[0].result.primary_artist.name === 'Spotify' ? hits[1].result.url : hits[0].result.url;
 };
 
 const scrapeLyrics = async (path) => {
-	let response = await fetch.get(path).catch(err => console.warn(err));
+	const response = await fetch.get(path).catch(err => console.warn(err));
 	console.log(response.body);
-	let $ = cheerio.load(response.body);
+	const $ = cheerio.load(response.body);
 	return [$('.header_with_cover_art-primary_info-title').text().trim(), $('.lyrics').text().trim()];
 };
 
-async function getStream(guildq, cb){
-	let video = guildq.queue[0];
+async function getStream(guildq, cb) {
+	const video = guildq.queue[0];
 	if(video.type === 'youtube') {
-		let stream = await ytdl(`https://www.youtube.com/watch?v=${video.id}`, { filter: 'audioonly'});
-		cb({ url: stream, options: { volume: guildq.volume, bitrate: 'auto', type: 'opus' }});
+		const stream = await ytdl(`https://www.youtube.com/watch?v=${video.id}`, { filter: 'audioonly' });
+		cb({ url: stream, options: { volume: guildq.volume, bitrate: 'auto', type: 'opus' } });
 	} else if(video.type === 'soundcloud') {
-		let stream = await fetch.get(`http://api.soundcloud.com/tracks/${video.id}/stream?consumer_key=${process.env.soundcloud}`);
-		cb({ url: stream.url, options: { volume: guildq.volume, bitrate: 'auto' }});
+		const stream = await fetch.get(`http://api.soundcloud.com/tracks/${video.id}/stream?consumer_key=${process.env.soundcloud}`);
+		cb({ url: stream.url, options: { volume: guildq.volume, bitrate: 'auto' } });
 	} else {
 		youtubedl.getInfo(video.id, ['-q', '--no-warnings', '--force-ipv4'], function(err, data) {
 			if (err) console.log(err);
-			cb({ url: data.url, options: { volume: guildq.volume, bitrate: 'auto' }});
+			cb({ url: data.url, options: { volume: guildq.volume, bitrate: 'auto' } });
 		});
 	}
 }

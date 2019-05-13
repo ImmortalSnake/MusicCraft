@@ -9,7 +9,7 @@ module.exports = (client) => {
 			if (client.commands.has(commandName)) command = client.commands.get(commandName);
 			else if (client.aliases.has(commandName)) command = client.commands.get(client.aliases.get(commandName));
 			if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
-			let group = command.help.group;
+			const group = command.help.group;
 			console.log(`Loading Command: ${command.help.name}`);
 			const props = require(`../commands/${group}/${command.help.name}`);
 			if (props.init) props.init(client);
@@ -28,7 +28,7 @@ module.exports = (client) => {
 		if (!command) return `The command \`${commandName}\` doesn"t seem to exist, nor is it an alias. Try again!`;
 
 		if (command.shutdown) await command.shutdown(client);
-		let group = command.help.group;
+		const group = command.help.group;
 		const mod = require.cache[require.resolve(`../commands/${group}/${command.help.name}`)];
 		delete require.cache[require.resolve(`../commands/${group}/${command.help.name}.js`)];
 		for (let i = 0; i < mod.parent.children.length; i++) {
@@ -54,18 +54,18 @@ module.exports = (client) => {
 
 	client.wait = require('util').promisify(setTimeout);
 
-	client.formatError = async function(client, message) {
+	client.formatError = async function(message) {
 		message.channel.send('Incorrect Format');
 	};
 
 	client.checkInventory = async function(user) {
-		let inv = await client.db.getInv(client, user.id);
-		let inventory = inv.inventory;
-		if(!inventory) return {err: true};
-		let def = client.defaultInventory;
-		let keys = Object.keys(def);
-		let values = Object.values(def);
-		for(let i =0; i < keys.length; i++) {
+		const inv = await client.db.getInv(client, user.id);
+		const inventory = inv.inventory;
+		if(!inventory) return { err: true };
+		const def = client.defaultInventory;
+		const keys = Object.keys(def);
+		const values = Object.values(def);
+		for(let i = 0; i < keys.length; i++) {
 			if(!inventory[keys[i]]) {
 				inventory[keys[i]] = values[i];
 			}
@@ -78,8 +78,8 @@ module.exports = (client) => {
 		return inv;
 	};
 
-	client.level = async function(inventory, channel, user){
-		let curlvl = Math.floor(0.5 * Math.sqrt(inventory.xp));
+	client.level = async function(inventory, channel, user) {
+		const curlvl = Math.floor(0.5 * Math.sqrt(inventory.xp));
 		if(inventory.level < curlvl) {
 			inventory.level++;
 			await db.set(`inventory_${user.id}`, inventory);
@@ -87,16 +87,16 @@ module.exports = (client) => {
 		}
 	};
 
-	client.embed = function (message, options) {
-		let color = options ? options.color ? options.color : '#206694' : '#206694';
-		let embed = new discord.MessageEmbed()
+	client.embed = function(message, options) {
+		const color = options ? options.color ? options.color : '#206694' : '#206694';
+		const embed = new discord.MessageEmbed()
 			.setColor(color)
 			.setFooter(message.author.username, message.author.displayAvatarURL())
 			.setAuthor(client.user.username, client.user.displayAvatarURL());
 		if(options && options.title) embed.setTitle(options.title);
 		return embed;
 	};
-	client.comma = function (num) {
+	client.comma = function(num) {
 		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 	};
 };

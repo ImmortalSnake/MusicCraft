@@ -1,12 +1,11 @@
 const discord = require('discord.js');
 const moment = require('moment');
-const commaNumber = require('comma-number');
 
 module.exports.run = async (client, message, args) => {
 	const query = args.join(' ');
-	if(!query) return;
+	if(!query) return message.channel.send('specify query boi');
 	message.channel.send(`:mag_right: Searching for \`${query}\``);
-	let embed = new discord.MessageEmbed()
+	const embed = new discord.MessageEmbed()
 		.setColor('RED')
 		.setFooter('Requested by ' + message.author.username, message.author.displayAvatarURL());
 
@@ -14,7 +13,7 @@ module.exports.run = async (client, message, args) => {
 		if(!data[0]) return message.channel.send('Sorry, could not find that channel');
 		embed.setTitle(data[0].raw.snippet.title)
 			.setDescription(data[0].raw.snippet.description);
-		client.music.yt.getChannelByID(data[0].id, { part: 'statistics,snippet'} ).then(body => {
+		client.music.yt.getChannelByID(data[0].id, { part: 'statistics,snippet' }).then(body => {
 			const date = body.publishedAt;
 			embed.addField('Subscriber Count', client.comma(body.subscriberCount), true)
 				.addField('Video Count', client.comma(body.videoCount), true)

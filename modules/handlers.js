@@ -1,12 +1,12 @@
 const db = require('quick.db');
 
 module.exports = (client) => {
-	client.villager = async function() {
+	client.villager = async () => {
 		const villageTime = client.utils.villageTime;
 		let villager = await db.fetch('villager');
 		if(!villager || villager.time + villageTime < Date.now()) await generate(client);
 		villager = await db.fetch('villager');
-		let tleft = villager.time + villageTime - Date.now();
+		const tleft = villager.time + villageTime - Date.now();
 		setTimeout(async () => {
 			await generate();
 		}, tleft);
@@ -14,7 +14,7 @@ module.exports = (client) => {
 };
 
 async function generate() {
-	let n = {
+	const n = {
 		time: Date.now(),
 		store: {
 			'Wood': [rand(100, 50), 1],

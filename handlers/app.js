@@ -8,7 +8,7 @@ app.get('/', (request, response) => {
 	response.sendStatus(200);
 });
 
-const port = app.listen(process.env.PORT);
+// const port = app.listen(process.env.PORT);
 setInterval(() => {
 	http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
@@ -18,5 +18,5 @@ process
 	.on('unhandledRejection', err => console.error(err.stack));
 
 module.exports = client => {
-	require('./dbl.js')(client, server);
+	if(client.config.dbl) require('./dbl.js')(client, server);
 };

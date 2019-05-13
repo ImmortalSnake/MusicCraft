@@ -503,7 +503,7 @@
       "items": {}
     },
     "Normal": {
-      "items": {},
+      "items": { "Cash": [100, 200], "Wood": [50, 100], "Coal": [20, 50], "Iron": [3, 10], "Gold": [1, 1] },
       "chance": 0.40
     },
     "Uncommon": {
