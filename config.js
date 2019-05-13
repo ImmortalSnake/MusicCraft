@@ -1,6 +1,6 @@
 module.exports = (client) => {
 	client.prefix = 's!';
-	client.version = '0.9.95';
+	client.version = '0.9.98';
 	client.owner = '410806297580011520';
 	client.id = '557831541653241857';
 	client.admins = ['410806297580011520', '545983923340181514', '348192128599588864', '324080309547171840'];
