@@ -1,5 +1,5 @@
-module.exports.run = async (client, message, args, {settings}) => {
-	let check = client.music.check(message, settings, { vc: true, djrole: true});
+module.exports.run = async (client, message, args, { settings }) => {
+	const check = client.music.check(message, settings, { vc: true, djrole: true });
 	if(check) return message.channel.send(check);
 	if(message.guild.voiceConnection) {
 		global.guilds[message.guild.id].queue = [];
@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, {settings}) => {
 		message.channel.send('Left the voice channel');
 	}
 	else {
-		message.channel.send('I am not in any voice channel..');
+		message.channel.send('I am not in any voice channel');
 	}
 };
 

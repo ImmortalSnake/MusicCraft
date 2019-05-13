@@ -11,24 +11,39 @@
     "rules": {
         "no-console": "off",
         "no-var": "error",
-        "comma-style": "error",
-        "comma-spacing": "error",
         "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1, "maxBOF": 0 }],
         "no-empty-function": "error",
         "no-trailing-spaces": ["error"],
         "no-unused-vars": "warn",
         "no-extra-semi": "error",
         "no-undef": "error",
+        "no-multi-spaces": "error",
+        "no-floating-decimal": "error",
+        "no-lonely-if": "error",
+        "no-redeclare": "error",
+        "no-unused-labels": "error",
+        "no-shadow": ["error", { "allow": ["err", "resolve", "reject"] }],
+        "comma-style": "error",
+        "comma-spacing": "error",
+        "comma-dangle": ["off", "always-multiline"],
         "eqeqeq": "error",
+        "dot-location": ["error", "property"],
+        "object-curly-spacing": ["error", "always"],
+        "brace-style": ["off", "stroustrup", { "allowSingleLine": true }],
+        "space-before-blocks": "error",
+        "space-in-parens": "error",
+		"space-infix-ops": "error",
+		"space-unary-ops": "error",
+		"spaced-comment": "error",
         "yoda": "error",
+        "prefer-const": "error",
         "indent": ["error", "tab"],
-        "quotes": [
-            "warn",
-            "single"
-        ],
-        "semi": [
-            "warn",
-            "always"
-        ]
+        "quotes": ["warn", "single"],
+        "semi": ["warn", "always"],
+        "space-before-function-paren": ["error", {
+			"anonymous": "never",
+			"named": "never",
+			"asyncArrow": "always"
+		}]
     }
 }

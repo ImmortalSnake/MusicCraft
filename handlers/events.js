@@ -6,8 +6,8 @@ module.exports = client => {
 		const jsfiles = files.filter(f => f.split('.').pop() === 'js');
 		if (jsfiles.length === 0) throw new Error('\n[Events]\tNo events to load.');
 		jsfiles.map(file => {
-			let eventName = file.split('.')[0];
-			let eventFunction = require(`./../events/${file}`);
+			const eventName = file.split('.')[0];
+			const eventFunction = require(`./../events/${file}`);
 			if (!eventFunction.run) throw new Error(`\n${eventName} has no run function`);
 			client.events.set(eventName, eventFunction);
 			client.on(eventName, eventFunction.run.bind(null, client));

@@ -4,8 +4,8 @@ module.exports = (client) => {
 	client.mobs = require('../assets/mobs');
 	client.shop = require('../assets/shop');
 	client.perms = require('./permissions.js');
- 	client.time = require('./time.js');
-	client.defaultQueue= {
+	client.time = require('./time.js');
+	client.defaultQueue = {
 		queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
 		isPlaying: false,
 		dispatcher: null,

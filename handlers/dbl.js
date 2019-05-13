@@ -2,5 +2,6 @@
 module.exports = (client, server) => {
 	const DBL = require('dblapi.js');
 	const dbl = new DBL(process.env.DBLTOKEN, { webhookServer: server, webhookAuth: process.env.auth }, client);
+	return dbl;
 };
 

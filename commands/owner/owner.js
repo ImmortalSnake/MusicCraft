@@ -1,23 +1,22 @@
 const db = require('quick.db');
 const discord = require('discord.js');
 const fetch = require('node-superfetch');
-const youtubedl = require('youtube-dl');
 const url = 'https://icanhazdadjoke.com/';
 const fs = require('fs');
 
 module.exports.run = async (client, message, args) => {
 	if(!client.admins.includes(message.author.id)) return message.reply ('you are not allowed to use this command');
 	if(!args[0]) return message.channel.send('Correct format is `s!owner [option]`');
-	let user = client.users.get(args[1]) || message.mentions.users.first();
+	const user = client.users.get(args[1]) || message.mentions.users.first();
 
-	switch(args[0].toLowerCase()){
+	switch(args[0].toLowerCase()) {
 
 	case 'inv': {
 
 		if(!user) return message.channel.send('Could not find that user');
-		let inventory = await client.inv.findOne({id: user.id});
+		const inventory = await client.inv.findOne({ id: user.id });
 		if(!inventory) return message.channel.send('That user does not have a player');
-		let embed = client.embed(message, {title: '**Inventory**'})
+		const embed = client.embed(message, { title: '**Inventory**' })
 			.setFooter(user.username, user.displayAvatarURL())
 			.addField('Materials', getinv(inventory, 'Materials', client), true)
 			.addField('Tools', getinv(inventory, 'Tools', client), true)
@@ -32,18 +31,18 @@ module.exports.run = async (client, message, args) => {
 		if(!user) return message.channel.send('Could not find that user');
 		if(!args[2]) return message.channel.send('Please specify an item');
 
-		let t = args.slice(2).join(' ').split('-')[0].trim().toProperCase();
-		let locate = find(client, t);
+		const t = args.slice(2).join(' ').split('-')[0].trim().toProperCase();
+		const locate = find(client, t);
 		if(!locate) return message.channel.send('Could not find that item');
 
-		let amount = parseInt(args.join('').split('-')[1]) || 1;
-		let inventory = await client.db.getInv(client, message.author.id);
+		const amount = parseInt(args.join('').split('-')[1]) || 1;
+		const inventory = await client.db.getInv(client, message.author.id);
 		if(!inventory) return message.channel.send('That user does not have a player');
-		const it = inventory[locate].find(x=>x.name===t);
+		const it = inventory[locate].find(x=>x.name === t);
 		if(locate === 'tools' && it) return message.channel.send('The player already owns this tool');
 
-		else if(locate === 'tools' || locate === 'armor') inventory[locate].push({ name: t, value: {durability: client.tools[locate.toProperCase()][t].durability, enchant: ''}});
-		else (it) ? it.value += amount : inventory[locate].push({name: t, value: amount});
+		else if(locate === 'tools' || locate === 'armor') inventory[locate].push({ name: t, value: { durability: client.tools[locate.toProperCase()][t].durability, enchant: '' } });
+		else (it) ? it.value += amount : inventory[locate].push({ name: t, value: amount });
 
 		await client.db.setInv(inventory, [locate]);
 		return message.channel.send(`Successfully added ${amount} ${t} to ${user.tag}`);
@@ -52,11 +51,11 @@ module.exports.run = async (client, message, args) => {
 		if(!user) return message.channel.send('Could not find that user');
 		if(!args[2]) return message.channel.send('Please specify an item');
 
-		let t = args.slice(2).join(' ').split('-')[0].trim().toProperCase();
-		let locate = find(client, t);
+		const t = args.slice(2).join(' ').split('-')[0].trim().toProperCase();
+		const locate = find(client, t);
 		if(!locate) return message.channel.send('Could not find that item');
 
-		let inventory = await db.fetch(`inventory_${user.id}`);
+		const inventory = await db.fetch(`inventory_${user.id}`);
 		if(!inventory) return message.channel.send('That user does not have a player');
 		if(!inventory[locate][t]) return message.channel.send('The player does not own this tool');
 
@@ -69,9 +68,9 @@ module.exports.run = async (client, message, args) => {
 		if(!user) return message.channel.send('Could not find that user');
 		if(!args[2]) return message.channel.send('Please specify the type of crate');
 
-		let t = args.slice(2).join(' ').toProperCase();
+		const t = args.slice(2).join(' ').toProperCase();
 		if(!client.tools.crates[t]) return message.channel.send('Could not find that crate');
-		let inventory = await client.db.getInv(client, message.author.id);
+		const inventory = await client.db.getInv(client, message.author.id);
 		if(!inventory) return message.channel.send('That user does not have a player');
 
 		inventory.crates.push(t);
@@ -81,9 +80,9 @@ module.exports.run = async (client, message, args) => {
 	}
 	case 'restore': {
 		if(!user) return message.channel.send('Could not find that user');
-		let inventory = await client.inv.findOne({id: user.id});
+		const inventory = await client.inv.findOne({ id: user.id });
 		if(inventory) return message.channel.send('That user already has a profile.');
-		let actualinv = await db.fetch(`inventory_${user.id}`);
+		const actualinv = await db.fetch(`inventory_${user.id}`);
 		await client.db.createInv(client, user.id, actualinv);
 		return message.channel.send(`Successfully restored data of ${user.tag}`);
 	}
@@ -101,30 +100,30 @@ module.exports.run = async (client, message, args) => {
 
 		return message.channel.send(`The command \`${args[1]}\` has been reloaded`);
 	}
-	case 'reboot':{
+	case 'reboot': {
 		await message.reply('Bot is shutting down and reconnecting');
 		client.destroy();
 		process.exit(1);
 		return;
 	}
 	case 'backup': {
-		let users = await client.inv.find()
-    fs.writeFile('backup.js', users, async function (err) {
-    if (err) throw err;
-		let embed = client.embed(message, {title: '**Backup Success**'})
-			.attachFiles([{
-				attachment: 'backup.js',
-				name: 'backups'
-			}])
-			.setDescription(`wew.. gotta put something here
+		const users = await client.inv.find();
+		fs.writeFile('backup.js', users, async function(err) {
+			if (err) throw err;
+			const embed = client.embed(message, { title: '**Backup Success**' })
+				.attachFiles([{
+					attachment: 'backup.js',
+					name: 'backups'
+				}])
+				.setDescription(`wew.. gotta put something here
 **${users.length}** player datas saved!`);
-     await message.channel.send(embed);
-      fs.unlink('backup.js', function (err) { // Delete the file
-       if (err) throw err;
-       console.log('File deleted!');
-     })
-    })
-    break;
+			await message.channel.send(embed);
+			fs.unlink('backup.js', function(err) { // Delete the file
+				if (err) throw err;
+				console.log('File deleted!');
+			});
+		});
+		break;
 	}
 	case 'username': {
 		if(!args[1]) return message.channel.send(`Specify a username for ${client.user.username}`);
@@ -138,10 +137,10 @@ module.exports.run = async (client, message, args) => {
 	}
 	case 'dadjoke': {
 		fetch.get(url, {
-			headers: {Accept: 'application/json'},
+			headers: { Accept: 'application/json' },
 		}).then(async res => {
 			res = JSON.parse(res.text);
-			let embed = new discord.MessageEmbed()
+			const embed = new discord.MessageEmbed()
 				.setAuthor(message.author.username, message.author.displayAvatarURL())
 				.setTitle('Dad Joke')
 				.setDescription(res.joke)
@@ -149,31 +148,6 @@ module.exports.run = async (client, message, args) => {
 				.setTimestamp();
 
 			return message.channel.send(embed);
-		});
-		break;
-	}
-	case 'addrole': {
-		let perms = args[1].toUpperCase();
-		let color = args[2].toUpperCase();
-		let roleName = args.slice(3).join(' ');
-		console.log(perms, roleName);
-		message.guild.roles.create({ data: {
-			name: roleName,
-			color: color,
-			permissions: perms,
-			hoist: true
-		}}).then(role=> {
-			message.member.roles.add(role).then(() => message.channel.send(`Successfully created the role ${role} and added it to you!`));
-		});
-		return;
-	}
-	case 'test':{
-		youtubedl.getInfo('https://vimeo.com/6586873', function(err, info) {
-			if (err) throw err;
-			console.log(info);
-			message.member.voice.channel.join().then(connection => {
-				return connection.play(info.url);
-			});
 		});
 		break;
 	}
@@ -194,16 +168,16 @@ function find(client, name) {
 }
 
 function getinv(inventory, type, client) {
-	let res = {},
-		m = '**';
+	const res = {};
+	let	m = '**';
 	inventory[type.toLowerCase()].forEach(mat => { res[mat.name] = mat.value || 0;});
 	for(const v in res) {
-		let e = { emote: ''  };
+		let e = { emote: '' };
 		if(client.items[type]) e = client.items[type][v] ;
 		else if(client.tools[type]) e = client.tools[type][v];
 		let x = `x${res[v]}\n`;
 		if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
-		else if( typeof res[v] === 'object') x = 'x1\n'; // []
+		else if(typeof res[v] === 'object') x = 'x1\n'; // []
 		m += `${v}${e.emote} ${x}`;
 	}
 	m += '**';

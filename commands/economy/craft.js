@@ -1,6 +1,6 @@
 exports.run = async (client, message, args) => {
 	if(!args[0]) return message.channel.send('Correct format is `s!craft [item]`');
-	let inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await client.db.getInv(client, message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command');
 
 	const t = args.join(' ').toProperCase();
@@ -8,15 +8,15 @@ exports.run = async (client, message, args) => {
 	if(!tool) return message.channel.send('That item is not craftable right now!');
 	if(!check(inventory, tool)) return message.channel.send('You do not have enough materials');
 
-	let embed = client.embed(message, {title:'**Craft**'});
+	const embed = client.embed(message, { title:'**Craft**' });
 	switch(tool.type) {
 
 	case 'Armor': {
-		if(inventory.armor.find(x=>x.name===t)) return message.channel.send('You already own this tool');
+		if(inventory.armor.find(x=>x.name === t)) return message.channel.send('You already own this tool');
 		for(const mat in client.tools.Armor[t].materials) {
-			inventory.materials.find(m=>m.name===mat.toProperCase()).value -= client.tools.Armor[t].materials[mat];
+			inventory.materials.find(m=>m.name === mat.toProperCase()).value -= client.tools.Armor[t].materials[mat];
 		}
-		inventory.armor.push({name: t, value: { durability : tool.durability, enchant: ''}});
+		inventory.armor.push({ name: t, value: { durability : tool.durability, enchant: '' } });
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
 Use \`s!equip ${t}\` to equip it!`);
 		await message.client.db.setInv(inventory, ['materials', 'armor']);
@@ -24,17 +24,17 @@ Use \`s!equip ${t}\` to equip it!`);
 	}
 	case 'Other': {
 		for(const mat in tool.materials) {
-			inventory.materials.find(m=>m.name===mat.toProperCase()).value -= tool.materials[mat];
+			inventory.materials.find(m=>m.name === mat.toProperCase()).value -= tool.materials[mat];
 		}
 		for(const oth in tool.other) {
-			inventory.other.find(m=>m.name===oth.toProperCase()).value -= tool.other[oth];
+			inventory.other.find(m=>m.name === oth.toProperCase()).value -= tool.other[oth];
 		}
-		let ot = inventory.other.find(x=>x.name===t);
-		if(tool.onetime){
+		const ot = inventory.other.find(x=>x.name === t);
+		if(tool.onetime) {
 			if(ot) return message.channel.send(`You already have a ${t}`);
-			inventory.other.push({name: t, value: 1});
+			inventory.other.push({ name: t, value: 1 });
 		} else {
-			ot ? ot.value++ : inventory.other.push({name: t, value: 1});
+			ot ? ot.value++ : inventory.other.push({ name: t, value: 1 });
 		}
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}`);
 		message.channel.send(embed);
@@ -49,12 +49,12 @@ Use \`s!equip ${t}\` to equip it!`);
 };
 function check(inventory, tool) {
 	for(const mat in tool.materials) {
-		const mats = inventory.materials.find(m=>m.name===mat.toProperCase());
+		const mats = inventory.materials.find(m=>m.name === mat.toProperCase());
 		if(!mats || tool.materials[mat] > mats.value) return false;
 	}
 	if(tool.other) {
 		for(const oth in tool.other) {
-			const other = inventory.other.find(o=>o.name===oth.toProperCase());
+			const other = inventory.other.find(o=>o.name === oth.toProperCase());
 			if(!other || tool.other[oth] > other.value) return false;
 		}
 	}
@@ -63,11 +63,11 @@ function check(inventory, tool) {
 
 function ok(tool, client) {
 	for(const t in client.tools.Tools) {
-		let x = client.tools.Tools[tool.toProperCase()];
+		const x = client.tools.Tools[tool.toProperCase()];
 		if(x) return x;
 	}
 	for(const t in client.tools.Armor) {
-		let x = client.tools.Armor[tool.toProperCase()];
+		const x = client.tools.Armor[tool.toProperCase()];
 		if(x) return x;
 	}
 	if(client.tools.Other[tool.toProperCase()]) return client.tools.Other[tool.toProperCase()];
@@ -75,16 +75,16 @@ function ok(tool, client) {
 }
 
 async function generate(inventory, tool, name, message) {
-	let itool = inventory.tools.find(x=>x.name===name);
+	const itool = inventory.tools.find(x=>x.name === name);
 	if(itool) return message.channel.send('You already own this tool');
 	for(const mat in tool.materials) {
-		inventory.materials.find(m=>m.name===mat.toProperCase()).value -= tool.materials[mat];
+		inventory.materials.find(m=>m.name === mat.toProperCase()).value -= tool.materials[mat];
 	}
 	// (inventory.tools[name]) ? inventory.tools[name]++ : inventory.tools[name] = 1;
-	const newtool = { name: name, value: { durability : tool.durability, enchant: '' }};
+	const newtool = { name: name, value: { durability : tool.durability, enchant: '' } };
 	inventory.tools.push(newtool);
 	await message.client.db.setInv(inventory, ['materials', 'tools']);
-	let embed = message.client.embed(message, {title: '**Craft**'})
+	const embed = message.client.embed(message, { title: '**Craft**' })
 		.setDescription(`**Successfully crafted a ${name} ${tool.emote}
 Use \`s!equip ${name}\` to equip it**`);
 	message.channel.send(embed);

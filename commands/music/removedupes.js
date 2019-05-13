@@ -1,11 +1,11 @@
-exports.run = async (client, message, args, {settings}) => {
-	let check = client.music.check(message, settings, { vc: true, playing: true, djrole: true });
+exports.run = async (client, message, args, { settings }) => {
+	const check = client.music.check(message, settings, { vc: true, playing: true, djrole: true });
 	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
-	let old = guildq.queue.length;
+	const guildq = global.guilds[message.guild.id];
+	const old = guildq.queue.length;
 	guildq.queue = rd(guildq.queue);
-	let nq = guildq.queue.length;
-	message.reply(`The queue dupes has been cleared by ${message.author}. \`${old-nq}\` songs removed `);
+	const nq = guildq.queue.length;
+	message.reply(`**:white_check_mark: \`${old - nq}\` songs removed, by ${message.author.tag} **`);
 };
 
 
@@ -24,7 +24,7 @@ exports.help = {
 };
 
 function rd(q) {
-	let nq = [];
+	const nq = [];
 	q.forEach(e => {if(!nq.includes(e)) nq.push(e);});
 	return nq;
 }

@@ -1,8 +1,8 @@
-module.exports.run = async (client, message, args, {settings}) => {
-	let check = await client.music.check(message, settings, { vc: true, playing: true, djrole: true});
+module.exports.run = async (client, message, args, { settings }) => {
+	const check = await client.music.check(message, settings, { vc: true, playing: true, djrole: true });
 	if(check) return message.channel.send(check);
-	let guildq = global.guilds[message.guild.id];
-	let vol = parseInt(args[0]);
+	const guildq = global.guilds[message.guild.id];
+	const vol = parseInt(args[0]);
 	if (!vol) return message.channel.send(`:loud_sound: The current volume is: **${guildq.volume}**`);
 	if(vol <= 0 || vol > 50) return message.channel.send(':mute: Cannot set the volume below 1 or above 50');
 	guildq.dispatcher.setVolumeLogarithmic(vol / 5);
