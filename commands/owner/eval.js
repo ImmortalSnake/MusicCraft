@@ -20,7 +20,7 @@ module.exports.run = async (client, message, args, { settings, prefix }) => {
 		if(code.includes(client.token)) code = code.replace(client.token, '--TOKEN--');
 		const t2 = Date.now() - t1;
 		if(code.length > 1024) {
-     	try {
+			try {
 				const data = await paste.createPaste(code);
 				embed.setURL(data)
 					.addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
@@ -28,10 +28,10 @@ module.exports.run = async (client, message, args, { settings, prefix }) => {
 					.addField('Time Taken', `${t2} ms`)
 					.setDescription('**Output was too long, uploaded to pastebin!**');
 				return message.channel.send(embed);
-    	} catch(err) {
-      	console.log(err);
-    	}
-   	}
+			} catch(err) {
+				console.log(err);
+			}
+		}
 		embed.addField(':inbox_tray: Input', `\`\`\`js\n${codein}\`\`\``)
 			.addField(':outbox_tray: Output', `\`\`\`js\n${code}\n\`\`\``)
 			.addField('Time Taken', `${t2} ms`);
