@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 		message.channel.send('Left the voice channel');
 	}
 	else {
-		message.channel.send('I am not in any voice channel..');
+		message.channel.send('I am not in any voice channel');
 	}
 };
 

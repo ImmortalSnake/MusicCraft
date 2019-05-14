@@ -79,8 +79,9 @@ module.exports = (client) => {
 	};
 
 	client.level = async function(inventory, channel, user) {
-		const curlvl = Math.floor(0.5 * Math.sqrt(inventory.xp));
-		if(inventory.level < curlvl) {
+		const lvl = inventory.level;
+  	const nextlvl = 5 * (lvl ** 2) + 50 * lvl + 100;
+		if(nextlvl <= lvl) {
 			inventory.level++;
 			await db.set(`inventory_${user.id}`, inventory);
 			channel.send(`Level Up! You are now in level **${inventory.level}**`);
@@ -96,7 +97,7 @@ module.exports = (client) => {
 		if(options && options.title) embed.setTitle(options.title);
 		return embed;
 	};
-	client.comma = function(num) {
-		return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-	};
+	client.comma = (num) => {
+   	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+ 	};
 };

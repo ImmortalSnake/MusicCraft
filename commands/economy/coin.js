@@ -44,7 +44,7 @@ module.exports.run = async (client, message, args) => {
 			embed.setDescription('You don\t have enough coins');
 		}
 	}
-	return message.channel.send(embed);
+	return await message.channel.send(embed);
 };
 
 exports.conf = {

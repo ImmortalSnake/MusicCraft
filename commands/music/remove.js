@@ -5,8 +5,8 @@ module.exports.run = async (client, message, args, { settings }) => {
 	const guildq = global.guilds[message.guild.id];
 
 	if(!guildq.queue[args - 1]) return message.reply('Could not find a music in that id');
-	guildq.queue.splice(0, args - 1);
-	return message.channel.send('▶ Removed the music for you!');
+	message.channel.send(`**:white_check_mark: Removed** \`${guildq.queue[args - 1].title}\``);
+	return guildq.queue.splice(0, args - 1);
 };
 
 

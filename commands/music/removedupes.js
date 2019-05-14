@@ -5,7 +5,7 @@ exports.run = async (client, message, args, { settings }) => {
 	const old = guildq.queue.length;
 	guildq.queue = rd(guildq.queue);
 	const nq = guildq.queue.length;
-	message.reply(`The queue dupes has been cleared by ${message.author}. \`${old - nq}\` songs removed `);
+	message.reply(`**:white_check_mark: \`${old - nq}\` songs removed, by ${message.author.tag} **`);
 };
 
 

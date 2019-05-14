@@ -5,7 +5,7 @@ exports.run = async (client, message, args, { settings }) => {
 	guildq.isPlaying = true;
 	guildq.queue.splice(1, 0, guildq.queue[0]);
 	guildq.dispatcher.end();
-	return message.channel.send('▶ Replaying the music for you!');
+	return message.channel.send('**:repeat_one: Replaying the current playing music!**');
 };
 
 exports.conf = {
