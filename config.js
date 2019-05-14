@@ -14,3 +14,10 @@ module.exports = (client) => {
 		upvote: ''
 	};
 };
+
+module.exports.options = {
+	disableEveryone: true,
+	messageCacheLifetime: 3600,
+	messageSweepInterval: 3600,
+	autoReconnect: true
+};

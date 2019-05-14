@@ -151,30 +151,6 @@ module.exports.run = async (client, message, args) => {
 		});
 		break;
 	}
-	case 'code': {
-		const c = args[1].toUpperCase();
-		if(!c) return message.channel.send('Please enter a code to add / edit / delete');
-		const code = await db.fetch(`codes_${c}`);
-		// const embed = client.embed(message, { title: `**${c}**` });
-		switch(args[2].toLowerCase()) {
-		case 'add': {
-			if(code) return message.channel.send('This code already exists');
-			const rewards = args[3].toProperCase();
-			if(!rewards || !client.tools.crates[rewards]) return message.channel.send('Please specify a reward crate');
-			console.log(c, code, rewards);
-			return;
-		} case 'edit': {
-			if(!code) return message.channel.send('This code does not exist');
-			const prop = args[3].toProperCase();
-			const val = args[4].toProperCase();
-			return console.log(prop, val);
-		} case 'remove': {
-			if(!code) return message.channel.send('This code does not exist');
-			console.log(c, code);
-		}
-		}
-		break;
-	}
 	default: {
 		return message.channel.send('That was not an option. The options available are: `inv`, `invadd`, `invrem`, `addcrate`, `reset`, `shutdown`,\
 `reload`, `reboot`, `backup`, `username`, `avatar`, `dadjoke`');

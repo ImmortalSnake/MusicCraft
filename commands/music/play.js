@@ -16,9 +16,9 @@ module.exports.run = async (client, message, args, { settings }) => {
 				client.music.yt.searchVideos(args, 1).then(async videos => {
 					const video = videos[0];
 					client.music.add(client, video, message, { type: 'youtube', url: video.url, id: video.id });
-					if(guildq.queue.length > 1) return message.channel.send(`Added to queue **${video.title}**`);
+					if(guildq.queue.length > 1) return message.channel.send(`**:musical_note: Added to queue** \`${video.title}\``);
 					else {
-						message.channel.send(`Now Playing **${video.title}**`);
+						message.channel.send(`**:musical_note: Now Playing** \`${video.title}\``);
 						return await client.music.play(client, message, settings);
 					}
 				}).catch((err) => console.log(err));
@@ -33,9 +33,9 @@ module.exports.run = async (client, message, args, { settings }) => {
 						const video2 = await client.music.yt.getVideoByID(video.id);
 						client.music.add(client, video2, message, { type: 'youtube', url: video.url, id: video.id });
 					}
-					if(guildq.queue.length > 1) return message.channel.send(`Playlist: **${playlist.title}** has been added to the queue, **${vids.length}** songs added`);
+					if(guildq.queue.length > 1) return message.channel.send(`**:musical_note: Playlist: \`${playlist.title}\` has been added to the queue,** \`${vids.length}\` **songs added**`);
 					else {
-						message.channel.send(`Playlist: **${playlist.title}** has been added to the queue, **${vids.length}** songs added\nNow Playing **${vids[0].title}**`);
+						message.channel.send(`**:musical_note: Playlist:** \`${playlist.title}\` **has been added to the queue,** \`${vids.length}\` **songs added\nNow Playing **\`${vids[0].title}\``);
 						return await client.music.play(client, message, settings);
 					}
 				}
@@ -44,7 +44,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 						client.music.add(client, video, message, { type: 'youtube', url: video.url, id: video.id });
 						if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${video.title}`);
 						else {
-							message.channel.send(`Now Playing ${video.title}`);
+							message.channel.send(`**:musical_note: Now Playing** \` ${video.title}\``);
 							return await client.music.play(client, message, settings);
 						}
 					});
@@ -54,9 +54,9 @@ module.exports.run = async (client, message, args, { settings }) => {
 				youtubedl.getInfo(args, async function(err, data) {
 					if (err) return console.log(err);
 					client.music.add(client, data, message, { type: data.extractor, url: data.webpage_url, id: data.url });
-					if(guildq.queue.length > 1) return message.channel.send(`Added to queue ${data.title}`);
+					if(guildq.queue.length > 1) return message.channel.send(`**:musical_note:Added to queue** \`${data.title}\``);
 					else {
-						message.channel.send(`Now Playing ${data.title}`);
+						message.channel.send(`**:musical_note: Now Playing** \`${data.title}\``);
 						return await client.music.play(client, message, settings);
 					}
 				});

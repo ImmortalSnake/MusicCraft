@@ -4,7 +4,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 	const guildq = global.guilds[message.guild.id];
 	guildq.isPlaying = false;
 	guildq.dispatcher.pause();
-	return message.channel.send('⏸ Paused the music for you!');
+	return message.channel.send('**⏸ Paused the music!**');
 };
 
 exports.conf = {
