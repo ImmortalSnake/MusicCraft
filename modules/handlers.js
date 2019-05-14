@@ -9,6 +9,7 @@ module.exports = (client) => {
 		const tleft = villager.time + villageTime - Date.now();
 		setTimeout(async () => {
 			await generate();
+     	return client.villager();
 		}, tleft);
 	};
 };

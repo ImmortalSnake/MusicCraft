@@ -62,14 +62,12 @@ function check(inventory, tool) {
 }
 
 function ok(tool, client) {
-	for(const t in client.tools.Tools) {
-		const x = client.tools.Tools[tool.toProperCase()];
-		if(x) return x;
-	}
-	for(const t in client.tools.Armor) {
-		const x = client.tools.Armor[tool.toProperCase()];
-		if(x) return x;
-	}
+	const x = client.tools.Tools[tool.toProperCase()];
+	if(x) return x;
+
+	const y = client.tools.Armor[tool.toProperCase()];
+	if(y) return y;
+
 	if(client.tools.Other[tool.toProperCase()]) return client.tools.Other[tool.toProperCase()];
 	return false;
 }
@@ -87,7 +85,7 @@ async function generate(inventory, tool, name, message) {
 	const embed = message.client.embed(message, { title: '**Craft**' })
 		.setDescription(`**Successfully crafted a ${name} ${tool.emote}
 Use \`s!equip ${name}\` to equip it**`);
-	message.channel.send(embed);
+	return await message.channel.send(embed);
 }
 
 exports.conf = {
