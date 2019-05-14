@@ -9,7 +9,7 @@ dependencies:
   get-youtube-id: 1.0.1
   libsodium-wrappers: 0.7.4
   moment: 2.24.0
-  mongoose: 5.5.7
+  mongoose: 5.5.8
   node-fetch: 2.5.0
   node-opus: 0.3.1
   node-superfetch: 0.1.9
@@ -145,12 +145,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jp/uFnooOiO+L211eZOoSyzpOITMXx1rBITauYykG3BRYPu8h0UcxsPNB04RR5vo4Tyz3+ay17tR6JVf9qzYWg==
-  /async/2.6.1:
+  /async/2.6.2:
     dependencies:
       lodash: 4.17.11
     dev: false
     resolution:
-      integrity: sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
+      integrity: sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==
   /asynckit/0.4.0:
     dev: false
     resolution:
@@ -1322,16 +1322,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
-  /mongodb-core/3.2.3:
-    dependencies:
-      bson: 1.1.1
-      require_optional: 1.0.1
-      safe-buffer: 5.1.2
-    dev: false
-    optionalDependencies:
-      saslprep: 1.0.3
-    resolution:
-      integrity: sha512-UyI0rmvPPkjOJV8XGWa9VCTq7R4hBVipimhnAXeSXnuAPjuTqbyfA5Ec9RcYJ1Hhu+ISnc8bJ1KfGZd4ZkYARQ==
   /mongodb-core/3.2.4:
     dependencies:
       bson: 1.1.1
@@ -1342,7 +1332,7 @@ packages:
       saslprep: 1.0.3
     resolution:
       integrity: sha512-Ea/fjVntuj0nhLPuDPj54Kce+w4Ee6b1oSM2EvNB4OdwXJ5WIEh79st9/FRZVKwGnc2oB19P1SMSC1noOBXUCQ==
-  /mongodb/3.2.3:
+  /mongodb/3.2.4:
     dependencies:
       mongodb-core: 3.2.4
       safe-buffer: 5.1.2
@@ -1350,20 +1340,20 @@ packages:
     engines:
       node: '>=4'
     resolution:
-      integrity: sha512-jw8UyPsq4QleZ9z+t/pIVy3L++51vKdaJ2Q/XXeYxk/3cnKioAH8H6f5tkkDivrQL4PUgUOHe9uZzkpRFH1XtQ==
+      integrity: sha512-tjuwdRb89oyCamBG9lWkb7Sf4L/XJ0hsTC22NkbECl3j2X8n+rM+ZlK3dyIPdaJXdc4FOKIRd9dodVJgCtsYMA==
   /mongoose-legacy-pluralize/1.0.2:
     dev: false
     peerDependencies:
       mongoose: '*'
     resolution:
       integrity: sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
-  /mongoose/5.5.7:
+  /mongoose/5.5.8:
     dependencies:
-      async: 2.6.1
+      async: 2.6.2
       bson: 1.1.1
       kareem: 2.3.0
-      mongodb: 3.2.3
-      mongodb-core: 3.2.3
+      mongodb: 3.2.4
+      mongodb-core: 3.2.4
       mongoose-legacy-pluralize: 1.0.2
       mpath: 0.6.0
       mquery: 3.2.0
@@ -1376,7 +1366,7 @@ packages:
     engines:
       node: '>=4.0.0'
     resolution:
-      integrity: sha512-Xs4SVuMGkMRdmKZ6ATGVvbp2pjI+KENCNhPZMnksjU3ZerkJHGhWKrUE1A6e/5iZ2lTu6Oz9AOPcfrDgp6BCUw==
+      integrity: sha512-BcClXFUAl0L9T57LEztGv+dzHfd8t29cqd3X9NSRHfjHOmj1mduJA3pKSunnb7vah7VvIBCHzEocJtw4Q5WGFA==
   /mpath/0.6.0:
     dev: false
     engines:
@@ -2372,7 +2362,7 @@ specifiers:
   get-youtube-id: ^1.0.1
   libsodium-wrappers: ^0.7.4
   moment: ^2.24.0
-  mongoose: ^5.5.7
+  mongoose: ^5.5.8
   node-fetch: ^2.5.0
   node-opus: ^0.3.1
   node-superfetch: ^0.1.9

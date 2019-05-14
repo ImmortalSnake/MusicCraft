@@ -3,33 +3,29 @@
     <img src="https://img.shields.io/discord/569872125301751808.svg?colorB=Blue&logo=discord&label=Support&style=for-the-badge" alt="Support">
 </a>
 
-<a href="https://github.com/ImmortalSnake/MusicBot">
-    <img src="https://img.shields.io/travis/com/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Travis Build">
-</a>
-
-<a href="https://github.com/ImmortalSnake/MusicBot">
+<a href="https://github.com/ImmortalSnake/MusicCraft">
     <img src="https://img.shields.io/codacy/grade/a8c86f1a39e942ef8b03357d2932b03a.svg?style=for-the-badge" alt="Codacy">
 </a>
 <br>
 
-<a href="https://github.com/ImmortalSnake/MusicBot">
-    <img src="https://img.shields.io/github/languages/top/ImmortalSnake/MusicBot.svg?colorB=Yellow&style=for-the-badge" alt="Languages">
+<a href="https://github.com/ImmortalSnake/MusicCraft">
+    <img src="https://img.shields.io/github/languages/top/ImmortalSnake/MusicCraft.svg?colorB=Yellow&style=for-the-badge" alt="Languages">
 </a>
 
-<a href="https://github.com/ImmortalSnake/MusicBot">
-    <img src="https://img.shields.io/github/package-json/v/ImmortalSnake/MusicBot.svg?colorB=Orange&style=for-the-badge" alt="Version">
+<a href="https://github.com/ImmortalSnake/MusicCraft">
+    <img src="https://img.shields.io/github/package-json/v/ImmortalSnake/MusicCraft.svg?colorB=Orange&style=for-the-badge" alt="Version">
 </a>
 
-<a href="https://github.com/ImmortalSnake/MusicBot/issues">
-    <img src="https://img.shields.io/github/issues/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Issues">
+<a href="https://github.com/ImmortalSnake/MusicCraft/issues">
+    <img src="https://img.shields.io/github/issues/ImmortalSnake/MusicCraft.svg?style=for-the-badge" alt="Issues">
 </a>
 
-<a href="https://github.com/ImmortalSnake/MusicBot/pulls">
-    <img src="https://img.shields.io/github/issues-pr/ImmortalSnake/MusicBot.svg?style=for-the-badge" alt="Pull Request">
+<a href="https://github.com/ImmortalSnake/MusicCraft/pulls">
+    <img src="https://img.shields.io/github/issues-pr/ImmortalSnake/MusicCraft.svg?style=for-the-badge" alt="Pull Request">
 </a>
 </div>
 
-# MusicBot
+# MusicCraft
 A simple and easy to use music and economy bot. Has many features including queue, skips, lyrics and more. Originally from SnakeBot this has been created due to perfomance reasons.
 
 Offers more music commands, features playlists, lyrics as well as soundcloud and youtube support.
