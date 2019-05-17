@@ -88,16 +88,17 @@ module.exports = (client) => {
 		}
 	};
 
-	client.embed = function(message, options) {
-		const color = options ? options.color ? options.color : '#206694' : '#206694';
-		const embed = new discord.MessageEmbed()
-			.setColor(color)
-			.setFooter(message.author.username, message.author.displayAvatarURL())
-			.setAuthor(client.user.username, client.user.displayAvatarURL());
-		if(options && options.title) embed.setTitle(options.title);
-		return embed;
-	};
 	client.comma = (num) => {
    	return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
  	};
+
+  client.embed = (message, options) => {
+        const color = options ? options.color ? options.color : '#206694' : '#206694';
+        const embed = new discord.MessageEmbed()
+        .setColor(color)
+        .setFooter(message.author.username, message.author.displayAvatarURL())
+        .setAuthor(client.user.username, client.user.displayAvatarURL());
+        if(options && options.title) embed.setTitle(options.title);
+        return embed;
+      };
 };

@@ -1,20 +1,32 @@
 const discord = require('discord.js');
 
 module.exports = (client) => {
-	client.Discord = discord;
-	client.commands = new discord.Collection();
-	client.groups = new discord.Collection();
-	client.aliases = new discord.Collection();
-	client.events = new discord.Collection();
-	require('../config.js')(client);
-	require('./functions.js')(client); // some cool functions
-	require('../utils/main.js')(client); // basic client utils
-	require('./handlers.js')(client); // command and event handler
-	require('./mongoose.js')(client); // database stuff here
-	global.guilds = {};
+  class MusicCraft extends client {
+    constructor(option) {
 
-	require('../handlers/commands.js')(client);
-	require('../handlers/events.js')(client);
-	require('../handlers/app.js');
-	client.music = require('./music.js');
+      super(option);
+      this.Discord = discord;
+      this.commands = new discord.Collection();
+      this.groups = new discord.Collection();
+      this.aliases = new discord.Collection();
+      this.events = new discord.Collection();
+      require('../config.js')(this);
+      require('./functions.js')(this); // some cool functions
+      require('../utils/main.js')(this); // basic client utils
+      require('./handlers.js')(this); // command and event handler
+      require('./mongoose.js')(this); // database stuff here
+      global.guilds = {};
+
+      require('../handlers/commands.js')(this);
+      require('../handlers/events.js')(this);
+      require('../handlers/app.js');
+      const player = require('./music.js')(this);
+      const minecraft = require('./minecraft.js')(this);
+      this.music = new player(this.config.music);
+      this.mc = new minecraft(this.config.minecraft);
+
+    }
+  }
+
+  return MusicCraft;
 };

@@ -1,6 +1,6 @@
 const fetch = require('node-superfetch');
-exports.run = async (client, message, args, { prefix }) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { prefix, mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have food. Use the `s!start` command to get food');
 	const query = args.join(' ').toUpperCase();
 	const codes = await fetch.get(process.env.codes);
@@ -14,7 +14,7 @@ You recieved a **${code.rewards} Crate**
 Use \`${prefix}crate ${code.rewards}\` to open it!`);
 	inventory.crates.push(code.rewards);
 	inventory.codes ? inventory.codes.push(query) : inventory.codes = [query];
-	await client.db.setInv(inventory, ['crates', 'codes']);
+	await mc.set(inventory, ['crates', 'codes']);
 	return message.channel.send(embed);
 };
 

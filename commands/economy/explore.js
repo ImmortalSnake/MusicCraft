@@ -1,18 +1,18 @@
 const ms = require('ms');
-exports.run = async (client, message) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 	let ptimer = inventory.cooldowns.find(x=>x.name === 'explore');
 	if(!ptimer) {
 		inventory.cooldowns.push({ name: 'explore', value: 0 });
 		ptimer = inventory.cooldowns.find(x=>x.name === 'explore');
 	}
-	if(ptimer.value + client.utils.exploreTimer > Date.now()) {
-		const tleft = ptimer.value + client.utils.exploreTimer - Date.now();
+	if(ptimer.value + mc.exploreTimer > Date.now()) {
+		const tleft = ptimer.value + mc.exploreTimer - Date.now();
 		return message.reply('You can explore in ' + ms(tleft, { long: true }));
 	}
 	ptimer.value = Date.now();
-	if(Date.now() - inventory.lastactivity >= client.utils.rhunger && inventory.hunger < 75) inventory.hunger += 25;
+	if(Date.now() - inventory.lastactivity >= mc.rhunger && inventory.hunger < 75) inventory.hunger += 25;
 	if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food');
 	if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100');
 	const embed = client.embed(message, { title: '**Explore**' });
@@ -30,7 +30,7 @@ exports.run = async (client, message) => {
 		}
 		if(!crate) crate = 'Legendary';
 		inventory.crates.push(crate);
-		await client.db.setInv(inventory, ['crates', 'cooldowns']);
+		await mc.set(inventory, ['crates', 'cooldowns']);
 		embed.setDescription(`You found a ${crate} Crate!!
 Use \`s!crate ${crate}\` to open it!`);
 		return message.channel.send(embed);

@@ -1,18 +1,9 @@
 module.exports = (client) => {
-	client.tools = require('../assets/tools');
+  client.tools = require('../assets/tools');
 	client.items = require('../assets/items');
-	client.mobs = require('../assets/mobs');
 	client.shop = require('../assets/shop');
 	client.perms = require('./permissions.js');
 	client.time = require('./time.js');
-	client.defaultQueue = {
-		queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
-		isPlaying: false,
-		dispatcher: null,
-		voiceChannel: null,
-		looping: false,
-		volume: 5, // default volume
-	};
 
 	client.deftrade = {
 		user: '',

@@ -1,7 +1,7 @@
 const discord = require('discord.js');
-exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player .Use the `s!start` command to get a player');
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
+	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 	const i = args.join(' ').toProperCase();
 	const item = ifind(client, i, inventory);
 	if(!item) return message.channel.send('Couldnt find that tool in your inventory');
@@ -18,7 +18,7 @@ exports.run = async (client, message, args) => {
 		if(num > it.value) return message.channel.send('Looks like you dont have that many');
 		it.value -= num;
 		inventory.money -= item.price * num;
-		await message.client.db.setInv(inventory, [locate]);
+		await mc.set(inventory, [locate]);
 		const embed = client.embed(message, { title: '**Sell**' })
 			.setDescription(`**You sold ${num} ${i}${item.emote} for ${item.price * num}$**`);
 		message.channel.send(embed);

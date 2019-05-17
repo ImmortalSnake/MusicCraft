@@ -7,11 +7,25 @@ module.exports = (client) => {
 	client.donators = [];
 	client.blacklisted = [];
 	client.config = {
-		maintainence: false,
+		maintenance: false,
 		dbl: false,
 		support: 'https://discord.gg/q2ZpFG4',
 		invite: `https://discordapp.com/api/oauth2/authorize?client_id=${client.id}&permissions=8&scope=bot`,
-		upvote: ''
+		upvote: '',
+    music: {
+      defaultVolume: 5,
+      yt_api_key: process.env.yt_api_key,
+      wait: 500,
+      genius_key: process.env.GENIUS,
+      soundcloud_key: process.env.soundcloud,
+      bitrate: 'auto'
+    },
+    minecraft: {
+      exploreTimer: 3600 * 1000,
+      rhunger: 86400000,
+      villageTimer: 10800000,
+      codes: process.env.codes
+    }
 	};
 };
 

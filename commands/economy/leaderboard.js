@@ -1,5 +1,5 @@
-module.exports.run = async (client, message, args, { prefix }) => {
-	const total = await client.inv.find();
+module.exports.run = async (client, message, args, { prefix, mc }) => {
+	const total = await mc.inv.find();
 	const type = args[0] || 'money';
 	let sorted, t, content = '', pos;
 	switch(type.toLowerCase()) {

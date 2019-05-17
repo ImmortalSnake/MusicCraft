@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
-module.exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+module.exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
 
 	const chance = Math.floor(Math.random() * 2);
@@ -30,16 +30,14 @@ module.exports.run = async (client, message, args) => {
 		const coin = inventory.money;
 		if(coin >= bet) {
 			if(result === false) {
-				embed.setDescription('You lost ' + bet + ' coins')
-					.setColor('RED');
+				embed.setDescription(`You lost ${bet} coins`).setColor('RED');
 				inventory.money -= bet;
 			}
 			else {
-				embed.setDescription('You won ' + bet + ' coins')
-					.setColor('GREEN');
+				embed.setDescription(`You won ${bet} coins`).setColor('GREEN');
 				inventory.money += bet;
 			}
-			await client.db.setInv(inventory, []);
+			await mc.set(inventory, []);
 		} else {
 			embed.setDescription('You don\t have enough coins');
 		}

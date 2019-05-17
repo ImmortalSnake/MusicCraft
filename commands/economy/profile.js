@@ -1,5 +1,5 @@
-exports.run = async (client, message) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 	const embed = client.embed(message, { title: '**Profile**' })
 		.addField('Money', inventory.money, true)

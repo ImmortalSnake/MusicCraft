@@ -1,12 +1,13 @@
-exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a profile .Use the `s!start` command to start playing');
 	if(!args[0]) return message.channel.send('The correct format is `s!stats [item]`');
 	const t = args.join(' ').toProperCase();
-	const tool = find(client, t);
-	if(!tool) return message.channel.send('Could not find that tool');
+	const item = mc.find(t);
+	if(!item) return message.channel.send('Could not find that tool');
+  const tool = item.value;
 	// if(!tool.materials) return message.channel.send('That item is not craftable right now');
-	const emo = tool.emote || client.items.Food[t].emote;
+	const emo = tool.emote || mc.Food[t].emote;
 	let s = '';
 	if(tool.durability) s += `**Durability** ${tool.durability}\n`;
 	if(tool.dmg) s += `**Damage** ${tool.dmg}\n`;
@@ -21,14 +22,14 @@ exports.run = async (client, message, args) => {
 	if(tool.repair) embed.addField('**Repair**', `**${gen(client, tool, 'repair')}**`, true);
 	if(tool.drops) {
 		let x = '**';
-		if(Array.isArray(tool.drops)) x += `Wood ${client.items.Materials.Wood.emote} ${tool.drops[0]} - ${tool.drops[1] + tool.drops[0] - 1}`;
+		if(Array.isArray(tool.drops)) x += `Wood ${mc.Materials.Wood.emote} ${tool.drops[0]} - ${tool.drops[1] + tool.drops[0] - 1}`;
 		else {
 			const foo = {};
 			for(const oth in tool.drops) {
 				foo[oth] = tool.drops[oth];
 			}
 			for(const f in foo) {
-				const e = client.items.Materials[f.toProperCase()] || client.items.Food[f.toProperCase()] || client.items.Other[f.toProperCase()];
+				const e = mc.Materials[f.toProperCase()] || mc.Food[f.toProperCase()] || mc.Other[f.toProperCase()];
 				x += `${f.toProperCase()} ${e.emote} ${foo[f][0] || 1} - ${foo[f][1] || 1} | ${foo[f][2] * 100 || 100}%\n`;
 			}
 		}
@@ -37,15 +38,6 @@ exports.run = async (client, message, args) => {
 	}
 	return message.channel.send(embed);
 };
-
-function find(client, name) {
-	if(client.tools.Tools[name]) return client.tools.Tools[name];
-	if(client.tools.Other[name]) return client.tools.Other[name];
-	if(client.tools.Armor[name]) return client.tools.Armor[name];
-	if(client.items.Food[name]) return client.items.Food[name];
-
-	return false;
-}
 
 function gen(client, tool, type) {
 	let r = '';

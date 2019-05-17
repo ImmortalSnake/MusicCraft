@@ -11,7 +11,7 @@ exports.run = async (client, message) => {
 	if (message.author.bot) return;
 
 	let prefix = client.prefix;
-	const options = { tips: tips };
+	const options = { tips: tips, mc: client.mc };
 
 	if(message.guild) {
 		const settings = await client.guilddb.findOne({ id: message.guild.id });

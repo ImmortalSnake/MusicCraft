@@ -4,9 +4,9 @@ const fetch = require('node-superfetch');
 const url = 'https://icanhazdadjoke.com/';
 const fs = require('fs');
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message, args, { prefix, mc }) => {
 	if(!client.admins.includes(message.author.id)) return message.reply ('you are not allowed to use this command');
-	if(!args[0]) return message.channel.send('Correct format is `s!owner [option]`');
+	if(!args[0]) return message.channel.send(`Correct format is \`${prefix}owner [option]\``);
 	const user = client.users.get(args[1]) || message.mentions.users.first();
 
 	switch(args[0].toLowerCase()) {
@@ -14,14 +14,14 @@ module.exports.run = async (client, message, args) => {
 	case 'inv': {
 
 		if(!user) return message.channel.send('Could not find that user');
-		const inventory = await client.inv.findOne({ id: user.id });
+		const inventory = await mc.get(user.id);
 		if(!inventory) return message.channel.send('That user does not have a player');
 		const embed = client.embed(message, { title: '**Inventory**' })
 			.setFooter(user.username, user.displayAvatarURL())
-			.addField('Materials', getinv(inventory, 'Materials', client), true)
-			.addField('Tools', getinv(inventory, 'Tools', client), true)
-			.addField('Food', getinv(inventory, 'Food', client), true)
-			.addField('Armor', getinv(inventory, 'Armor', client), true);
+			.addField('Materials', mc.ishow(inventory, 'Materials'), true)
+			.addField('Tools', mc.ishow(inventory, 'Tools'), true)
+			.addField('Food', mc.ishow(inventory, 'Food'), true)
+			.addField('Armor', mc.ishow(inventory, 'Armor'), true);
 
 		message.channel.send(embed);
 		break;
@@ -36,7 +36,7 @@ module.exports.run = async (client, message, args) => {
 		if(!locate) return message.channel.send('Could not find that item');
 
 		const amount = parseInt(args.join('').split('-')[1]) || 1;
-		const inventory = await client.db.getInv(client, message.author.id);
+		const inventory = await mc.get(message.author.id);
 		if(!inventory) return message.channel.send('That user does not have a player');
 		const it = inventory[locate].find(x=>x.name === t);
 		if(locate === 'tools' && it) return message.channel.send('The player already owns this tool');

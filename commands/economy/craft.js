@@ -1,6 +1,6 @@
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, { mc }) => {
 	if(!args[0]) return message.channel.send('Correct format is `s!craft [item]`');
-	const inventory = await client.db.getInv(client, message.author.id);
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command');
 
 	const t = args.join(' ').toProperCase();
@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
 		inventory.armor.push({ name: t, value: { durability : tool.durability, enchant: '' } });
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
 Use \`s!equip ${t}\` to equip it!`);
-		await message.client.db.setInv(inventory, ['materials', 'armor']);
+		await mc.set(inventory, ['materials', 'armor']);
 		return message.channel.send(embed);
 	}
 	case 'Other': {
@@ -38,7 +38,7 @@ Use \`s!equip ${t}\` to equip it!`);
 		}
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}`);
 		message.channel.send(embed);
-		await message.client.db.setInv(inventory, ['materials', 'other']);
+		await mc.set(inventory, ['materials', 'other']);
 		return;
 	}
 	case 'Normal': {
