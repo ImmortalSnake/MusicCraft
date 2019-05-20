@@ -19,10 +19,10 @@ ${videos.map(video2 => `**${++index} -** ${video2.title}`).join('\n')}
 			const videoIndex = parseInt(mess.content);
 			if(videoIndex > 10 || videoIndex < 1) return message.channel.send('Please enter a value from 1 to 10');
 			const video = await client.music.yt.getVideoByID(videos[videoIndex - 1].id);
-			client.music.add(client, video, message, { type: 'youtube', url: video.url, id: video.id });
+			client.music.add(video, message, { type: 'youtube', url: video.url, id: video.id });
 			if(!guildq.queue[1]) {
 				await message.channel.send('✅ Now playing: **' + video.title + '**');
-				client.music.play(client, message, settings);
+				client.music.play(message, settings);
 			}
 			else {
 				message.reply('✅ Added to queue: **' + video.title + '**');

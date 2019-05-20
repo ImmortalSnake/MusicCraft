@@ -1,12 +1,12 @@
-exports.run = async (client, message, args, { prefix }) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { prefix, mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send(`You do not have a player. Use the \`${prefix}start\` command to start`);
 	if(!args[0]) return message.channel.send(`Mention the user you want to trade with or if you already in a trade use \`${prefix}trade [option]\``);
 	const user = message.mentions.members.first();
 	if(!user) {
 		const trade = inventory.trade[0];
 		if(!trade) return message.channel.send(`You are not in a trade with anyone. Use \`${prefix}trade [@user]\` to start trading!`);
-		const user2 = await client.db.getInv(client, trade.user);
+		const user2 = await mc.get(trade.user);
 		const trade2 = user2.trade[0];
 
 		switch(args[0].toLowerCase()) {
@@ -15,13 +15,13 @@ exports.run = async (client, message, args, { prefix }) => {
 			const item = args.slice(1).join(' ').split('-')[0].trim().toProperCase();
 			const amount = parseInt(args.join(' ').split('-')[1]) || 1;
 			if(!item) return message.channel.send(`Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade`);
-			let locate = await ifind(client, item, inventory);
+			let locate = await ifind(mc, item, inventory);
 			if(item === 'Money') locate = [{ emote: ':dollar:' }, inventory.money];
 			if(!locate[0]) return message.channel.send('Could not find that item in your inventory');
 			const total = trade.give[0][item] ? trade.give[0][item] + amount : amount;
 			if(total > locate[1]) return message.channel.send('You do not have that many items in your inventory or balance');
 			trade.give[0][item] ? inventory.trade[0].give[0][item] += amount : inventory.trade[0].give[0][item] = amount;
-			await client.db.setInv(inventory, ['trade']);
+			await mc.set(inventory, ['trade']);
 			const aembed = client.embed(message, { title: '**Trade Add**' })
 				.setDescription(`**Successfully added ${item} ${locate[0].emote} x${amount} to the trade**`);
 			return message.channel.send(aembed);
@@ -31,7 +31,7 @@ exports.run = async (client, message, args, { prefix }) => {
 			const item = args.slice(1).join(' ').toProperCase();
 			if(!trade.give[0][item]) return message.channel.send(`That item is not in the trade. Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade`);
 			delete inventory.trade[0].give[0][item];
-			await client.db.setInv(inventory, ['trade']);
+			await mc.set(inventory, ['trade']);
 			const rembed = client.embed(message, { title: '**Trade Remove**' })
 				.setDescription(`**Successfully removed ${item} from the trade**`);
 			return message.channel.send(rembed);
@@ -46,14 +46,14 @@ exports.run = async (client, message, args, { prefix }) => {
 				res[c] = trade.give[0][c] || 0;
 			}
 			for(const v in res) {
-				const e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:' };
+				const e = mc.Materials[v] || mc.Tools[v] || mc.Food[v] || { emote: ':dollar:' };
 				g += `${v}${e.emote} x${res[v]}\n`;
 			}
 			for(const c in trade2.give[0]) {
 				foo[c] = trade2.give[0][c] || 0;
 			}
 			for(const v in foo) {
-				const e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:' };
+				const e = mc.Materials[v] || mc.Tools[v] || mc.Food[v] || { emote: ':dollar:' };
 				r += `${v}${e.emote} x${foo[v]}\n`;
 			}
 			g += '**';
@@ -75,7 +75,7 @@ exports.run = async (client, message, args, { prefix }) => {
 				res[c] = trade.give[0][c] || 0;
 			}
 			for(const v in res) {
-				const e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:' };
+				const e = mc.Materials[v] || mc.Tools[v] || mc.Food[v] || { emote: ':dollar:' };
 				g += `${v}${e.emote} x${res[v]}\n`;
 			}
 
@@ -83,7 +83,7 @@ exports.run = async (client, message, args, { prefix }) => {
 				foo[c] = trade2.give[0][c] || 0;
 			}
 			for(const v in foo) {
-				const e = client.items.Materials[v] || client.tools.Tools[v] || client.items.Food[v] || { emote: ':dollar:' };
+				const e = mc.Materials[v] || mc.Tools[v] || mc.Food[v] || { emote: ':dollar:' };
 				r += `${v}${e.emote} x${foo[v]}\n`;
 			}
 			g += '**';
@@ -138,12 +138,12 @@ React with ✅ to confirm the trade**`)
 							}
 						}
 						inventory.trade = inventory2.trade = [];
-						await client.db.setInv(inventory, ['trade', 'materials', 'food']);
-						await client.db.setInv(inventory2, ['trade', 'materials', 'food']);
+						await mc.set(inventory, ['trade', 'materials', 'food']);
+						await mc.set(inventory2, ['trade', 'materials', 'food']);
 						return message.channel.send(`The trade between <@${message.author.id}> and <@${trade.user}> was completed!`);
 					}
 					inventory.trade[0].confirmed = true;
-					await client.db.setInv(inventory, ['trade']);
+					await mc.set(inventory, ['trade']);
 					return message.channel.send(`<@${message.author.id}> confirmed! Waiting confirmation from <@${trade.user}>
 Please use \`${prefix}trade confirm\` again to confirm!`);
 				}
@@ -168,8 +168,8 @@ React with ✅ to cancel the trade**`);
 				}
 				else if(r.emoji.name === '✅') {
 					inventory.trade = user2.trade = [];
-					await client.db.setInv(inventory, ['trade']);
-					await client.db.setInv(user2, ['trade']);
+					await mc.set(inventory, ['trade']);
+					await mc.set(user2, ['trade']);
 					return message.channel.send(`The trade between <@${message.author.id}> and <@${trade.user}> was cancelled by <@${message.author.id}>`);
 				}
 			});
@@ -182,7 +182,7 @@ React with ✅ to cancel the trade**`);
 	}else{
 		if(inventory.trade[0]) return message.channel.send('You are already in a trade with someone else');
 		if(user.id === message.author.id) return message.channel.send('You cant trade with yourself');
-		let inventory2 = await client.db.getInv(client, user.id);
+		let inventory2 = await mc.get(user.id);
 		if(!inventory2) return message.channel.send('That user does not have a player.');
 
 		if(inventory2.trade[0]) return message.channel.send(user.user.username + ' is already in a trade with someone else');
@@ -201,7 +201,7 @@ React to confirm or deny the trade request`)
 				return;
 			}
 			else if(r.emoji.name === '✅') {
-				inventory2 = await client.db.getInv(client, user.id);
+				inventory2 = await mc.get(user.id);
 				if(inventory2.trade[0]) return message.channel.send(user.user.username + ' is already in a trade with someone else');
 				const cembed = client.embed(message, { title: '**Trade Request Accepted**' })
 					.setDescription(`**${user.user.username}, confirmed the trade request from ${message.author.username}**
@@ -213,27 +213,22 @@ Use \`${prefix}trade cancel\` to cancel the trade`)
 					.setFooter(user.user.tag, user.user.displayAvatarURL());
 				await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`);
 				message.channel.send(cembed);
-				const deftrade1 = { user: user.id, give: [{}], confirmed: false };
-				const deftrade2 = { user: message.author.id, give: [{}], confirmed: false };
-				inventory.trade[0] = deftrade1;
-				inventory2.trade[0] = deftrade2;
-				await client.db.setInv(inventory, ['trade']);
-				await client.db.setInv(inventory2, ['trade']);
+
+				inventory.trade[0] = { user: user.id, give: [{}], confirmed: false };
+				inventory2.trade[0] = { user: message.author.id, give: [{}], confirmed: false };
+				await mc.set(inventory, ['trade']);
+				await mc.set(inventory2, ['trade']);
 				collector.stop();
 			}
 		});
 	}
 };
 
-async function ifind(client, item, inventory) {
+async function ifind(mc, item, inventory) {
 	const mat = inventory.materials.find(x=>x.name === item);
 	const f = inventory.food.find(x=>x.name === item);
-	if(mat && mat.value > 0) {
-		return [client.items.Materials[item], mat.value];
-	}
-	else if(f && f.value > 0) {
-		return [client.items.Food[item], f.value];
-	}
+	if(mat && mat.value > 0) return [mc.Materials[item], mat.value];
+	else if(f && f.value > 0) return [mc.Food[item], f.value];
 	else return false;
 }
 

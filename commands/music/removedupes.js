@@ -3,7 +3,7 @@ exports.run = async (client, message, args, { settings }) => {
 	if(check) return message.channel.send(check);
 	const guildq = global.guilds[message.guild.id];
 	const old = guildq.queue.length;
-	guildq.queue = rd(guildq.queue);
+	guildq.queue = client.music.removedupes(guildq.queue);
 	const nq = guildq.queue.length;
 	message.reply(`**:white_check_mark: \`${old - nq}\` songs removed, by ${message.author.tag} **`);
 };
@@ -22,9 +22,3 @@ exports.help = {
 	group: 'music',
 	usage: 'removedupes'
 };
-
-function rd(q) {
-	const nq = [];
-	q.forEach(e => {if(!nq.includes(e)) nq.push(e);});
-	return nq;
-}

@@ -29,7 +29,5 @@ conn.on('reconnected', () => {
 });
 
 module.exports = (client) => {
-	client.inv = require('../models/player.js');
 	client.guilddb = require('../models/guild.js');
-	client.db = require('./db.js');
 };

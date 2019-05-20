@@ -1,18 +1,14 @@
-exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
-
+exports.run = async (client, message, args, { mc }) => {
+	let inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to cook');
 	if(!inventory.other.find(x=>x.name === 'Furnace')) return message.channel.send('You do not have a furnace. Use `s!craft furnace` to craft one');
 
 	const c = args.join(' ').toProperCase();
-
 	if(!c) return message.channel.send('What would you like to cook');
 
-	const food = client.items.recipes[c];
-
+	const food = mc.recipes[c];
 	if(!food) return message.channel.send('You cant cook that now');
-
-	if(!check(inventory, food)) return message.channel.send('You do not have enough materials');
+	if(!mc.icheck(inventory, food)) return message.channel.send('You do not have enough materials');
 
 	for(const mat in food.materials) {
 		const m = inventory.materials.find(x=>x.name === mat.toProperCase());
@@ -20,26 +16,15 @@ exports.run = async (client, message, args) => {
 		m ? m.value -= food.materials[mat] : f.value -= food.materials[mat];
 	}
 
-	const foo = inventory.food.find(x=>x.name === c);
-	foo ? foo.value++ : inventory.food.push({ name: c, value: 1 });
+	inventory = mc.iadd(inventory, { name: c, value: 1, locate: 'food' });
 
 	const embed = client.embed(message, { title: '**Cook**' })
-		.setDescription(`**Successfully cooked a ${c} ${client.items.Food[c].emote}.
+		.setDescription(`**Successfully cooked a ${c} ${mc.Food[c].emote}
 Use \`s!eat ${c}\` to eat it**`);
 
-	await client.db.setInv(inventory, ['materials', 'food']);
+	await mc.set(inventory, ['materials', 'food']);
 	return await message.channel.send(embed);
 };
-
-function check(inventory, food) {
-	for(const mat in food.materials) {
-		const m = inventory.materials.find(x=>x.name === mat.toProperCase());
-		const f = inventory.food.find(x=>x.name === mat.toProperCase());
-		if(m && food.materials[mat] > m.value) return false;
-		if(f && food.materials[mat] > f.value) return false;
-	}
-	return true;
-}
 
 exports.conf = {
 	aliases: [],

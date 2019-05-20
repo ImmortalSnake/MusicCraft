@@ -4,7 +4,7 @@ module.exports.run = async (client, message) => {
 	const uptime = client.uptime;
 	const bimage = client.user.displayAvatarURL();
 	const myinfo = client.embed(message)
-		.addField('⚙️ Version', client.version, true)
+		.addField('⚙️ Version', client.config.version, true)
 		.addField('👑 Creator', client.users.get(client.owner).tag, true)
 		.addField('⌛ Uptime', ms(uptime), true)
 		.addField('🏙️ Guilds', client.guilds.size, true)

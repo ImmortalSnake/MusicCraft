@@ -1,18 +1,18 @@
-exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have any tools. Use the `s!start` command to get an axe');
 	if(!args[0]) return message.channel.send('Correct format is `s!repair [tool]`');
 
 	const t = args.join(' ').toProperCase();
 	const l = locate(inventory, t);
 	if(!l) return message.channel.send('Could not find that item in your inventory');
-	const tool = client.tools[l.toProperCase()][t];
+	const tool = mc[l.toProperCase()][t];
 	if(!check(inventory, tool)) return message.channel.send('You do not have enough materials');
 	inventory[l].find(i=>i.name === t).value.durability = tool.durability;
 	for(const mat in tool.repair) {
 		inventory.materials.find(m=>m.name === mat.toProperCase()).value -= tool.repair[mat];
 	}
-	await message.client.db.setInv(inventory, ['materials', 'tools']);
+	await mc.set(inventory, ['materials', 'tools']);
 	const embed = client.embed(message, { title: '**Repair**' })
 		.setDescription(`**You successfully repaired your ${t} ${tool.emote}**`);
 	return message.channel.send(embed);

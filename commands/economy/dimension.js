@@ -1,5 +1,5 @@
-exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to start');
 	const dim = args.join(' ').toLowerCase();
 	let bal = inventory.money;
@@ -12,10 +12,9 @@ exports.run = async (client, message, args) => {
 		if(bal < 1000) return message.channel.send('You need atleast 1000 coins to go to the nether world');
 		bal -= 1000;
 		inventory.dimension = 'Overworld';
-		await client.db.setInv(inventory, []);
+		await mc.set(inventory, []);
 		embed.setDescription('You have teleported back to the Overworld safely!');
-		message.channel.send(embed);
-		break;
+		return message.channel.send(embed);
 	}
 	case 'nether': case 'netherworld': {
 		if(inventory.dimension === 'Nether') return message.channel.send('You are already in the Netherworld');
@@ -23,10 +22,9 @@ exports.run = async (client, message, args) => {
 		if(bal < 1000) return message.channel.send('You need atleast 1000 coins to go inside the nether portal');
 		bal -= 1000;
 		inventory.dimension = 'Nether';
-		await client.db.setInv(inventory, []);
-		embed.setDescription(`You have teleported to the Nether using a Nether Portal ${client.tools.Other['Nether Portal'].emote}!`);
-		message.channel.send(embed);
-		break;
+		await mc.set(inventory, []);
+		embed.setDescription(`You have teleported to the Nether using a Nether Portal ${mc.Other['Nether Portal'].emote}!`);
+		return message.channel.send(embed);
 	}
 	default: return message.channel.send('Please use `s!dim [nether/overworld]`');
 	}

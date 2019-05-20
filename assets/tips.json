@@ -1,0 +1,18 @@
+{
+    "general": [
+        "Found bugs? please report it at our support server!\n{support}",
+        "Tips are fun, aren't they?",
+        "Dont like the prefix? Dont worry use the `{prefix}settings prefix` command to change it!"
+    ],
+    "minecraft": [
+        "Use the `{prefix}trade` command to trade with other players!",
+        "Need help? Join the support server!\n{support}",
+        "Dont forget to eat food!",
+        "Exploring is a great way to level up. Earn rewards and money",
+        "Upvote the bot for free crates!\n{upvote}",
+        "Got a code? Awesome! Redeem it with the `{prefix}redeem` command!!"
+    ],
+    "music": [
+        "Easily manage music permissions for members with DJ Roles! `{prefix}settings djrole`"
+    ]
+}

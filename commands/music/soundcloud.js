@@ -20,10 +20,10 @@ exports.run = async (client, message, args, { settings }) => {
 				if(body.tracks) {
 					let i = 0;
 					for(i = 0; i < body.tracks.length; i++) {
-						client.music.add(client, body.tracks[i], message, { type: 'soundcloud', url: body.tracks[i].permalink_url, id: body.tracks[i].id });
+						client.music.add(body.tracks[i], message, { type: 'soundcloud', url: body.tracks[i].permalink_url, id: body.tracks[i].id });
 					}
 					if(guildq.queue.length === i) {
-						await client.music.play(client, message, settings);
+						await client.music.play(message, settings);
 						message.channel.send(`✅Now playing: **${body.tracks[0].title}**, Added ${i} songs to the queue`);
 					} else {
 						message.channel.send(`✅Added to ${i} songs to the queue`);
@@ -33,9 +33,9 @@ exports.run = async (client, message, args, { settings }) => {
 						.setTitle('**' + body.title + '**')
 						.setURL(body.permalink_url)
 						.addField('Song Duration', body.duration, true);
-					client.music.add(client, body, message, { type: 'soundcloud', url: body.permalink_url, id: body.id });
+					client.music.add(body, message, { type: 'soundcloud', url: body.permalink_url, id: body.id });
 					if(guildq.queue.length === 1) {
-						client.music.play(client, message, settings);
+						client.music.play(message, settings);
 						message.channel.send('✅Now playing: **' + body.title + '**', { embed: embed });
 					} else {
 						message.channel.send('✅Added to queue: **' + body.title + '**', { embed: embed });
@@ -53,9 +53,9 @@ exports.run = async (client, message, args, { settings }) => {
 				.setTitle('**' + body[0].title + '**')
 				.setURL(body[0].permalink_url)
 				.addField('Song Duration', client.time.msToTime(body[0].duration * 1000), true);
-			client.music.add(client, body[0], message, { type: 'soundcloud', url: body[0].permalink_url, id: body[0].id });
+			client.music.add(body[0], message, { type: 'soundcloud', url: body[0].permalink_url, id: body[0].id });
 			if(guildq.queue.length === 1) {
-				await client.music.play(client, message, settings);
+				await client.music.play(message, settings);
 				message.channel.send('✅Now playing: **' + body[0].title + '**', { embed: embed });
 			} else {
 				message.channel.send('✅Added to queue: **' + body[0].title + '**', { embed: embed });

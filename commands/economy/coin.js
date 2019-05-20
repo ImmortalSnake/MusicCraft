@@ -1,48 +1,35 @@
-const Discord = require('discord.js');
-
-module.exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
 
 	const chance = Math.floor(Math.random() * 2);
-	const embed = new Discord.MessageEmbed();
+	const embed = client.embed(message);
 	const heads = client.emojis.find(emoji => emoji.name === 'heads');
 	const tails = client.emojis.find(emoji => emoji.name === 'tails');
-
 	const choice = args.slice(0, 1).join('').toLowerCase() || 'heads';
 	const bet = parseInt(args.slice(1).join('')) || 10;
-
-	embed.setFooter(message.author.username, message.author.displayAvatarURL());
 	let result = false;
 
 	if(chance === 0) {
 		embed.setTitle(`${heads} Your coin has landed on heads!`);
-		if(choice === 'heads' || choice === 'head') {
-			result = true;
-		}
+		if(choice === 'heads' || choice === 'head') result = true;
 	} else {
 		embed.setTitle(`${tails} Your coin has landed on tails!`);
-		if(choice === 'tails' || choice === 'tail') {
-			result = true;
-		}
+		if(choice === 'tails' || choice === 'tail') result = true;
 	}
 	if(choice && choice === 'tails' || choice === 'tail' || choice === 'heads' || choice === 'head') {
 		const coin = inventory.money;
 		if(coin >= bet) {
 			if(result === false) {
-				embed.setDescription('You lost ' + bet + ' coins')
-					.setColor('RED');
+				embed.setDescription(`You lost ${bet} coins`).setColor('RED');
 				inventory.money -= bet;
 			}
 			else {
-				embed.setDescription('You won ' + bet + ' coins')
-					.setColor('GREEN');
+				embed.setDescription(`You won ${bet} coins`).setColor('GREEN');
 				inventory.money += bet;
 			}
-			await client.db.setInv(inventory, []);
-		} else {
-			embed.setDescription('You don\t have enough coins');
-		}
+			await mc.set(inventory, []);
+		} else embed.setDescription('You don\t have enough coins');
 	}
 	return await message.channel.send(embed);
 };

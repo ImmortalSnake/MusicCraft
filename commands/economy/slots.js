@@ -1,7 +1,7 @@
 const slots = ['🍇', '🍒', '🍋'];
 
-module.exports.run = async (client, message, args) => {
-	const inventory = await client.db.getInv(client, message.author.id);
+module.exports.run = async (client, message, args, { mc }) => {
+	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
 	const bet = parseInt(args[0]);
 	if(!bet) return message.channel.send('Specify the amount you want to bet');
@@ -27,7 +27,7 @@ ${slots[random4]} ${slots[random5]} ${slots[random6]}
 	const embed = client.embed(message);
 	if (result1 === result2 && result1 === result3) {
 		inventory.money += bet * 10;
-		await client.db.setInv(inventory, []);
+		await mc.set(inventory, []);
 		embed.setDescription(`${m}
 You won ${bet * 10}!
 			`)
@@ -35,7 +35,7 @@ You won ${bet * 10}!
 		message.channel.send(embed);
 	} else {
 		inventory.money -= bet;
-		await client.db.setInv(inventory, []);
+		await mc.set(inventory, []);
 		embed.setDescription(`
 			${m}
 			You lost ${bet}, better luck next time!`)
