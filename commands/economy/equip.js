@@ -9,8 +9,7 @@ exports.run = async (client, message, args, { mc }) => {
 	const check = inventory.equipped.find(x=>x.name === type.toLowerCase());
 	check ? check.value = t : inventory.equipped.push({ name: type.toLowerCase(), value: t });
 	await mc.set(inventory, ['equipped']);
-	const embed = client.embed(message, { title:'**Equip**' })
-		.setDescription(`**Successfully equipped a ${t} ${tool.emote}**`);
+	const embed = client.embed(message, { title:'**Equip**' }).setDescription(`**Successfully equipped a ${t} ${tool.emote}**`);
 	message.channel.send(embed);
 };
 

@@ -1,15 +1,18 @@
 module.exports = (client) => {
-  client.tools = require('../assets/tools');
-	client.items = require('../assets/items');
-	client.shop = require('../assets/shop');
+	Object.defineProperty(String.prototype, 'toProperCase', {
+		value: function() {
+			return this.replace(/([^\W_]+[^\s-]*) */g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+		}
+	});
+
+	Object.defineProperty(Array.prototype, 'random', {
+		value: function() {
+			return this[Math.floor(Math.random() * this.length)];
+		}
+	});
+
 	client.perms = require('./permissions.js');
 	client.time = require('./time.js');
-
-	client.deftrade = {
-		user: '',
-		recieved: {},
-		give: {}
-	};
 	client.settings = {
 		announceSongs: {
 			description: 'Toggles the bot announcing each song in the channel as it plays them',
@@ -43,11 +46,5 @@ module.exports = (client) => {
 			value: 'musicchannel',
 			type: 'channel'
 		}
-	};
-
-	client.utils = {
-		exploreTimer: 3600 * 1000,
-		rhunger: 86400000,
-		villageTime: 10800000,
 	};
 };

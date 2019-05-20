@@ -1,6 +1,6 @@
 const ms = require('ms');
-exports.run = async (client, message, args, { mc }) => {
-	const inventory = await mc.get(message.author.id);
+exports.run = async (client, message, args, { mc, prefix }) => {
+	let inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 	let ptimer = inventory.cooldowns.find(x=>x.name === 'explore');
 	if(!ptimer) {
@@ -12,17 +12,18 @@ exports.run = async (client, message, args, { mc }) => {
 		return message.reply('You can explore in ' + ms(tleft, { long: true }));
 	}
 	ptimer.value = Date.now();
-	if(Date.now() - inventory.lastactivity >= mc.rhunger && inventory.hunger < 75) inventory.hunger += 25;
-	if(inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food');
-	if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100');
+
+	inventory = mc.activity(inventory, this, message, prefix);
+	if(!inventory) return;
+
 	const embed = client.embed(message, { title: '**Explore**' });
 	const chance = Math.random();
-	inventory.lastactivity = Date.now();
+
 	if(chance < 0.9) {
 		battle(client, message, inventory);
 	}
 	else {
-		const crates = client.tools.crates;
+		const crates = mc.crates;
 		let crate;
 		const chance2 = Math.random();
 		for(const c in crates) {
@@ -37,11 +38,11 @@ Use \`s!crate ${crate}\` to open it!`);
 	}
 };
 
-async function battle(client, message, inventory) {
-	const embed = client.embed(message, { title: '**Explore**' });
-	const mobs = Object.keys(client.mobs.Hostile[inventory.dimension]);
+async function battle(mc, message, inventory) {
+	const embed = mc.client.embed(message, { title: '**Explore**' });
+	const mobs = Object.keys(mc.mobs.Hostile[inventory.dimension]);
 	const name = mobs.random();
-	const stats = await info(client, inventory, name);
+	const stats = await info(mc, inventory, name);
 	embed.setDescription(`You have met a ${name}
 Do you wish to fight?`)
 		.addField('Your stats', 'Health ' + stats.player.hp + '\nAttack ' + stats.player.dmg)
@@ -57,7 +58,7 @@ Do you wish to fight?`)
 			collector.stop();
 		}
 		else if(r.emoji.name === '✅') {
-			fight(client, m, stats, inventory);
+			fight(mc.client, m, stats, inventory);
 			collector.stop();
 		}
 	});
@@ -95,17 +96,17 @@ async function fight(client, message, stats, inv1) {
 	});
 }
 
-async function info(client, stats, mob) {
-	const enemy = client.mobs.Hostile[stats.dimension][mob];
+async function info(mc, stats, mob) {
+	const enemy = mc.mobs.Hostile[stats.dimension][mob];
 	const x = {};
 	const ne = Object.assign(x, enemy);
 	const p = {
-		hp: stats.health + (inv(stats, 'chestplate') ? client.tools.Armor[inv(stats, 'chestplate').value].health : 0),
-		dmg: stats.attack + (inv(stats, 'sword') ? client.tools.Tools[inv(stats, 'sword').value].dmg : 0),
-		crit: inv(stats, 'sword') ? client.tools.Tools[inv(stats, 'sword').value].critical : 20,
-		def: inv(stats, 'chestplate') ? client.tools.Armor[inv(stats, 'chestplate')].defense : [1, 5],
-		cdef: inv(stats, 'helmet') ? client.tools.Armor[inv(stats, 'helmet').value].crit : [0.5, 0],
-		sp: stats.speed + (inv(stats, 'boots') ? client.tools.Armor[inv(stats, 'boots').value].speed : 0),
+		hp: stats.health + (inv(stats, 'chestplate') ? mc.Armor[inv(stats, 'chestplate').value].health : 0),
+		dmg: stats.attack + (inv(stats, 'sword') ? mc.Tools[inv(stats, 'sword').value].dmg : 0),
+		crit: inv(stats, 'sword') ? mc.Tools[inv(stats, 'sword').value].critical : 20,
+		def: inv(stats, 'chestplate') ? mc.Armor[inv(stats, 'chestplate')].defense : [1, 5],
+		cdef: inv(stats, 'helmet') ? mc.Armor[inv(stats, 'helmet').value].crit : [0.5, 0],
+		sp: stats.speed + (inv(stats, 'boots') ? mc.Armor[inv(stats, 'boots').value].speed : 0),
 		luck: stats.luck,
 		id: stats.id
 	};
@@ -125,7 +126,7 @@ async function win(stats, user, message, collector, inv1) {
 		.setDescription(`You got ${reward}$ and ${xp} XP
 ${drops ? `You found a ${drops} Crate!\nUse\`s!crate ${drops}\` to open it!` : '' }`);
 	message.channel.send(winEmbed);
-	await message.client.db.setInv(inv1, ['crates', 'cooldowns']);
+	await message.client.mc.set(inv1, ['crates', 'cooldowns']);
 	// message.client.level(inv, message.channel, user);
 	collector.stop();
 	return;
@@ -147,7 +148,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'explore',
 	description: 'Fight mobs to get xp and rewards, find crates and much more',

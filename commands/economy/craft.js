@@ -4,7 +4,7 @@ exports.run = async (client, message, args, { mc }) => {
 	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command');
 
 	const t = args.join(' ').toProperCase();
-	const tool = ok(t, client);
+	const tool = ok(t, mc);
 	if(!tool) return message.channel.send('That item is not craftable right now!');
 	if(!check(inventory, tool)) return message.channel.send('You do not have enough materials');
 
@@ -13,8 +13,8 @@ exports.run = async (client, message, args, { mc }) => {
 
 	case 'Armor': {
 		if(inventory.armor.find(x=>x.name === t)) return message.channel.send('You already own this tool');
-		for(const mat in client.tools.Armor[t].materials) {
-			inventory.materials.find(m=>m.name === mat.toProperCase()).value -= client.tools.Armor[t].materials[mat];
+		for(const mat in mc.Armor[t].materials) {
+			inventory.materials.find(m=>m.name === mat.toProperCase()).value -= mc.Armor[t].materials[mat];
 		}
 		inventory.armor.push({ name: t, value: { durability : tool.durability, enchant: '' } });
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
@@ -37,13 +37,11 @@ Use \`s!equip ${t}\` to equip it!`);
 			ot ? ot.value++ : inventory.other.push({ name: t, value: 1 });
 		}
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}`);
-		message.channel.send(embed);
 		await mc.set(inventory, ['materials', 'other']);
-		return;
+		return message.channel.send(embed);
 	}
 	case 'Normal': {
-		generate(inventory, tool, t, message);
-		return;
+		return generate(inventory, tool, t, message);
 	}
 	}
 };
@@ -61,14 +59,10 @@ function check(inventory, tool) {
 	return true;
 }
 
-function ok(tool, client) {
-	const x = client.tools.Tools[tool.toProperCase()];
-	if(x) return x;
-
-	const y = client.tools.Armor[tool.toProperCase()];
-	if(y) return y;
-
-	if(client.tools.Other[tool.toProperCase()]) return client.tools.Other[tool.toProperCase()];
+function ok(tool, mc) {
+	if(mc.Tools[tool.toProperCase()]) return mc.Tools[tool.toProperCase()];
+	if(mc.Armor[tool.toProperCase()]) return mc.Armor[tool.toProperCase()];
+	if(mc.Other[tool.toProperCase()]) return mc.Other[tool.toProperCase()];
 	return false;
 }
 
@@ -81,7 +75,7 @@ async function generate(inventory, tool, name, message) {
 	// (inventory.tools[name]) ? inventory.tools[name]++ : inventory.tools[name] = 1;
 	const newtool = { name: name, value: { durability : tool.durability, enchant: '' } };
 	inventory.tools.push(newtool);
-	await message.client.db.setInv(inventory, ['materials', 'tools']);
+	await message.client.mc.set(inventory, ['materials', 'tools']);
 	const embed = message.client.embed(message, { title: '**Craft**' })
 		.setDescription(`**Successfully crafted a ${name} ${tool.emote}
 Use \`s!equip ${name}\` to equip it**`);

@@ -4,10 +4,10 @@ module.exports.run = async (client, message, args, { settings }) => {
 	const guildq = global.guilds[message.guild.id];
 	if(!guildq.looping) {
 		guildq.looping = true;
-		message.channel.send('**:repeat: Looping `ON`**');
+		return message.channel.send('**:repeat: Looping `ON`**');
 	} else {
 		guildq.looping = false;
-		message.channel.send('**:repeat: Looping `OFF`**');
+		return message.channel.send('**:repeat: Looping `OFF`**');
 	}
 };
 

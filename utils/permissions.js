@@ -1,7 +1,7 @@
 module.exports.level = (client, user, settings) => {
 	if(user.id === client.owner) return 10;
-	else if(client.admins.includes(user.id)) return 9;
-	else if(client.blacklisted.includes(user.id)) return 0;
+	else if(client.config.admins.includes(user.id)) return 9;
+	else if(client.config.blacklisted.includes(user.id)) return 0;
 	else if(user.guild) {
 		if(user.guild.ownerID === user.id) return 8;
 		else if(user.hasPermission('ADMINISTRATOR')) return 7;
@@ -16,7 +16,7 @@ module.exports.level = (client, user, settings) => {
 
 module.exports.get = (perm) => {
 	switch(perm) {
-	case 1: return 'Sorry, you are not allowed to use this command as you have been blacklisted. PM `ImmortalSnake#9836` for an appeal';
+	case 1: return 'Sorry, you are not allowed to use this command as you have been blacklisted. PM `ImmortalSnake#9999` for an appeal';
 	case 2: return;
 	case 3: return 'Only members with the DJ Role is allowed to use this command';
 	case 4: return 'You need the `Manage Messages` permission to use this command';

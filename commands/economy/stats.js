@@ -5,8 +5,7 @@ exports.run = async (client, message, args, { mc }) => {
 	const t = args.join(' ').toProperCase();
 	const item = mc.find(t);
 	if(!item) return message.channel.send('Could not find that tool');
-  const tool = item.value;
-	// if(!tool.materials) return message.channel.send('That item is not craftable right now');
+	const tool = item.value;
 	const emo = tool.emote || mc.Food[t].emote;
 	let s = '';
 	if(tool.durability) s += `**Durability** ${tool.durability}\n`;
@@ -17,9 +16,9 @@ exports.run = async (client, message, args, { mc }) => {
 	if(tool.health) s += `**Health** ${tool.health}\n`;
 	const embed = client.embed(message)
 		.setDescription(`**${t} ${emo} Stats\n**`)
-		.addField('**Materials Required**', `**${gen(client, tool, 'materials')} ${gen(client, tool, 'other')}**`, true);
+		.addField('**Materials Required**', `**${gen(mc, tool, 'materials')} ${gen(mc, tool, 'other')}**`, true);
 	if(s) embed.addField('**Stats**', s, true);
-	if(tool.repair) embed.addField('**Repair**', `**${gen(client, tool, 'repair')}**`, true);
+	if(tool.repair) embed.addField('**Repair**', `**${gen(mc, tool, 'repair')}**`, true);
 	if(tool.drops) {
 		let x = '**';
 		if(Array.isArray(tool.drops)) x += `Wood ${mc.Materials.Wood.emote} ${tool.drops[0]} - ${tool.drops[1] + tool.drops[0] - 1}`;
@@ -39,14 +38,14 @@ exports.run = async (client, message, args, { mc }) => {
 	return message.channel.send(embed);
 };
 
-function gen(client, tool, type) {
+function gen(mc, tool, type) {
 	let r = '';
 	const foo = {};
 	for(const oth in tool[type]) {
 		foo[oth] = tool[type][oth];
 	}
 	for(const t in foo) {
-		const e = client.items.Materials[t.toProperCase()] || client.items.Food[t.toProperCase()] || client.tools.Other[t.toProperCase()];
+		const e = mc.Materials[t.toProperCase()] || mc.Food[t.toProperCase()] || mc.Other[t.toProperCase()];
 		r += `${t.toProperCase()} ${e.emote} x${foo[t]}\n`;
 	}
 	return r;

@@ -3,7 +3,7 @@ exports.run = async (client, message, args, { mc }) => {
 	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
 	const i = args.join(' ').toProperCase();
-	const item = ifind(client, i, inventory);
+	const item = ifind(mc, i, inventory);
 	if(!item) return message.channel.send('Couldnt find that tool in your inventory');
 	const locate = ilocate(i, inventory);
 	const mbed = client.embed(message)
@@ -25,27 +25,19 @@ exports.run = async (client, message, args, { mc }) => {
 	});
 };
 
-function ifind(client, item, inventory) {
+function ifind(mc, item, inventory) {
 	const mat = inventory.materials.find(n=>n.name === item);
 	const t = inventory.food.find(n=>n.name === item);
-	if(mat && mat.value > 0) {
-		return client.items.Materials[item];
-	}
-	else if(t && t.value > 0) {
-		return client.items.Food[item];
-	}
+	if(mat && mat.value > 0) return mc.Materials[item];
+	else if(t && t.value > 0) return mc.Food[item];
 	else return false;
 }
 
 function ilocate(item, inventory) {
 	const mat = inventory.materials.find(n=>n.name === item);
 	const t = inventory.food.find(n=>n.name === item);
-	if(mat) {
-		return 'materials';
-	}
-	else if(t) {
-		return 'food';
-	}
+	if(mat) return 'materials';
+	else if(t) return 'food';
 }
 
 exports.conf = {

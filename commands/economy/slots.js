@@ -27,7 +27,7 @@ ${slots[random4]} ${slots[random5]} ${slots[random6]}
 	const embed = client.embed(message);
 	if (result1 === result2 && result1 === result3) {
 		inventory.money += bet * 10;
-		await client.db.setInv(inventory, []);
+		await mc.set(inventory, []);
 		embed.setDescription(`${m}
 You won ${bet * 10}!
 			`)

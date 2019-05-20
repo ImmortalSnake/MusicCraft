@@ -20,8 +20,7 @@ exports.run = async (client, message, args, { mc }) => {
 					collector.stop();
 				}
 				else if(r.emoji.name === '✅') {
-					const stats = await calc(client, inventory, inventory2);
-					console.log(stats);
+					const stats = await calc(mc, inventory, inventory2);
 					moves(client, message, stats);
 					collector.stop();
 				}
@@ -94,24 +93,24 @@ function win(message, winner, loser) {
 	message.channel.send(embed);
 }
 
-async function calc(client, player1, player2) {
+async function calc(mc, player1, player2) {
 	const info1 = {
-		hp: player1.health + (inv(player1, 'chestplate') ? client.tools.Armor[inv(player1, 'chestplate')].health : 0),
-		dmg: player1.attack + (inv(player1, 'sword') ? client.tools.Tools[inv(player1, 'sword')].dmg : 0),
-		crit: inv(player1, 'sword') ? client.tools.Tools[inv(player1, 'sword')].critical : 20,
-		def: inv(player2, 'chestplate') ? client.tools.Armor[inv(player1, 'chestplate')].defense : [1, 5],
-		cdef: inv(player1, 'helmet') ? client.tools.Armor[inv(player1, 'helmet')].crit : [0.5, 0],
-		sp: player1.speed + (inv(player1, 'boots') ? client.tools.Armor[inv(player1, 'boots')].speed : 0),
+		hp: player1.health + (inv(player1, 'chestplate') ? mc.Armor[inv(player1, 'chestplate')].health : 0),
+		dmg: player1.attack + (inv(player1, 'sword') ? mc.Tools[inv(player1, 'sword')].dmg : 0),
+		crit: inv(player1, 'sword') ? mc.Tools[inv(player1, 'sword')].critical : 20,
+		def: inv(player2, 'chestplate') ? mc.Armor[inv(player1, 'chestplate')].defense : [1, 5],
+		cdef: inv(player1, 'helmet') ? mc.Armor[inv(player1, 'helmet')].crit : [0.5, 0],
+		sp: player1.speed + (inv(player1, 'boots') ? mc.Armor[inv(player1, 'boots')].speed : 0),
 		luck: player1.luck,
 		id: player1.id
 	};
 	const info2 = {
-		hp: player2.health + (player2.equipped.chestplate ? client.tools.Armor[player2.equipped.chestplate].health : 0),
-		dmg: player2.attack + (inv(player2, 'sword') ? client.tools.Tools[inv(player2, 'sword')].dmg : 0),
-		crit: inv(player2, 'sword') ? client.tools.Tools[inv(player2, 'sword')].critical : 20,
-		def: inv(player2, 'chestplate') ? client.tools.Armor[inv(player2, 'chestplate')].defense : [1, 5],
-		cdef: inv(player2, 'helmet') ? client.tools.Armor[inv(player2, 'helmet')].crit : [0.5, 0],
-		sp: player2.speed + (inv(player2, 'boots') ? client.tools.Armor[inv(player2, 'boots')].speed : 0),
+		hp: player2.health + (player2.equipped.chestplate ? mc.Armor[player2.equipped.chestplate].health : 0),
+		dmg: player2.attack + (inv(player2, 'sword') ? mc.Tools[inv(player2, 'sword')].dmg : 0),
+		crit: inv(player2, 'sword') ? mc.Tools[inv(player2, 'sword')].critical : 20,
+		def: inv(player2, 'chestplate') ? mc.Armor[inv(player2, 'chestplate')].defense : [1, 5],
+		cdef: inv(player2, 'helmet') ? mc.Armor[inv(player2, 'helmet')].crit : [0.5, 0],
+		sp: player2.speed + (inv(player2, 'boots') ? mc.Armor[inv(player2, 'boots')].speed : 0),
 		luck: player2.luck,
 		id: player2.id
 	};

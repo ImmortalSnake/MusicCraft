@@ -5,9 +5,7 @@ module.exports.run = async (client, message, args, { settings }) => {
 	if(check) return message.channel.send(check);
 	const guildq = global.guilds[message.guild.id];
 	const video = guildq.queue[0];
-	const embed = client.embed(message)
-		.setTitle(`**${video.title}**`)
-		.setURL(video.url)
+	const embed = client.embed(message, { title: `**${video.title}**`, url: video.url })
 		.setFooter(`${guildq.queue.length} song(s) in queue`)
 		.addField('**Requested By**', client.users.get(guildq.queue[0].requestor), true);
 	if(video.type === 'youtube') {

@@ -15,7 +15,7 @@ exports.run = async (client, message, args, { prefix, mc }) => {
 			const item = args.slice(1).join(' ').split('-')[0].trim().toProperCase();
 			const amount = parseInt(args.join(' ').split('-')[1]) || 1;
 			if(!item) return message.channel.send(`Use \`${prefix}trade add [item] -[amount]\` to add materials or food to the trade`);
-			let locate = await ifind(client, item, inventory);
+			let locate = await ifind(mc, item, inventory);
 			if(item === 'Money') locate = [{ emote: ':dollar:' }, inventory.money];
 			if(!locate[0]) return message.channel.send('Could not find that item in your inventory');
 			const total = trade.give[0][item] ? trade.give[0][item] + amount : amount;
@@ -213,10 +213,9 @@ Use \`${prefix}trade cancel\` to cancel the trade`)
 					.setFooter(user.user.tag, user.user.displayAvatarURL());
 				await message.channel.send(`The trade request sent by <@${message.author.id}> was accepted by <@${user.id}>`);
 				message.channel.send(cembed);
-				const deftrade1 = { user: user.id, give: [{}], confirmed: false };
-				const deftrade2 = { user: message.author.id, give: [{}], confirmed: false };
-				inventory.trade[0] = deftrade1;
-				inventory2.trade[0] = deftrade2;
+
+				inventory.trade[0] = { user: user.id, give: [{}], confirmed: false };
+				inventory2.trade[0] = { user: message.author.id, give: [{}], confirmed: false };
 				await mc.set(inventory, ['trade']);
 				await mc.set(inventory2, ['trade']);
 				collector.stop();
@@ -225,15 +224,11 @@ Use \`${prefix}trade cancel\` to cancel the trade`)
 	}
 };
 
-async function ifind(client, item, inventory) {
+async function ifind(mc, item, inventory) {
 	const mat = inventory.materials.find(x=>x.name === item);
 	const f = inventory.food.find(x=>x.name === item);
-	if(mat && mat.value > 0) {
-		return [client.items.Materials[item], mat.value];
-	}
-	else if(f && f.value > 0) {
-		return [client.items.Food[item], f.value];
-	}
+	if(mat && mat.value > 0) return [mc.Materials[item], mat.value];
+	else if(f && f.value > 0) return [mc.Food[item], f.value];
 	else return false;
 }
 

@@ -37,7 +37,7 @@
        "spaced-comment": "error",
         "yoda": "error",
         "prefer-const": "error",
-        "indent": ["off", "tab"],
+        "indent": ["error", "tab"],
         "quotes": ["warn", "single"],
         "semi": ["warn", "always"],
         "space-before-function-paren": ["error", {

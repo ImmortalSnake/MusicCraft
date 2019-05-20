@@ -15,9 +15,9 @@ module.exports.run = async (client, message, args) => {
 			.setDescription(data[0].raw.snippet.description);
 		client.music.yt.getChannelByID(data[0].id, { part: 'statistics,snippet' }).then(body => {
 			const date = body.publishedAt;
-			embed.addField('Subscriber Count', client.comma(body.subscriberCount), true)
-				.addField('Video Count', client.comma(body.videoCount), true)
-				.addField('Total Views', client.comma(body.viewCount), true)
+			embed.addField('Subscriber Count', client.utils.comma(body.subscriberCount), true)
+				.addField('Video Count', client.utils.comma(body.videoCount), true)
+				.addField('Total Views', client.utils.comma(body.viewCount), true)
 				.addField('Created At', moment.utc(date).format('MM/DD/YYYY h:mm A'), true)
 				.setThumbnail(body.thumbnails.default.url)
 				.setURL(`https://www.youtube.com/channel/${body.id}`);

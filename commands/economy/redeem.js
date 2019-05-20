@@ -1,12 +1,10 @@
-const fetch = require('node-superfetch');
 exports.run = async (client, message, args, { prefix, mc }) => {
 	const inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have food. Use the `s!start` command to get food');
 	const query = args.join(' ').toUpperCase();
-	const codes = await fetch.get(process.env.codes);
-	const code = codes.body[query];
+	const code = await mc.getCode(query);
 	if(!code) return message.channel.send('Invalid Code');
-	if(query.expired) return message.channel.send('Sorry, this code is expired');
+	if(code.expired) return message.channel.send('Sorry, this code is expired');
 	if(inventory.codes && inventory.codes.find(x=>x === query)) return message.channel.send('You already used this code');
 	const embed = client.embed(message, { title: '**Code Redeemed**' })
 		.setDescription(`You have redeemed the code **${query}**

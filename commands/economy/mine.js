@@ -1,18 +1,16 @@
-exports.run = async (client, message, args, { mc }) => {
-	const inventory = await mc.get(message.author.id);
+exports.run = async (client, message, args, { mc, prefix }) => {
+	let inventory = await mc.get(message.author.id);
 	if(!inventory) return message.channel.send('You do not have a pickaxe .Use the `s!start` command to get a pickaxe');
 
 	const pick = inventory.equipped.find(e => e.name === 'pickaxe');
 	if(!pick) return message.channel.send('You do not have a pickaxe. Chop some wood with `s!chop` and craft a pickaxe using `s!craft`');
-	if(inventory.hunger <= 5) return message.channel.send('You are too hungry. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food or wait until your hunger reaches back to 100');
 
-	if(Date.now() - inventory.lastactivity >= mc.rhunger && inventory.hunger < 75) inventory.hunger += 25;
-	if(inventory.hunger % 2 === 0 && inventory.hunger <= 25) await message.channel.send('You are getting hungry. To get food use `s!craft wooden hoe` to craft a hoe and `s!farm` to get food. Use `s!cook [item]` to cook food and get more energy and health. Use `s!eat [item]` to eat food');
+	inventory = mc.activity(inventory, this, message, prefix);
+	if(!inventory) return;
 
 	const ipick = inventory.tools.find(e => e.name === pick.value).value;
 	if(ipick.durability < 1) return message.channel.send(`You cannot use this pickaxe anymore as it is broken, please use \`s!repair ${pick.value}\` to repair it`);
-	inventory.hunger -= 0.25;
-	inventory.lastactivity = Date.now();
+
 	const mines = mc.Materials;
 	const p = mc.Tools[pick.value];
 	const result = {};

@@ -14,8 +14,7 @@ exports.run = async (client, message, args, { mc }) => {
 		inventory.dimension = 'Overworld';
 		await mc.set(inventory, []);
 		embed.setDescription('You have teleported back to the Overworld safely!');
-		message.channel.send(embed);
-		break;
+		return message.channel.send(embed);
 	}
 	case 'nether': case 'netherworld': {
 		if(inventory.dimension === 'Nether') return message.channel.send('You are already in the Netherworld');
@@ -25,8 +24,7 @@ exports.run = async (client, message, args, { mc }) => {
 		inventory.dimension = 'Nether';
 		await mc.set(inventory, []);
 		embed.setDescription(`You have teleported to the Nether using a Nether Portal ${mc.Other['Nether Portal'].emote}!`);
-		message.channel.send(embed);
-		break;
+		return message.channel.send(embed);
 	}
 	default: return message.channel.send('Please use `s!dim [nether/overworld]`');
 	}

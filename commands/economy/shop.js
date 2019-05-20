@@ -1,6 +1,6 @@
 const db = require('quick.db');
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, { mc }) => {
 	const inventory = await db.fetch(`inventory_${message.author.id}`);
 	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` to start playing!');
 	const embed = client.embed(message);
@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
 		message.channel.send(m);
 	} else {
 		const t = args[0].toProperCase();
-		const shop = client.shop[t];
+		const shop = mc.shop[t];
 		const id = parseInt(args[1]);
 
 		if (id) {
@@ -26,7 +26,7 @@ exports.run = async (client, message, args) => {
 			for(const s in shop) {
 				let mats = '';
 				for(const p in shop[s].price) {
-					mats += `${shop[s].price[p]} ${client.items.Materials[p].emote}`;
+					mats += `${shop[s].price[p]} ${mc.Materials[p].emote}`;
 				}
 				m += `ID: ${shop[s].id} ~ **${s}** ~ Price: ${mats}\n`;
 			}

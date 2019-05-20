@@ -10,7 +10,6 @@ module.exports.run = async (client, message, args, { settings }) => {
 		if(check) return message.channel.send(check);
 
 		const guildq = global.guilds[message.guild.id];
-		guildq.volume = settings.defvolume;
 		message.channel.send(`Searching :mag_right: \`${args}\``).then(async () => {
 			if(!args.toLowerCase().startsWith('http')) { // basic searches
 				client.music.yt.searchVideos(args, 1).then(async videos => {

@@ -1,4 +1,4 @@
-module.exports.run = async (client, message, args, { prefix, mc }) => {
+exports.run = async (client, message, args, { prefix, mc }) => {
 	const total = await mc.inv.find();
 	const type = args[0] || 'money';
 	let sorted, t, content = '', pos;
@@ -36,7 +36,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'leaderboard',
 	description: 'Shows the richest and highest level players!',
