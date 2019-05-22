@@ -10,6 +10,6 @@ module.exports.msToTime = (duration) => {
 	return hours + ':' + minutes + ':' + seconds;
 };
 
-module.exports.properTime = (duration) => {
+module.exports.properFormat = (duration) => {
 	return this.msToTime((duration.seconds + (duration.minutes * 60) + (duration.hours * 3600)) * 1000);
 };

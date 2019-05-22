@@ -17,7 +17,7 @@ module.exports = (client) => {
 
 			require('../handlers/commands.js')(this); // command and event handler
 			require('../handlers/events.js')(this);
-			// require('../handlers/app.js');
+			require('../handlers/app.js');
 			const handlers = require('./handlers.js')(this);
 			const player = require('./music.js')(this);
 			const minecraft = require('./minecraft.js')(this);
