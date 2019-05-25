@@ -1,6 +1,6 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to start');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	if(args[0]) {
 		const cr = args[0].toProperCase();
 		const crate = inventory.crates.find(c => c === cr);
@@ -43,8 +43,8 @@ exports.run = async (client, message, args, { mc }) => {
 			crates += `${x[i]} Crate x${x.filter(r => r === x[i]).length}\n`;
 			x = x.filter(r => r !== x[i]);
 		}
-		crates += '**\n\nUse `s!crate [crate]` to open one of them';
-		if(crates === '****') crates = 'NO crates found.. Use `s!explore` to find some';
+		crates += `**\n\nUse \`${prefix}crate [crate]\` to open one of them`;
+		if(crates === '****') crates = `NO crates found.. Use \`${prefix}explore\` to find some`;
 		const embed = client.embed(message, { title: '**Your Crates**' }).setDescription(crates);
 		message.channel.send(embed);
 	}

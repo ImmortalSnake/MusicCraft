@@ -17,7 +17,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'loop',
 	description: 'Loops the current playing song',

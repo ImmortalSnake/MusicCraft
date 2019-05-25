@@ -1,14 +1,7 @@
 const mongoose = require('mongoose');
+const { mongodb } = require('../config');
 mongoose.Promise = global.Promise;
-const uri = `mongodb+srv://ImmortalSnake:${process.env.PASS}@musiccraft-pp2oj.mongodb.net/test`;
-mongoose.connect(uri, {
-	useNewUrlParser: true,
-	reconnectInterval: 500,
-	reconnectTries: Number.MAX_VALUE,
-	poolSize: 5,
-	connectTimeoutMS: 10000,
-	autoIndex: false
-});
+mongoose.connect(mongodb.uri, mongodb.options);
 mongoose.set('useFindAndModify', false);
 mongoose.Promise = Promise;
 

@@ -58,8 +58,8 @@ Availible groups are :
 Use \`${prefix}help [group]\` to view all the commands in the group
 
 Join the [Support Server](${client.config.support}) for further help!
-[Invite](${client.config.invite})
-Documentation coming soon!
+[Invite Link](${client.config.invite}) For the Bot!
+Check out the [Documentation and Guide](${client.config.website})!
 `);
 		return message.channel.send(embed);
 	}

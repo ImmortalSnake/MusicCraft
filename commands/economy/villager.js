@@ -1,9 +1,9 @@
 const db = require('quick.db');
 const ms = require('ms');
 
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const villager = await db.fetch('villager');
 	const em = mc.Materials.Emerald.emote;
 	if(!args[0]) { // display store
@@ -17,9 +17,9 @@ exports.run = async (client, message, args, { mc }) => {
 			m += `${res[t][1]} ${em} = ${res[t][0]} ${t} ${e.emote}\n`;
 		}
 		m += `**
-Use \`s!villager [item] [amount of emeralds]\` to buy an item
+Use \`${prefix}villager [item] [amount of emeralds]\` to buy an item
 
-Trade deals reset in ${ms(villager.time + mc.villageTime - Date.now(), { long: true })}`;
+Trade deals reset in ${ms(villager.time + mc.villageTimer - Date.now(), { long: true })}`;
 		const embed = client.embed(message, { title: '**Villager**' }).setDescription(m);
 		message.channel.send(embed);
 	}
@@ -48,7 +48,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'villager',
 	description: 'Displays trade deals with the villager, trade emeralds for materials with the villager. Trade deals reset every 3 hours',

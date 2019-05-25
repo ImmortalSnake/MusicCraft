@@ -1,9 +1,9 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have food. Use the `s!start` command to get food');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const a = args.join(' ').toProperCase();
 	const f = inventory.food.find(x=>x.name === a);
-	if(!f) return message.channel.send('Could not find that food in your inventory. Use `s!eat [food]` to eat food and use `s!inv` to see all the food you have in your inventory');
+	if(!f) return message.channel.send(`Could not find that food in your inventory. Use \`${prefix}eat [food]\` to eat food and use \`${prefix}inv\` to see all the food you have in your inventory`);
 	const food = mc.Food[a];
 	const embed = client.embed(message, { title: '**Eat**' })
 		.setDescription(`You ate a **${a}** ${food.emote}
@@ -20,7 +20,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'eat',
 	description: 'Eat food to gain health and energy',

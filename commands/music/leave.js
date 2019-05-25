@@ -17,7 +17,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'leave',
 	description: 'Clears the queue and leaves the voice channel',

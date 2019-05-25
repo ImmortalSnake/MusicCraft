@@ -1,5 +1,4 @@
 const { Client } = require('discord.js');
-process.env = require('./env.js');
 const bot = require('./modules/main.js')(Client);
 const client = new bot(require('./config.js').options);
 

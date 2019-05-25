@@ -1,7 +1,7 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a profile .Use the `s!start` command to start playing');
-	if(!args[0]) return message.channel.send('The correct format is `s!stats [item]`');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
+	if(!args[0]) return message.channel.send(`The correct format is \`${prefix}stats [item]\``);
 	const t = args.join(' ').toProperCase();
 	const item = mc.find(t);
 	if(!item) return message.channel.send('Could not find that tool');

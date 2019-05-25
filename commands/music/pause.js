@@ -13,7 +13,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'pause',
 	description: 'Pauses the current playing music',

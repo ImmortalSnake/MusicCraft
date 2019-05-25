@@ -1,6 +1,6 @@
 {
-  "name": "ok",
-  "version": "1.9.0",
+  "name": "musiccraft",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {

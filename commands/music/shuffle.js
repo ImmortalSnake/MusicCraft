@@ -24,7 +24,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'shuffle',
 	description: 'Shuffles the queue',

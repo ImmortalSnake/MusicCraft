@@ -1,6 +1,6 @@
 exports.run = async (client, message, args, { prefix, mc }) => {
 	let inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send(`You do not have an axe. Use the \`${prefix}start\` command to get an axe`);
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 
 	inventory = mc.activity(inventory, this, message, prefix);
 	if(!inventory) return;
@@ -9,7 +9,7 @@ exports.run = async (client, message, args, { prefix, mc }) => {
 	const iaxe = inventory.tools.find(e => e.name === eaxe).value; // axe in inventory
 	const axe = mc.Tools[eaxe]; // axe stats
 
-	if(iaxe.durability < 1) return message.channel.send(`You cannot use this axe anymore as it is broken, please use \`s!repair ${eaxe}\` to repair it`);
+	if(iaxe.durability < 1) return message.channel.send(`You cannot use this axe anymore as it is broken, please use \`${prefix}repair ${eaxe}\` to repair it`);
 
 	const drops = Math.floor(Math.random() * axe.drops[1]) + axe.drops[0];
 	const wood = mc.Materials.Wood, rand = Math.random();

@@ -73,7 +73,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'play',
 	description: 'Plays a song from youtube with the given query or url, Supports youtube playlists',

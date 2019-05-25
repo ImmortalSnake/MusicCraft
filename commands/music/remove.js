@@ -16,7 +16,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'remove',
 	description: 'Removes a song from the queue',

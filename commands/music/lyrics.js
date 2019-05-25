@@ -27,7 +27,7 @@ module.exports.run = async (client, message, args, { prefix }) => {
 			.setFooter(`Requested by ${message.author.username}`, message.author.displayAvatarURL());
 		embeds.push(embed2);
 	}
-	// message.channel.send('Lyrics for ' + songData[0] + '\n\n' + songData[1], { split: true, code: true });
+
 	for(let i = 0; i < embeds.length; i++) {
 		await message.channel.send(embeds[i]);
 	}
@@ -40,7 +40,6 @@ exports.conf = {
 	cooldown: 10000
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'lyrics',
 	description: 'Shows the lyrics of the provided song or the current playing song',

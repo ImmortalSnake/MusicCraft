@@ -500,7 +500,7 @@
       "chance": 0.01
     },
     "Voter": {
-      "items": {}
+      "items": { "Cash": [200, 300], "Wood": [70, 150], "Coal": [30, 50], "Iron": [5, 10], "Gold": [1, 1], "Emerald": [1, 2] }
     },
     "Normal": {
       "items": { "Cash": [100, 200], "Wood": [50, 100], "Coal": [20, 50], "Iron": [3, 10], "Gold": [1, 1] },

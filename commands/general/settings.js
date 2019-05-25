@@ -96,7 +96,6 @@ exports.conf = {
 	permLevel: 7
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'settings',
 	description: 'Shows and changes the settings for the bot in the guild!',

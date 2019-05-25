@@ -10,7 +10,7 @@ module.exports = client => {
 				jsfiles.map(file => {
 					const commandName = file.split('.')[0];
 					const commandFunction = require(`./../commands/${group}/${file}`);
-					if(!commandFunction.help) return console.log(`${commandName} is not completed`);
+					if(!commandFunction.help) return console.log(`${commandName} has no help object`);
 					const commandname = commandFunction.help.name || commandName;
 					if (!commandFunction.run) return console.log(`${commandName} has no run function.`);
 					if(client.commands.get(commandname)) throw new Error(`\n${commandname} has already been registered`);
@@ -20,7 +20,7 @@ module.exports = client => {
 					client.commands.set(commandname, commandFunction);
 					if (commandFunction.conf.aliases) commandFunction.conf.aliases.map(alias => client.aliases.set(alias, commandname));
 				});
-				console.log(`[Commands]\tLoaded a total amount ${jsfiles.length} commands in ${group}`);
+				console.log(`[Commands]\tLoaded a total of ${jsfiles.length} commands in ${group}`);
 				client.groups.set(group, client.commands.filter(cmd => cmd.help.group === group));
 			});
 		});

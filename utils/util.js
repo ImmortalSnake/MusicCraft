@@ -10,7 +10,8 @@ module.exports = class Utils {
 		else return text;
 	}
 
-	formatError(message) {
+	formatError(command, message) {
+		console.log(command);
 		message.channel.send('Incorrect Format');
 	}
 

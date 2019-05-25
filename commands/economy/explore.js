@@ -1,7 +1,7 @@
 const ms = require('ms');
 exports.run = async (client, message, args, { mc, prefix }) => {
 	let inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	let ptimer = inventory.cooldowns.find(x=>x.name === 'explore');
 	if(!ptimer) {
 		inventory.cooldowns.push({ name: 'explore', value: 0 });
@@ -20,7 +20,7 @@ exports.run = async (client, message, args, { mc, prefix }) => {
 	const chance = Math.random();
 
 	if(chance < 0.9) {
-		battle(client, message, inventory);
+		battle(mc, message, inventory, prefix);
 	}
 	else {
 		const crates = mc.crates;
@@ -33,12 +33,12 @@ exports.run = async (client, message, args, { mc, prefix }) => {
 		inventory.crates.push(crate);
 		await mc.set(inventory, ['crates', 'cooldowns']);
 		embed.setDescription(`You found a ${crate} Crate!!
-Use \`s!crate ${crate}\` to open it!`);
+Use \`${prefix}crate ${crate}\` to open it!`);
 		return message.channel.send(embed);
 	}
 };
 
-async function battle(mc, message, inventory) {
+async function battle(mc, message, inventory, p) {
 	const embed = mc.client.embed(message, { title: '**Explore**' });
 	const mobs = Object.keys(mc.mobs.Hostile[inventory.dimension]);
 	const name = mobs.random();
@@ -58,7 +58,7 @@ Do you wish to fight?`)
 			collector.stop();
 		}
 		else if(r.emoji.name === '✅') {
-			fight(mc.client, m, stats, inventory);
+			fight(mc.client, m, stats, inventory, p);
 			collector.stop();
 		}
 	});
@@ -67,7 +67,7 @@ Do you wish to fight?`)
 	});
 }
 
-async function fight(client, message, stats, inv1) {
+async function fight(client, message, stats, inv1, p) {
 	const user = client.users.get(stats.player.id);
 	const embed = client.embed(message, { title: '**Fight**' })
 		.setDescription('React with 👊 to fight')
@@ -83,11 +83,11 @@ async function fight(client, message, stats, inv1) {
 			Math.random() > stats.mob.cdef[0] ? stats.mob.hp -= stats.player.crit : stats.mob.hp -= stats.player.dmg - Math.ceil(Math.random() * 10);
 
 			if(stats.player.sp > stats.mob.speed) {
-				if(stats.mob.hp <= 0) return win(stats, user, message, collector, inv1);
+				if(stats.mob.hp <= 0) return win(stats, user, message, collector, inv1, p);
 				else if(stats.player.hp <= 0) return lose(stats, user, message, collector);
 			} else if(stats.player.hp <= 0) return lose(stats, user, message, collector);
-			else if(stats.mob.hp <= 0) return win(stats, user, message, collector, inv1);
-			await fight(client, message, stats, inv1);
+			else if(stats.mob.hp <= 0) return win(stats, user, message, collector, inv1, p);
+			await fight(client, message, stats, inv1, p);
 			collector.stop();
 		}
 	});
@@ -114,7 +114,7 @@ async function info(mc, stats, mob) {
 	return res;
 }
 
-async function win(stats, user, message, collector, inv1) {
+async function win(stats, user, message, collector, inv1, p) {
 	const xp = Math.floor(Math.random() * stats.mob.xp[1]) + stats.mob.xp[0];
 	const reward = stats.mob.rewards.random();
 	inv1.money += reward;
@@ -124,7 +124,7 @@ async function win(stats, user, message, collector, inv1) {
 	if(drops) inv1.crates.push(stats.mob.drops[0]);
 	const winEmbed = message.client.embed(message, { title: '**You Win!**' })
 		.setDescription(`You got ${reward}$ and ${xp} XP
-${drops ? `You found a ${drops} Crate!\nUse\`s!crate ${drops}\` to open it!` : '' }`);
+${drops ? `You found a ${drops} Crate!\nUse\`${p}crate ${drops}\` to open it!` : '' }`);
 	message.channel.send(winEmbed);
 	await message.client.mc.set(inv1, ['crates', 'cooldowns']);
 	// message.client.level(inv, message.channel, user);

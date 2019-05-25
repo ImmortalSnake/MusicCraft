@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) => {
 				.addField('Created At', moment.utc(date).format('MM/DD/YYYY h:mm A'), true)
 				.setThumbnail(body.thumbnails.default.url)
 				.setURL(`https://www.youtube.com/channel/${body.id}`);
-			message.channel.send(embed);
+			return message.channel.send(embed);
 		});
 	});
 };

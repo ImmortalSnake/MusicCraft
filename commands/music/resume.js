@@ -14,7 +14,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'resume',
 	description: 'Resumes the music when paused',
