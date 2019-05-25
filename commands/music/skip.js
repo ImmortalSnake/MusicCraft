@@ -23,7 +23,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'skip',
 	description: 'Skips the current playing music',

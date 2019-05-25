@@ -91,7 +91,7 @@ module.exports.run = async (client, message, args, { prefix, mc }) => {
 		return client.destroy();
 	}
 	case 'reload': {
-		if(!args[1]) return message.channel.send('Correct format is `s!owner reload [command]`');
+		if(!args[1]) return message.channel.send(`Correct format is \`${prefix}owner reload [command]\``);
 		let response = await client.handlers.unloadCommand(args[1]);
 		if (response) return message.reply(`Error Unloading: ${response}`);
 
@@ -103,8 +103,7 @@ module.exports.run = async (client, message, args, { prefix, mc }) => {
 	case 'reboot': {
 		await message.reply('Bot is shutting down and reconnecting');
 		client.destroy();
-		process.exit(1);
-		return;
+		return process.exit(1);
 	}
 	case 'backup': {
 		const users = await mc.inv.find();

@@ -3,3 +3,4 @@ package-lock.json
 env.js
 json.sqlite
 *.sqlite
+shrinkwrap.yaml

@@ -23,7 +23,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'queue',
 	description: 'Shows the music queue for the server!',

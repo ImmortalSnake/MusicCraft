@@ -1,7 +1,7 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	let inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to cook');
-	if(!inventory.other.find(x=>x.name === 'Furnace')) return message.channel.send('You do not have a furnace. Use `s!craft furnace` to craft one');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
+	if(!inventory.other.find(x=>x.name === 'Furnace')) return message.channel.send(`You do not have a furnace. Use \`${prefix}craft furnace\` to craft one`);
 
 	const c = args.join(' ').toProperCase();
 	if(!c) return message.channel.send('What would you like to cook');
@@ -20,7 +20,7 @@ exports.run = async (client, message, args, { mc }) => {
 
 	const embed = client.embed(message, { title: '**Cook**' })
 		.setDescription(`**Successfully cooked a ${c} ${mc.Food[c].emote}
-Use \`s!eat ${c}\` to eat it**`);
+Use \`${prefix}eat ${c}\` to eat it**`);
 
 	await mc.set(inventory, ['materials', 'food']);
 	return await message.channel.send(embed);
@@ -32,7 +32,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'cook',
 	description: 'Cook food with the materials you have!',

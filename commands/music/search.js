@@ -43,7 +43,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'search',
 	description: 'Searches for a song in youtube with the given query and lists out 10 searches from which you can select and play music',

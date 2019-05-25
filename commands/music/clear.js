@@ -12,7 +12,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'clear',
 	description: 'Clears the queue of the server',

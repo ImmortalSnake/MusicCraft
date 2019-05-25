@@ -119,7 +119,7 @@ module.exports = (client) => class Minecraft {
 			if(!e) e = { emote: '' };
 			let x = `x${res[v]}\n`;
 			if(type === 'Tools' || type === 'Armor') x = ` | Durability ${res[v].durability}\n`;
-			else if(typeof res[v] === 'object') x = 'x1\n'; // []
+			else if(typeof res[v] === 'object') x = 'x1\n';
 			m += `${v}${e.emote} ${x}`;
 		}
 		m += '**';

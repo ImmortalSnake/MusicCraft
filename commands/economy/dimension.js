@@ -1,9 +1,9 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have any materials. Use the `s!start` command to start');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const dim = args.join(' ').toLowerCase();
 	let bal = inventory.money;
-	if(!dim) return message.channel.send('Please use `s!dim [nether/overworld]`');
+	if(!dim) return message.channel.send(`Please use \`${prefix}dim [nether/overworld]\``);
 	const embed = client.embed(message, { title: '**Dimension**' });
 	switch(dim) {
 	case 'overworld': {
@@ -26,7 +26,7 @@ exports.run = async (client, message, args, { mc }) => {
 		embed.setDescription(`You have teleported to the Nether using a Nether Portal ${mc.Other['Nether Portal'].emote}!`);
 		return message.channel.send(embed);
 	}
-	default: return message.channel.send('Please use `s!dim [nether/overworld]`');
+	default: return message.channel.send(`Please use \`${prefix}dim [nether/overworld]\``);
 	}
 };
 
@@ -36,7 +36,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'dimension',
 	description: 'Travel to different dimensions with this command!',

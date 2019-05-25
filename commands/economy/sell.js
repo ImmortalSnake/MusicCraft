@@ -1,7 +1,7 @@
 const discord = require('discord.js');
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get a player');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const i = args.join(' ').toProperCase();
 	const item = ifind(mc, i, inventory);
 	if(!item) return message.channel.send('Couldnt find that tool in your inventory');
@@ -46,7 +46,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'sell',
 	description: 'Sell materials for money!',

@@ -15,8 +15,8 @@ module.exports = (client) => {
 			require('./mongoose.js')(this); // database stuff here
 			global.guilds = {};
 
-			require('../handlers/commands.js')(this); // command and event handler
-			require('../handlers/events.js')(this);
+			require('../handlers/commands.js')(this); // command handler
+			require('../handlers/events.js')(this); // event handler
 			require('../handlers/app.js');
 			const handlers = require('./handlers.js')(this);
 			const player = require('./music.js')(this);
@@ -30,7 +30,7 @@ module.exports = (client) => {
 		}
 
 		embed(message, options) {
-			const color = options ? options.color ? options.color : '#206694' : '#206694';
+			const color = options ? options.color ? options.color : this.config.embedColor : this.config.embedColor;
 			const embed = new discord.MessageEmbed()
 				.setColor(color)
 				.setFooter(message.author.username, message.author.displayAvatarURL())

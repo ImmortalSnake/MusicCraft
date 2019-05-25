@@ -14,12 +14,12 @@ module.exports = (client) => class Music {
 		this.bitrate = options.bitrate;
 		this.queue = global.guilds;
 		this.defaultQueue = {
-			queue: [], // example {url: '',name: '',id: '', skippers: [], requestor}
+			queue: [],
 			isPlaying: false,
 			dispatcher: null,
 			voiceChannel: null,
 			looping: false,
-			volume: options.defaultVolume, // default volume
+			volume: options.defaultVolume,
 		};
 
 	}
@@ -40,9 +40,9 @@ module.exports = (client) => class Music {
 						if (guildq.queue.length === 0) {
 							guildq.queue = [];
 							guildq.isPlaying = false;
-							message.guild.voice.connection.disconnect();
+							guildq.voiceChannel.disconnect();
 							return message.channel.send('Music finished, Leaving the Voice Channel');
-						} else { // queue here
+						} else {
 							setTimeout(function() {
 								client.music.play(message, settings);
 							}, this.wait);
@@ -75,7 +75,6 @@ module.exports = (client) => class Music {
 			guildq = global.guilds[message.guild.id] = this.defaultQueue;
 			guildq.volume = settings.defvolume;
 		}
-		// let settings = await db.fetch(`settings_${message.guild.id}`);
 		if(settings.musicchannel && !message.guild.channels.get(settings.musicchannel)) settings.musicchannel = '';
 		if(settings.djrole && !message.guild.roles.get(settings.djrole)) settings.djrole = '';
 		const res = [
@@ -138,7 +137,9 @@ module.exports = (client) => class Music {
 
 	removedupes(queue) {
 		const nq = [];
-		queue.forEach(e => {if(!nq.includes(e)) nq.push(e);});
+		queue.forEach(e => {
+			if(!nq.includes(e)) nq.push(e);
+		});
 		return nq;
 	}
 };

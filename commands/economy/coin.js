@@ -1,7 +1,6 @@
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
-
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const chance = Math.floor(Math.random() * 2);
 	const embed = client.embed(message);
 	const heads = client.emojis.find(emoji => emoji.name === 'heads');

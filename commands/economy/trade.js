@@ -1,6 +1,6 @@
 exports.run = async (client, message, args, { prefix, mc }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send(`You do not have a player. Use the \`${prefix}start\` command to start`);
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	if(!args[0]) return message.channel.send(`Mention the user you want to trade with or if you already in a trade use \`${prefix}trade [option]\``);
 	const user = message.mentions.members.first();
 	if(!user) {

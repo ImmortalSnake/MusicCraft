@@ -1,7 +1,7 @@
-exports.run = async (client, message, args, { mc }) => {
-	if(!args[0]) return message.channel.send('Correct format is `s!craft [item]`');
+exports.run = async (client, message, args, { mc, prefix }) => {
+	if(!args[0]) return message.channel.send(`Correct format is \`${prefix}craft [item]\``);
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` command');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 
 	const t = args.join(' ').toProperCase();
 	const tool = ok(t, mc);
@@ -18,7 +18,7 @@ exports.run = async (client, message, args, { mc }) => {
 		}
 		inventory.armor.push({ name: t, value: { durability : tool.durability, enchant: '' } });
 		embed.setDescription(`Successfully crafted a ${t} ${tool.emote}.
-Use \`s!equip ${t}\` to equip it!`);
+Use \`${prefix}equip ${t}\` to equip it!`);
 		await mc.set(inventory, ['materials', 'armor']);
 		return message.channel.send(embed);
 	}
@@ -41,7 +41,7 @@ Use \`s!equip ${t}\` to equip it!`);
 		return message.channel.send(embed);
 	}
 	case 'Normal': {
-		return generate(inventory, tool, t, message);
+		return generate(inventory, tool, t, message, prefix);
 	}
 	}
 };
@@ -66,19 +66,18 @@ function ok(tool, mc) {
 	return false;
 }
 
-async function generate(inventory, tool, name, message) {
+async function generate(inventory, tool, name, message, prefix) {
 	const itool = inventory.tools.find(x=>x.name === name);
 	if(itool) return message.channel.send('You already own this tool');
 	for(const mat in tool.materials) {
 		inventory.materials.find(m=>m.name === mat.toProperCase()).value -= tool.materials[mat];
 	}
-	// (inventory.tools[name]) ? inventory.tools[name]++ : inventory.tools[name] = 1;
 	const newtool = { name: name, value: { durability : tool.durability, enchant: '' } };
 	inventory.tools.push(newtool);
 	await message.client.mc.set(inventory, ['materials', 'tools']);
 	const embed = message.client.embed(message, { title: '**Craft**' })
 		.setDescription(`**Successfully crafted a ${name} ${tool.emote}
-Use \`s!equip ${name}\` to equip it**`);
+Use \`${prefix}equip ${name}\` to equip it**`);
 	return await message.channel.send(embed);
 }
 
@@ -88,7 +87,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'craft',
 	description: 'Craft tools, armor and other items that help you on your adventure!',

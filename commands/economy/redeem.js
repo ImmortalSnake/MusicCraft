@@ -1,6 +1,6 @@
 exports.run = async (client, message, args, { prefix, mc }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have food. Use the `s!start` command to get food');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const query = args.join(' ').toUpperCase();
 	const code = await mc.getCode(query);
 	if(!code) return message.channel.send('Invalid Code');
@@ -22,7 +22,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'redeem',
 	description: 'Recieved a code? Redeem it!',

@@ -1,15 +1,15 @@
 exports.run = async (client, message, args, { mc, prefix }) => {
 	let inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a pickaxe .Use the `s!start` command to get a pickaxe');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 
 	const pick = inventory.equipped.find(e => e.name === 'pickaxe');
-	if(!pick) return message.channel.send('You do not have a pickaxe. Chop some wood with `s!chop` and craft a pickaxe using `s!craft`');
+	if(!pick) return message.channel.send(`You do not have a pickaxe. Chop some wood with \`${prefix}chop\` and craft a pickaxe using \`${prefix}craft\``);
 
 	inventory = mc.activity(inventory, this, message, prefix);
 	if(!inventory) return;
 
 	const ipick = inventory.tools.find(e => e.name === pick.value).value;
-	if(ipick.durability < 1) return message.channel.send(`You cannot use this pickaxe anymore as it is broken, please use \`s!repair ${pick.value}\` to repair it`);
+	if(ipick.durability < 1) return message.channel.send(`You cannot use this pickaxe anymore as it is broken, please use \`${prefix}repair ${pick.value}\` to repair it`);
 
 	const mines = mc.Materials;
 	const p = mc.Tools[pick.value];
@@ -22,8 +22,8 @@ exports.run = async (client, message, args, { mc, prefix }) => {
 	for(const mat in drops) {
 		if(drops[mat][2] && Math.random() > drops[mat][2]) continue;
 		result[mat] = Math.floor(Math.random() * drops[mat][1]) + drops[mat][0];
-		let imat = inventory.materials.find(x=>x.name === mat);
-		imat ? imat.value += result[mat] : imat = { name: mat, value: result[mat] };
+		const imat = inventory.materials.find(x=>x.name === mat);
+		imat ? imat.value += result[mat] : inventory.materials.push({ name: mat, value: result[mat] });
 	}
 
 	ipick.durability--;

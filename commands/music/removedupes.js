@@ -15,7 +15,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'removedupes',
 	description: 'Removes duplicate songs from the queue.',

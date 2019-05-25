@@ -1,8 +1,8 @@
 const discord = require('discord.js');
 
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a player. Use the `s!start` command to get started');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const member = message.mentions.members.first();
 	if(!member) return message.reply('Mention the user you want to fight with');
 
@@ -132,7 +132,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'pvp',
 	description: 'Challenge another user to a battle!',

@@ -1,4 +1,6 @@
 exports.run = async (client, message, args, { prefix, mc }) => {
+	let inventory = await mc.get(message.author.id);
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const total = await mc.inv.find();
 	const type = args[0] || 'money';
 	let sorted, t, content = '', pos;

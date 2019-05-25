@@ -14,7 +14,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'replay',
 	description: 'Replays the current playing music',

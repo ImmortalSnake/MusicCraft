@@ -1,8 +1,8 @@
 const slots = ['🍇', '🍒', '🍋'];
 
-module.exports.run = async (client, message, args, { mc }) => {
+module.exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a profile. Use the `s!start` command');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const bet = parseInt(args[0]);
 	if(!bet) return message.channel.send('Specify the amount you want to bet');
 	const balance = inventory.money;

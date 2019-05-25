@@ -1,4 +1,5 @@
 exports.run = async (client, guild) => {
 	client.guilddb.findOneAndDelete({ id: guild.id });
-	console.log(`Guild left ${guild.name}`);
+	const consoleChannel = client.channels.get(client.config.consoleChannel);
+	if(consoleChannel) consoleChannel.send(`Guild left \`${guild.name}\``);
 };

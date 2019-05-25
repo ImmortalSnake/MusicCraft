@@ -70,7 +70,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'soundcloud',
 	description: 'Plays a song from soundcloud!',

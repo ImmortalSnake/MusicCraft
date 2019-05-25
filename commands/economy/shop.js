@@ -1,11 +1,11 @@
 const db = require('quick.db');
 
-exports.run = async (client, message, args, { mc }) => {
+exports.run = async (client, message, args, { mc, prefix }) => {
 	const inventory = await db.fetch(`inventory_${message.author.id}`);
-	if(!inventory) return message.channel.send('You do not have any materials .Use the `s!start` to start playing!');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 	const embed = client.embed(message);
 	if(!args[0]) {
-		const m = 'Use `s!shop bonus` or `s!shop enchants` to see all the items in the shop!';
+		const m = `Use \`${prefix}shop bonus\` or \`${prefix}shop enchants\` to see all the items in the shop!`;
 		message.channel.send(m);
 	} else {
 		const t = args[0].toProperCase();
@@ -20,7 +20,7 @@ exports.run = async (client, message, args, { mc }) => {
 			inventory.materials[mat] -= item.price[1];
 			console.log(inventory);
 		} else {
-			if(!shop) return message.channel.send('Use `s!shop bonus` or `s!shop enchants` to see all the items in the shop!');
+			if(!shop) return message.channel.send(`Use \`${prefix}shop bonus\` or \`${prefix}shop enchants\` to see all the items in the shop!`);
 			embed.setTitle(`**${t}**`);
 			let m = '';
 			for(const s in shop) {
@@ -30,7 +30,7 @@ exports.run = async (client, message, args, { mc }) => {
 				}
 				m += `ID: ${shop[s].id} ~ **${s}** ~ Price: ${mats}\n`;
 			}
-			m += `\n Use \`s!shop ${t} <id>\` to buy an item`;
+			m += `\n Use \`${prefix}shop ${t} <id>\` to buy an item`;
 			embed.setDescription(m);
 			message.channel.send(embed);
 		}
@@ -50,7 +50,6 @@ exports.conf = {
 	guildOnly: true
 };
 
-// Name is the only necessary one.
 exports.help = {
 	name: 'shop',
 	description: 'View and buy special items from the shop!',

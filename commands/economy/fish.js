@@ -1,9 +1,9 @@
 exports.run = async (client, message, args, { mc, prefix }) => {
 	let inventory = await mc.get(message.author.id);
-	if(!inventory) return message.channel.send('You do not have a fishing rod. Use the `s!start` command to start playing');
+	if(!inventory) return message.channel.send(`Please use the \`${prefix}start\` command to start playing`);
 
 	const r = inventory.equipped.find(x=>x.name === 'rod').value;
-	if(!r) return message.channel.send('You do not have a fishing rod. Use `s!craft fishing rod` to craft one');
+	if(!r) return message.channel.send(`You do not have a fishing rod. Use \`${prefix}craft fishing rod\` to craft one`);
 
 	inventory = mc.activity(inventory, this, message, prefix);
 	if(!inventory) return;
