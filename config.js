@@ -6,6 +6,7 @@ module.exports = (client) => {
 	client.id = '557831541653241857';
 	client.config = {
 		maintenance: false,
+		offline: false,
 		dbl: false,
 		blacklisted: [],
 		consoleChannel: '545708932807655444',
@@ -16,6 +17,7 @@ module.exports = (client) => {
 		invite: `https://discordapp.com/api/oauth2/authorize?client_id=${client.id}&permissions=8&scope=bot`,
 		upvoteURL: '',
 		website: 'https://immortalsnake.gitbook.io/music-craft/',
+		github: 'https://github.com/ImmortalSnake/MusicCraft',
 		embedColor: '#206694',
 		mentionPrefix: true,
 		music: {

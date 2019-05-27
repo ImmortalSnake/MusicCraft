@@ -1,0 +1,64 @@
+{
+    "Leather": {
+      "emote": "<:leather:561523052031246366>"
+    },
+    "Dirt": {
+      "emote": "<:dirt:560747473258414080>",
+      "price": 0.5
+    },
+    "Wood": {
+      "emote": "<:wood:560737837083787285>",
+      "price": 1
+    },
+    "Coal": {
+      "emote": "<:coal:560905931387568130>",
+      "price": 2
+    },
+    "Stone": {
+      "emote": "<:stone:560736050448695296>",
+      "price": 2
+    },
+    "Iron": {
+      "emote": "<:iron:560736100054859802>",
+      "price": 5
+    },
+    "Lapis": {
+      "emote": "<:lapis:560905093344395268>",
+      "price": 25
+    },
+    "Redstone": {
+      "emote": "<:redstone:560905123539451956>",
+      "price": 25
+    },
+    "Gold": {
+      "emote": "<:gold:560733707351097354>",
+      "price": 50
+    },
+    "Emerald": {
+      "emote": "<:emerald:560905906414682124>",
+      "price": 75
+    },
+    "Diamond": {
+      "emote": "<:diamond:560734378393862146>",
+      "price": 100
+    },
+    "Obsidian": {
+      "emote": "<:obsidian:563437424399613953>",
+      "price": 20
+    },
+    "Soul Sand": {
+      "emote": "<:soulsand:564198566604570639>"
+    },
+    "Netherrack": {
+      "emote": "<:netherrack:564198987737858060>"
+    },
+    "Nether Quartz": {
+      
+    },
+    "Magma": {
+      
+    },
+    "Dark Matter": {
+      "emote": "<:darkmatter:567456028170387467>"
+    }
+  }

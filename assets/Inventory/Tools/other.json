@@ -1,0 +1,53 @@
+{
+    "Chest": {
+      "size" : 1000,
+      "type": "Other",
+      "emote": "<:chest:562375311740895262>",
+      "materials": {
+         "wood": 750,
+         "iron": 20,
+         "stone": 100
+      }
+    },
+    "Furnace": {
+      "emote": "<:furnace:562957299191382037>",
+      "type": "Other",
+      "onetime": true,
+      "materials": {
+        "wood": 200,
+        "iron": 20,
+        "stone": 100
+      }
+    },
+    "tnt": {
+      "type": "Other",
+      "emote": "<:TNT:563434671854190619>",
+      "materials": {
+        "coal": 50,
+        "iron": 50,
+        "redstone": 25
+      }
+    },
+    "Flint And Steel": {
+      "type": "Other",
+      "emote": "<:flintandsteel:564003931840315393>",
+      "materials": {
+        "coal": 100,
+        "iron": 100
+      }
+    },
+    "Nether Portal": {
+      "emote": "<:netherportal:563464307661078528>",
+      "type": "Other",
+      "onetime": true,
+      "materials": {
+        "obsidian": 25,
+        "iron": 100,
+        "coal": 100,
+        "lapis": 50
+      },
+      "other": {
+        "flint and steel": 4
+      }
+    }
+  }

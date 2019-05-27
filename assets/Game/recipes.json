@@ -1,0 +1,56 @@
+{
+    "Cooked Chicken": {
+      "energy": 50,
+      "materials": {
+          "Raw Chicken": 1,
+          "Coal": 20
+      }
+    },
+    "Cooked Beef": {
+      
+    },
+    "Cooked Porkchop": {
+      
+    },
+    "Cooked Mutton": {
+      
+    },
+    "Cooked Salmon": {
+        "energy": 25,
+        "materials": {
+          "Raw Salmon": 1,
+          "Coal": 25
+      }
+    },
+    "Cooked Cod": {
+      "energy": 25,
+      "materials": {
+        "Raw Cod": 1,
+        "Coal": 25
+      }
+    },
+    "Bread": {
+      "energy": 40,
+      "materials": {
+        "Wheat": 10,
+        "Coal": 10
+      }
+    },
+   "Baked Potato": {
+      "energy": 50,
+      "materials": {
+        "Potato": 10,
+        "Coal": 30,
+        "Wheat": 5
+      }
+    },
+    "Cookie": {
+      "energy": 100,
+      "materials": {
+        "Wheat": 10,
+        "Cocoa": 10,
+        "Milk": 1,
+        "Coal": 50
+      }
+    }
+  }

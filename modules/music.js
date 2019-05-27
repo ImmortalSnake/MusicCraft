@@ -13,6 +13,7 @@ module.exports = (client) => class Music {
 		this.soundloud_key = options.soundloud_key;
 		this.bitrate = options.bitrate;
 		this.queue = global.guilds;
+		this.client = client;
 		this.defaultQueue = {
 			queue: [],
 			isPlaying: false,
@@ -28,14 +29,14 @@ module.exports = (client) => class Music {
 			const guildq = global.guilds[message.guild.id];
 			guildq.voiceChannel = message.member.voice.channel;
 			guildq.voiceChannel.join().then(async function(connection) {
-				client.music.getStream(guildq, stream => {
+				this.getStream(guildq, stream => {
 					guildq.dispatcher = connection.play(stream.url, stream.options);
 					guildq.isPlaying = true;
 					if(settings.announcesongs === 'on') message.channel.send(`**:musical_note: Now playing** \`${guildq.queue[0].title}\``);
 					guildq.skippers = [];
 					guildq.dispatcher.on('end', function() {
 						guildq.skippers = [];
-						if(guildq.looping) return client.music.play(message, settings);
+						if(guildq.looping) return this.play(message, settings);
 						else guildq.queue.shift();
 						if (guildq.queue.length === 0) {
 							guildq.queue = [];
@@ -44,7 +45,7 @@ module.exports = (client) => class Music {
 							return message.channel.send('Music finished, Leaving the Voice Channel');
 						} else {
 							setTimeout(function() {
-								client.music.play(message, settings);
+								this.play(message, settings);
 							}, this.wait);
 						}
 					});
@@ -52,7 +53,7 @@ module.exports = (client) => class Music {
 			});
 		} catch(err) {
 			console.error(err);
-			message.channel.send('An error occurred. Please try again later');
+			await message.channel.send('An error occurred. Please try again later');
 			return global.guilds[message.guild.id].queue = [];
 		}
 	}
@@ -110,18 +111,22 @@ module.exports = (client) => class Music {
 	}
 
 	async getStream(guildq, cb) {
-		const video = guildq.queue[0];
-		if(video.type === 'youtube') {
-			const stream = await ytdl(`https://www.youtube.com/watch?v=${video.id}`, { filter: 'audioonly' });
-			cb({ url: stream, options: { volume: guildq.volume, bitrate: this.bitrate, type: 'opus' } });
-		} else if(video.type === 'soundcloud') {
-			const stream = await fetch.get(`http://api.soundcloud.com/tracks/${video.id}/stream?consumer_key=${this.soundcloud_key}`);
-			cb({ url: stream.url, options: { volume: guildq.volume, bitrate: this.bitrate } });
-		} else {
-			youtubedl.getInfo(video.id, ['-q', '--no-warnings', '--force-ipv4'], function(err, data) {
-				if (err) console.log(err);
-				cb({ url: data.url, options: { volume: guildq.volume, bitrate: this.bitrate } });
-			});
+		try {
+			const video = guildq.queue[0];
+			if(video.type === 'youtube') {
+				const stream = await ytdl(`https://www.youtube.com/watch?v=${video.id}`, { filter: 'audioonly' });
+				cb({ url: stream, options: { volume: guildq.volume, bitrate: this.bitrate, type: 'opus' } });
+			} else if(video.type === 'soundcloud') {
+				const stream = await fetch.get(`http://api.soundcloud.com/tracks/${video.id}/stream?consumer_key=${this.soundcloud_key}`);
+				cb({ url: stream.url, options: { volume: guildq.volume, bitrate: this.bitrate } });
+			} else {
+				youtubedl.getInfo(video.id, ['-q', '--no-warnings', '--force-ipv4'], function(err, data) {
+					if (err) console.log(err);
+					cb({ url: data.url, options: { volume: guildq.volume, bitrate: this.bitrate } });
+				});
+			}
+		} catch(err) {
+			console.log(err);
 		}
 	}
 

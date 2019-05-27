@@ -2,7 +2,7 @@ module.exports = class Utils {
 	constructor(options) {
 		this.options = options;
 		this.wait = require('util').promisify(setTimeout);
-		this.tips = require('../assets/tips');
+		this.tips = require('../assets/Extras/tips');
 	}
 
 	clean(text) {

@@ -4,3 +4,4 @@ env.js
 json.sqlite
 *.sqlite
 shrinkwrap.yaml
+.vscode

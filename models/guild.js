@@ -7,6 +7,7 @@ const guildSchema = mongoose.Schema({
 	musicchannel: { type: String, default: '' },
 	defvolume: { type: Number, default: 5 },
 	announcesongs: { type: String, default: 'off' },
+	maxMemberSongs: { type: Number, default: 10 }
 });
 
 module.exports = mongoose.model('Guild', guildSchema);

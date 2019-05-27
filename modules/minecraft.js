@@ -4,18 +4,16 @@ const fetch = require('node-superfetch');
 module.exports = (client) => class Minecraft {
 	constructor(options) {
 
-		this.tools = require('../assets/tools');
-		this.items = require('../assets/items');
-		this.mobs = require('../assets/mobs');
-		this.shop = require('../assets/shop');
 		this.inv = require('../models/player.js');
-		this.Tools = this.tools.Tools;
-		this.Food = this.items.Food;
-		this.Materials = this.items.Materials;
-		this.Armor = this.tools.Armor;
-		this.Other = this.tools.Other;
-		this.recipes = this.items.recipes;
-		this.crates = this.tools.crates;
+		this.Food = require('../assets/Inventory/Items/food');
+		this.Materials = require('../assets/Inventory/Items/materials');
+		this.Tools = require('../assets/Inventory/Tools/tools');
+		this.Armor = require('../assets/Inventory/Tools/armor');
+		this.Other = require('../assets/Inventory/Tools/other');
+		this.mobs = require('../assets/Game/mobs');
+		this.shop = require('../assets/Game/shop');
+		this.recipes = require('../assets/Game/recipes');
+		this.crates = require('../assets/Game/crates');
 		this.exploreTimer = options.exploreTimer;
 		this.rhunger = options.rhunger;
 		this.villageTimer = options.villageTimer;
@@ -28,7 +26,7 @@ module.exports = (client) => class Minecraft {
 
 	async set(data, val) {
 		val.forEach(v => data.markModified(v));
-		data.save();
+		await data.save().catch(err => console.log(err));
 	}
 
 	async get(id) {
@@ -58,25 +56,30 @@ module.exports = (client) => class Minecraft {
 	}
 
 	async create(id, actual) {
-		const data = new this.inv({
-			id: id,
-			tools: this.convert(actual.tools) || [{ name: 'Wooden Axe', value: { durability: 60, Enchants: '' } }],
-			equipped: this.convert(actual.equipped) || [{ name: 'axe', value: 'Wooden Axe' }],
-			materials: this.convert(actual.materials) || [
-				{ name: 'Wood', value: 0 },
-				{ name: 'Stone', value: 0 },
-				{ name: 'Dirt', value: 0 },
-				{ name: 'Iron', value: 0 },
-				{ name: 'Gold', value: 0 },
-				{ name: 'Diamond', value: 0 }],
-			armor: this.convert(actual.armor) || [],
-			crates: [],
-			food: this.convert(actual.food) || [],
-			dimension: actual.dimension || 'Overworld',
-			other: this.convert(actual.other) || [],
-			money: await db.fetch(`balance_${id}`) || 0
-		});
-		data.save();
+		try {
+			const data = new this.inv({
+				id: id,
+				tools: actual ? this.convert(actual.tools) : [{ name: 'Wooden Axe', value: { durability: 60, Enchants: '' } }],
+				equipped: actual ? this.convert(actual.equipped) : [{ name: 'axe', value: 'Wooden Axe' }],
+				materials: actual ? this.convert(actual.materials) : [
+					{ name: 'Wood', value: 0 },
+					{ name: 'Stone', value: 0 },
+					{ name: 'Dirt', value: 0 },
+					{ name: 'Iron', value: 0 },
+					{ name: 'Gold', value: 0 },
+					{ name: 'Diamond', value: 0 }],
+				armor: actual ? this.convert(actual.armor) : [],
+				crates: [],
+				food: actual ? this.convert(actual.food) : [],
+				dimension: actual ? actual.dimension : 'Overworld',
+				other: actual ? this.convert(actual.other) : [],
+				money: await db.fetch(`balance_${id}`) || 0
+			});
+			data.save();
+		} catch(err) {
+			console.log(err);
+			return 'Failed to Create A Character';
+		}
 	}
 
 	async level(inventory, channel) {

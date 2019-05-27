@@ -1,0 +1,33 @@
+{
+    "Iron Helmet": {
+      "durability": 300,
+      "type": "Armor",
+      "crit": [0.20, -10],
+      "emote": "<:ironhelmet:563676246018621485>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+   "Iron Boots": {
+      "durability": 300,
+      "type": "Armor",
+      "speed": 20,
+      "emote": "<:ironboots:565210164324597801>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    },
+    "Iron Chestplate": {
+      "durability": 300,
+      "type": "Armor",
+      "health": 20,
+      "defense": [10, 20],
+      "emote": "<:ironchestplate:565210502503071754>",
+      "materials": {
+        "iron": 50,
+        "coal": 100
+      }
+    }
+  }
